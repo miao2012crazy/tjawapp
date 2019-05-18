@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:fitsSystemWindows="true"
+        android:clipToPadding="true"
+        android:background="#FFF"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/ic_return" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="验证码已发送至"
+            android:textColor="#222"
+            android:textSize="28sp" />
+        <TextView
+            android:id="@+id/tv_tel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:gravity="center"
+            android:text="输入手机号码"
+            android:textColor="#999999"
+            android:textSize="14sp" />
+
+        <com.zysoft.tjawshapingapp.ui.VerificationCodeView
+            android:id="@+id/verificationcodeview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:vcv_et_bg="@drawable/et_login_code"
+            app:vcv_et_cursor="@drawable/et_cursor"
+            app:vcv_et_inputType="number"
+            app:vcv_et_number="6"
+            app:vcv_et_width="40dp"
+            app:vcv_et_text_color="@android:color/black"
+            app:vcv_et_text_size="6sp" />
+
+        <Button
+            android:enabled="false"
+            android:id="@+id/btn_regedit"
+            android:background="@mipmap/btn_next_true"
+            android:layout_marginTop="27dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="10sp"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+
+
+
+</layout>

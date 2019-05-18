@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <LinearLayout
+        android:id="@+id/ll_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="7dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_code1"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:background="@null"
+                android:gravity="center"
+                android:textColor="#2D2D2D"
+                android:textSize="40sp" />
+
+            <EditText
+
+                android:id="@+id/et_code_1"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:background="@android:color/transparent"
+                android:cursorVisible="true"
+                android:focusable="true"
+                android:inputType="number"
+                android:textColor="@android:color/transparent" />
+
+            <View
+                android:id="@+id/v1"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_alignParentBottom="true"
+                android:background="@mipmap/ic_et_default" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_code2"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:background="@null"
+                android:gravity="center"
+                android:textColor="#2D2D2D"
+                android:textSize="40sp" />
+
+            <EditText
+                android:id="@+id/et_code_2"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:background="@android:color/transparent"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:inputType="number"
+                android:textColor="@android:color/transparent" />
+            <View
+                android:id="@+id/v2"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@mipmap/ic_et_default" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_code3"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:background="@null"
+                android:gravity="center"
+                android:textColor="#2D2D2D"
+                android:textSize="40sp" />
+
+            <EditText
+                android:id="@+id/et_code_3"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:background="@android:color/transparent"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:inputType="number"
+                android:textColor="@android:color/transparent" />
+            <View
+                android:id="@+id/v3"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@mipmap/ic_et_default" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_code4"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:background="@null"
+                android:gravity="center"
+                android:textColor="#2D2D2D"
+                android:textSize="40sp" />
+
+            <EditText
+                android:id="@+id/et_code_4"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:background="@android:color/transparent"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:inputType="number"
+                android:textColor="@android:color/transparent" />
+            <View
+                android:id="@+id/v4"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@mipmap/ic_et_default" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_code5"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:background="@null"
+                android:gravity="center"
+                android:textColor="#2D2D2D"
+                android:textSize="40sp" />
+            <EditText
+                android:id="@+id/et_code_5"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:background="@android:color/transparent"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:inputType="number"
+                android:textColor="@android:color/transparent" />
+            <View
+                android:id="@+id/v5"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@mipmap/ic_et_default" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_code6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="center"
+                android:textColor="#2D2D2D"
+                android:textSize="40sp" />
+            <EditText
+                android:cursorVisible="false"
+                android:id="@+id/et_code_6"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:background="@android:color/transparent"
+                android:focusable="false"
+                android:inputType="number"
+                android:textColor="@android:color/transparent" />
+            <View
+                android:id="@+id/v6"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@mipmap/ic_et_default" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

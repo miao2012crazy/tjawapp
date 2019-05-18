@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+
+        <Button
+            android:layout_width="@dimen/dp_10"
+            android:layout_height="@dimen/dp_17"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/ic_return" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="设置新密码"
+            android:textColor="#222"
+            android:textSize="28sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:gravity="center"
+            android:text="@string/regedit_tip"
+            android:textColor="#999999"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/et_user_psd"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="@dimen/dp_56"
+            android:layout_marginRight="@dimen/dp_56"
+            android:layout_marginTop="@dimen/dp_56"
+            android:background="@drawable/shape_et_login"
+            android:digits="1234567890"
+            android:hint="新密码"
+            android:inputType="phone"
+            android:maxLength="12"
+            android:paddingLeft="24dp"
+            android:textColorHint="#dcdcdc"
+            android:textSize="16sp" />
+
+
+        <EditText
+            android:id="@+id/et_user_psd_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="@dimen/dp_56"
+            android:layout_marginRight="@dimen/dp_56"
+            android:layout_marginTop="@dimen/dp_27"
+            android:background="@drawable/shape_et_login"
+            android:digits="1234567890"
+            android:hint="再次输入"
+            android:inputType="phone"
+            android:maxLength="12"
+            android:paddingLeft="24dp"
+            android:textColorHint="#dcdcdc"
+            android:textSize="16sp" />
+
+        <Button
+            android:enabled="false"
+            android:id="@+id/btn_commit"
+            android:background="@mipmap/btn_next_true"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="10sp"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+    </LinearLayout>
+
+
+</layout>
