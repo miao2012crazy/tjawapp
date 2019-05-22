@@ -16,6 +16,7 @@ public class HttpUrls {
     public static String GET_CODE="getVerifyCode";
     public static String UPDATEPSD="updatePsd";
     public static String GET_HOME_DATA="getHomeData";
+    public static String GET_PROJECT_DETAIL="getProjectDetail";
 
     public static String getBaseUrl() {
         if (AppConstant.isDebug) {

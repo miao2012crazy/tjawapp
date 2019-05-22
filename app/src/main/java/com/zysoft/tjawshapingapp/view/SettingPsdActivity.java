@@ -117,6 +117,8 @@ public class SettingPsdActivity extends CustomBaseActivity {
                 String data = (String) netResponse.getData();
                 AppConstant.USER_INFO_BEAN = GsonUtil.GsonToBean(data, UserInfoBean.class);
                 SPUtils.setParam(UIUtils.getContext(), "USER_INFO", data);
+                EventBus.getDefault().post(new NetResponse("LOGIN_SUCCESS","登录成功！"));
+
                 //成功！
                 finish();
 

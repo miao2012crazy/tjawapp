@@ -2,6 +2,8 @@ package com.zysoft.tjawshapingapp.common;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -9,6 +11,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,6 +21,8 @@ import java.io.Reader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 
 /**
@@ -360,4 +366,50 @@ public class CommonUtil {
         return result;
     }
 
+
+
+    /**
+     * drawable转为file
+     * @param mContext
+     * @param drawableId  drawable的ID
+     * @param fileName   转换后的文件名
+     * @return
+     */
+    public static File drawableToFile(Context mContext, int drawableId, File fileName){
+//        InputStream is = view.getContext().getResources().openRawResource(R.drawable.logo);
+        Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), drawableId);
+//        Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+        String defaultPath = mContext.getFilesDir()
+                .getAbsolutePath() + "/defaultGoodInfo";
+        File file = new File(defaultPath);
+        if (!file.exists()) {
+            file.mkdirs();
+        } else {
+            return null;
+        }
+        String defaultImgPath = defaultPath + "/"+fileName;
+        file = new File(defaultImgPath);
+        try {
+            file.createNewFile();
+
+            FileOutputStream fOut = new FileOutputStream(file);
+
+            bitmap.compress(Bitmap.CompressFormat.PNG, 20, fOut);
+//            is.close();
+            fOut.flush();
+            fOut.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    public static String ms2date(String format, long timeStamp) {
+            String timeString = null;
+            SimpleDateFormat sdf = new SimpleDateFormat(format);
+            long  l = Long.valueOf(timeStamp);
+            timeString = sdf.format(new Date(l));//单位秒
+            return timeString;
+    }
 }

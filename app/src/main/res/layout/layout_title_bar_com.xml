@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+                name="item"
+                type="com.zysoft.tjawshapingapp.bean.CustomTitleBean"/>
+
+        <variable
+                name="handler"
+                type="com.zysoft.baseapp.handler.HandlerEvent"/>
+    </data>
+
+
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:clipToPadding="true"
+            android:fitsSystemWindows="true"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:subtitleTextColor="#ffffff">
+
+        <TextView
+                android:id="@+id/tv_return"
+                android:layout_width="12dp"
+                android:layout_height="22dp"
+                android:background="@mipmap/ic_return"
+                android:visibility="@{item.is_show_return?View.VISIBLE:View.INVISIBLE}"/>
+
+        <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@{item.title}"
+                android:textColor="#000000"
+                android:textSize="16sp"/>
+
+        <TextView
+                android:id="@+id/tv_right"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:gravity="bottom"
+                android:paddingBottom="5dp"
+                android:paddingEnd="5dp"
+                android:singleLine="true"
+                android:text="@{item.right_title}"
+                android:textColor="#000000"
+                android:textSize="14sp"/>
+
+        <ImageView
+                android:paddingEnd="5dp"
+                android:id="@+id/iv_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:gravity="bottom"
+                android:visibility="@{item.is_show_right?View.VISIBLE:View.INVISIBLE}"
+                app:imageUrlLocal="@{item.iv_right}"/>
+
+
+    </android.support.v7.widget.Toolbar>
+</layout>

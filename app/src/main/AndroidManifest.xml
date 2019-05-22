@@ -6,6 +6,16 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT"/>
+    <uses-permission android:name="android.permission.CAPTURE_VIDEO_OUTPUT"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
 
     <application
         android:name=".applaction.CustomApplaction"
@@ -21,7 +31,12 @@
         <meta-data
             android:name="design_height_in_dp"
             android:value="480" />
-        <service android:name=".service.JPushService"
+        <meta-data
+            android:name="com.zysoft.tjawshapingapp.common.CustomGlideModule"
+            android:value="GlideModule" />
+
+        <service
+            android:name=".service.JPushService"
             android:process=":pushcore">
             <intent-filter>
                 <action android:name="cn.jiguang.user.service.action" />
@@ -31,18 +46,20 @@
             android:name=".receive.JpushReceiver"
             android:enabled="true">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION"/>
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/>
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/>
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/>
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION"/>
-                <action android:name="cn.jpush.android.intent.CONNECTION"/>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION" />
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
 
-                <category android:name="com.zysoft.tjawshapingapp"/>
+                <category android:name="com.zysoft.tjawshapingapp" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".MainActivity" android:launchMode="singleTop">
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,6 +70,18 @@
         <activity android:name=".view.RegeditActivity" />
         <activity android:name=".view.InputPsdActivity" />
         <activity android:name=".view.SettingPsdActivity" />
+        <activity android:name=".view.ProjectDetailActivity" />
+        <activity android:name=".view.IMDetailActivity" />
+        <activity android:name=".view.ConfirmOrderActivity" />
+        <service android:name="cn.jpush.android.service.PushService"
+            android:process=":multiprocess"
+            tools:node="replace" />
+        <service android:name=".service.JMessageService"
+            android:process=":pushcore">
+            <intent-filter>
+                <action android:name="cn.jiguang.user.service.action" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

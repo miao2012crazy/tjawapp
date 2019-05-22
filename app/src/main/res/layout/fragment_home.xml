@@ -4,19 +4,20 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:background="#f4f3f8"
         android:orientation="vertical">
 
         <LinearLayout
+            android:background="#fff"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal">
 
             <RelativeLayout
                 android:id="@+id/rl_address"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+               >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -76,24 +77,29 @@
                     app:tipTextSize="12sp" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:background="#fff"
+
                     android:id="@+id/recycler_tabs"
                     android:layout_width="match_parent"
-                    android:layout_height="158dp" />
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
+                    android:padding="7dp"
+                    android:background="#fff"
                     android:layout_width="match_parent"
                     android:layout_height="98dp"
-                    android:layout_margin="7dp"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/iv_recomment_1"
                         android:layout_width="0dp"
+                        android:scaleType="fitXY"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@mipmap/sample_recommend_1" />
 
                     <ImageView
+                        android:scaleType="fitXY"
                         android:id="@+id/iv_recomment_2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -102,22 +108,36 @@
                         android:background="@mipmap/sample_recommend_2" />
 
                 </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/iv_recomment_3"
+                <RelativeLayout
+                    android:background="#fff"
                     android:layout_width="match_parent"
-                    android:layout_height="113dp"
-                    android:layout_marginEnd="7dp"
-                    android:layout_marginStart="7dp"
-                    android:background="@mipmap/sample_add_dl" />
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_centerInParent="true"
+                        android:layout_marginBottom="14dp"
+                        android:id="@+id/iv_recomment_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginStart="7dp"
+                        android:background="@mipmap/sample_add_dl" />
+                </RelativeLayout>
+
 
                 <android.support.design.widget.TabLayout
+                    android:background="#fff"
+                    android:layout_marginTop="8dp"
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="#ff758c"
+                    app:tabTextColor="#000000"
+                    app:tabIndicatorColor="#ff758c"
+                    app:tabIndicatorHeight="4dp"
                     android:id="@+id/tablayout"
                     android:layout_width="match_parent"
                     android:layout_height="44dp" />
 
                 <include
-                    android:id="@+id/recycler_list"
+                    android:id="@+id/recycler_list_2"
                     layout="@layout/layout_list" />
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

@@ -123,6 +123,7 @@ public class InputPsdActivity extends CustomBaseActivity {
 //                Intent intent = new Intent();
 //                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                startActivityBase(MainActivity.class);
+                EventBus.getDefault().post(new NetResponse("LOGIN_SUCCESS","登录成功！"));
                 finish();
                 break;
             case "GET_VERIFY_CODE":

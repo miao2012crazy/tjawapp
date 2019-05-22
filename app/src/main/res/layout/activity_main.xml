@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
-        android:clipToPadding="true"
-        android:fitsSystemWindows="true"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -13,11 +12,16 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
         </FrameLayout>
-        <com.zysoft.app91.ui.BottomBar
+        <TextView
+            android:background="#eee"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+        <com.zysoft.tjawshapingapp.ui.BottomBar
+            android:textSize="10sp"
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="52dp"
             android:layout_gravity="bottom"
-            android:background="#eee"/>
+            android:background="#FFF"/>
     </LinearLayout>
 </layout>

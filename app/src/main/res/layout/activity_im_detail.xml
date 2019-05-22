@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_title_bar_com"
+            android:id="@+id/title"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#10000000"/>
+        <cn.jiguang.imui.messages.MessageList
+            android:id="@+id/msg_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:avatarHeight="40dp"
+            app:avatarWidth="40dp"
+            app:bubbleMaxWidth="0.70"
+            app:dateTextSize="12sp"
+            app:receiveBubblePaddingBottom="4dp"
+            app:receiveBubblePaddingLeft="20dp"
+            app:receiveBubblePaddingRight="10dp"
+            app:receiveBubblePaddingTop="4dp"
+            app:receiveTextColor="#ffffff"
+            app:receiveTextSize="14sp"
+            app:sendBubblePaddingLeft="10dp"
+            app:sendBubblePaddingRight="20dp"
+            app:sendTextColor="#7587A8"
+            app:sendTextSize="14sp" />
+
+        <cn.jiguang.imui.chatinput.ChatInputView
+            app:inputMarginBottom="5dp"
+            app:inputMarginTop="5dp"
+            android:paddingBottom="10dp"
+            android:id="@+id/chat_input"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            app:inputTextSize="12sp"
+            app:cameraBtnIcon="@drawable/aurora_menuitem_camera"
+            app:inputCursorDrawable="@drawable/aurora_edittext_cursor_bg"
+            app:inputEditTextBg="@drawable/aurora_edittext_bg"
+            app:photoBtnIcon="@drawable/aurora_menuitem_photo"
+            app:sendBtnIcon="@drawable/aurora_menuitem_send"
+            app:voiceBtnIcon="@drawable/aurora_menuitem_mic" />
+
+    </LinearLayout>
+
+
+</layout>

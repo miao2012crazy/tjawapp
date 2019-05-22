@@ -1,5 +1,6 @@
 package com.zysoft.tjawshapingapp.constants;
 
+import com.zysoft.tjawshapingapp.bean.ProjectDetailBean;
 import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 
 /**
@@ -16,4 +17,5 @@ public class AppConstant {
     public static String MsgId=null;
     public static String USER_PHONE="";
     public static UserInfoBean USER_INFO_BEAN=null;
+    public static ProjectDetailBean.ProjectInfoBean PROJECT_INFO=null;
 }

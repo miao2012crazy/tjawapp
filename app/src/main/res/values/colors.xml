@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="divider">#ffd2d2d2</color>
+    <color name="cf0f2f7">#f0f2f7</color>
+    <color name="chat_title_bg">#427BED</color>
+    <color name="google_red">#FFC93437</color>
+    <color name="google_blue">#FF375BF1</color>
+    <color name="google_yellow">#FFF7D23E</color>
+    <color name="google_green">#FF34A350</color>
 </resources>

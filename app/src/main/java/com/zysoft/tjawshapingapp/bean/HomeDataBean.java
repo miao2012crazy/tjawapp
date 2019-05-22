@@ -1,5 +1,8 @@
 package com.zysoft.tjawshapingapp.bean;
 
+import com.zysoft.baseapp.base.BindingAdapterItem;
+import com.zysoft.tjawshapingapp.R;
+
 import java.util.List;
 
 /**
@@ -314,7 +317,7 @@ public class HomeDataBean {
         }
     }
 
-    public static class ProjectListBean {
+    public static class ProjectListBean implements BindingAdapterItem{
         /**
          * id : 1
          * stateUsable : 0
@@ -487,6 +490,11 @@ public class HomeDataBean {
 
         public void setProjectTag(String projectTag) {
             this.projectTag = projectTag;
+        }
+
+        @Override
+        public int getViewType() {
+            return R.layout.item_project;
         }
     }
 
@@ -788,7 +796,7 @@ public class HomeDataBean {
         }
     }
 
-    public static class OptionBean {
+    public static class OptionBean implements BindingAdapterItem{
         /**
          * id : 1
          * stateUsable : 0
@@ -851,6 +859,11 @@ public class HomeDataBean {
 
         public void setIsProject(int isProject) {
             this.isProject = isProject;
+        }
+
+        @Override
+        public int getViewType() {
+            return R.layout.item_option_data;
         }
     }
 }
