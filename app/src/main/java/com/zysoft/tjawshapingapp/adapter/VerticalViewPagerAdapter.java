@@ -9,7 +9,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zysoft.tjawshapingapp.view.CustomVideoFragment;
+import com.zysoft.tjawshapingapp.bean.ProjectVideoBean;
 import com.zysoft.tjawshapingapp.view.video.VideoFragment;
 
 import java.util.List;
@@ -18,9 +18,9 @@ public class VerticalViewPagerAdapter extends PagerAdapter {
     private FragmentManager fragmentManager;
     private FragmentTransaction mCurTransaction;
     private Fragment mCurrentPrimaryItem = null;
-    private List<String> urlList;
+    private List<ProjectVideoBean> urlList;
 
-    public void setUrlList(List<String> urlList) {
+    public void setUrlList(List<ProjectVideoBean> urlList) {
         this.urlList = urlList;
     }
 
@@ -45,9 +45,9 @@ public class VerticalViewPagerAdapter extends PagerAdapter {
         if (urlList != null && urlList.size() > 0) {
             Bundle bundle = new Bundle();
             if (position >= urlList.size()) {
-                bundle.putString(VideoFragment.URL, urlList.get(position % urlList.size()));
+                bundle.putSerializable(VideoFragment.URL, urlList.get(position % urlList.size()));
             } else {
-                bundle.putString(VideoFragment.URL, urlList.get(position));
+                bundle.putSerializable(VideoFragment.URL, urlList.get(position));
             }
             fragment.setArguments(bundle);
         }

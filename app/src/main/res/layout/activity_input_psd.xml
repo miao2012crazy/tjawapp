@@ -13,7 +13,7 @@
 
         <Button
             android:layout_width="@dimen/dp_10"
-            android:layout_height="@dimen/dp_17"
+            android:layout_height="17dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:background="@mipmap/ic_return" />

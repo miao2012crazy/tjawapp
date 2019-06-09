@@ -1,14 +1,9 @@
 package com.zysoft.tjawshapingapp.http;
 
-import android.location.Address;
-import android.text.TextUtils;
-
 import com.tamic.novate.Novate;
-import com.zysoft.baseapp.commonUtil.SPUtils;
 import com.zysoft.baseapp.commonUtil.UIUtils;
-import com.zysoft.tjawshapingapp.MainActivity;
-import com.zysoft.tjawshapingapp.common.CommonUtil;
 import com.zysoft.tjawshapingapp.common.DeviceUtils;
+import com.zysoft.tjawshapingapp.constants.AppConstant;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +15,7 @@ import java.util.Map;
 public class NovateUtil {
 
     private static Novate novate;
+    private static Novate.Builder builder;
 
     public static Novate getInstance() {
         if (novate != null) {
@@ -31,11 +27,35 @@ public class NovateUtil {
         try {
             String adresseMAC = DeviceUtils.getUniqueID();
             headers.put("uuid", adresseMAC);
-            headers.put("userTel", (String) SPUtils.getParam(UIUtils.getContext(),"USER_INFO",""));
-        }catch (Exception ex){
+            if (AppConstant.USER_INFO_BEAN == null) {
+                headers.put("userTel", "");
+
+            } else {
+                headers.put("userTel", AppConstant.USER_INFO_BEAN.getUserTel());
+            }
+
+        } catch (Exception ex) {
 
         }
-        novate = new Novate.Builder(UIUtils.getContext())
+        builder = new Novate.Builder(UIUtils.getContext());
+        return initBuilder();
+    }
+
+    public static Novate initBuilder() {
+        Map<String, String> headers = new HashMap<>();
+//        headers.put("Cache-Control", "max-age=1000*60");
+        try {
+            String adresseMAC = DeviceUtils.getUniqueID();
+            headers.put("uuid", adresseMAC);
+            if (AppConstant.USER_INFO_BEAN == null) {
+                headers.put("userTel", "");
+            } else {
+                headers.put("userTel", AppConstant.USER_INFO_BEAN.getUserTel());
+            }
+
+        } catch (Exception ex) {
+        }
+        novate = builder
                 .baseUrl(HttpUrls.getBaseUrl())
                 .addHeader(headers)
                 .addCache(true)

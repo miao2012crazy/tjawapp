@@ -25,6 +25,7 @@ import java.util.List;
 public class BottomBar extends View {
 
     private Context context;
+    private OnCheckListener onCheckListener;
 
     public BottomBar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -292,7 +293,7 @@ public class BottomBar extends View {
     private Fragment currentFragment;
 
     //注意 这里是只支持AppCompatActivity 需要支持其他老版的 自行修改
-    protected void switchFragment(int whichFragment) {
+    public void switchFragment(int whichFragment) {
         Fragment fragment = fragmentList.get(whichFragment);
         int frameLayoutId = containerId;
 
@@ -314,6 +315,21 @@ public class BottomBar extends View {
 //            }
             currentFragment = fragment;
             transaction.commit();
+            if (onCheckListener!=null){
+                onCheckListener.change(whichFragment);
+            }
+
+
+
         }
     }
+
+    public void setCheckedChangeListener(OnCheckListener onCheckListener){
+        this.onCheckListener=onCheckListener;
+    }
+
+    public interface OnCheckListener{
+        void change(int positon);
+    }
+
 }

@@ -7,6 +7,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.zysoft.baseapp.commonUtil.GsonUtil;
+import com.zysoft.tjawshapingapp.MainActivity;
+import com.zysoft.tjawshapingapp.applaction.CustomApplaction;
+import com.zysoft.tjawshapingapp.bean.JPushBean;
+import com.zysoft.tjawshapingapp.constants.AppConstant;
+import com.zysoft.tjawshapingapp.gen.DataBeanDao;
+import com.zysoft.tjawshapingapp.view.NoticeActivity;
+
+import java.util.Map;
+
 import cn.jpush.android.api.JPushInterface;
 
 public class JpushReceiver extends BroadcastReceiver {
@@ -49,8 +59,18 @@ public class JpushReceiver extends BroadcastReceiver {
             Log.d(TAG,"通知，EXTRA_NOTIFICATION_TITLE="+bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE));
             Log.d(TAG,"通知，EXTRA_MESSAGE="+bundle.getString(JPushInterface.EXTRA_MESSAGE));
             Log.d(TAG,"通知，EXTRA_ALERT="+bundle.getString(JPushInterface.EXTRA_ALERT));
-            Log.d(TAG,"通知，EXTRA_EXTRA="+bundle.getString(JPushInterface.EXTRA_EXTRA));
-            Log.d(TAG, "用户点击打开了通知");
+            String string = bundle.getString(JPushInterface.EXTRA_EXTRA);
+
+            Map<String, Object> stringObjectMap = GsonUtil.GsonToMaps(string);
+            String s = (String) stringObjectMap.get("androidNotification extras key");
+            Log.d(TAG,"点击了通知"+s);
+            JPushBean jPushBean = GsonUtil.GsonToBean(s, JPushBean.class);
+            DataBeanDao dataBeanDao = CustomApplaction.getSession().getDataBeanDao();
+            dataBeanDao.insert(jPushBean.getData());
+            //直接跳转到消息列表
+            Intent intent1 = new Intent(context, NoticeActivity.class);
+            intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent1);
 
         } else {
             Log.d(TAG, "Unhandled intent - " + intent.getAction());

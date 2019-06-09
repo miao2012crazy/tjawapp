@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <LinearLayout
+        android:background="#fff"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true"
+        android:clipToPadding="true"
+        android:layout_height="match_parent">
+        <include layout="@layout/layout_title_bar_com"
+            android:id="@+id/title"/>
+        <fragment
+            android:id="@+id/fragment_im"
+            android:name="com.zysoft.tjawshapingapp.view.IMFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
+</layout>

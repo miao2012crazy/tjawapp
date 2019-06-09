@@ -26,14 +26,13 @@
 
         <TextView
             android:paddingBottom="20dp"
-
             android:layout_marginTop="9dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@{item.tag_name}"
             android:textColor="#000"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 

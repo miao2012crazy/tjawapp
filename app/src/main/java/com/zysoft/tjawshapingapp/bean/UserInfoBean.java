@@ -13,8 +13,9 @@ public class UserInfoBean {
     private String wxtoken;
     private int realState;
     private int userLevel;
+    private String userSign;
 
-    public UserInfoBean(int userId, String userNickName, String userHeadImg, String userTel, String openId, String wxtoken, int realState, int userLevel) {
+    public UserInfoBean(int userId, String userNickName, String userHeadImg, String userTel, String openId, String wxtoken, int realState, int userLevel,String userSign) {
         this.userId = userId;
         this.userNickName = userNickName;
         this.userHeadImg = userHeadImg;
@@ -23,6 +24,7 @@ public class UserInfoBean {
         this.wxtoken = wxtoken;
         this.realState = realState;
         this.userLevel = userLevel;
+        this.userSign = userSign;
     }
 
     public int getUserId() {
@@ -87,5 +89,13 @@ public class UserInfoBean {
 
     public void setUserLevel(int userLevel) {
         this.userLevel = userLevel;
+    }
+
+    public String getUserSign() {
+        return userSign;
+    }
+
+    public void setUserSign(String userSign) {
+        this.userSign = userSign;
     }
 }

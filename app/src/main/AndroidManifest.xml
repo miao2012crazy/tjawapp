@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.READ_LOGS"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
@@ -31,9 +30,9 @@
         <meta-data
             android:name="design_height_in_dp"
             android:value="480" />
-        <meta-data
-            android:name="com.zysoft.tjawshapingapp.common.CustomGlideModule"
-            android:value="GlideModule" />
+        <!--<meta-data-->
+            <!--android:name="com.zysoft.tjawshapingapp.common.CustomGlideModule"-->
+            <!--android:value="GlideModule" />-->
 
         <service
             android:name=".service.JPushService"
@@ -73,6 +72,19 @@
         <activity android:name=".view.ProjectDetailActivity" />
         <activity android:name=".view.IMDetailActivity" />
         <activity android:name=".view.ConfirmOrderActivity" />
+        <activity android:name=".view.CouponsSelectActivity" />
+        <activity android:name=".view.order.OrderActivity" />
+        <activity android:name=".view.OptionActvity" />
+        <activity android:name=".view.NoticeActivity" />
+        <activity android:name=".view.CouponsListActivity" />
+        <activity android:name=".view.SettingActivity" />
+        <activity android:name=".view.AddAddressActivity" />
+        <activity android:name=".view.AddressManageActivity" />
+        <activity android:name=".view.RealStateActivity" />
+        <activity android:name=".view.UserWalletActivity" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true" />
         <service android:name="cn.jpush.android.service.PushService"
             android:process=":multiprocess"
             tools:node="replace" />

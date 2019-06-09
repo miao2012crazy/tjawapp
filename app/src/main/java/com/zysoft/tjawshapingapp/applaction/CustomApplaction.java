@@ -1,11 +1,19 @@
 package com.zysoft.tjawshapingapp.applaction;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.support.multidex.MultiDex;
 
 import com.danikula.videocache.HttpProxyCacheServer;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zysoft.baseapp.BaseApplaction.BaseApplaction;
 import com.zysoft.baseapp.constant.NetResponse;
+
+import com.zysoft.tjawshapingapp.gen.DaoMaster;
+import com.zysoft.tjawshapingapp.gen.DaoSession;
 import com.zysoft.tjawshapingapp.ui.widget.MyFileNameGenerator;
+import com.zysoft.tjawshapingapp.wxapi.WXIDConstants;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -26,10 +34,17 @@ import cn.jpush.im.android.api.model.Message;
 
 public class CustomApplaction extends BaseApplaction{
     private HttpProxyCacheServer proxy;
+    private DaoMaster.DevOpenHelper dbHelper;
+    private SQLiteDatabase db;
+    private DaoMaster mDaoMaster;
+    private static DaoSession mDaoSession;
+    private static IWXAPI api;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
+        MultiDex.install(this);
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
         JAnalyticsInterface.init(this);
@@ -37,7 +52,16 @@ public class CustomApplaction extends BaseApplaction{
         JMessageClient.init(this);
         JMessageClient.init(this, true);
         JMessageClient.registerEventReceiver(this);
+        initDatabass();
+        api = WXAPIFactory.createWXAPI(this, WXIDConstants.APP_ID,true);
+        //将应用的appid注册到微信
+        api.registerApp(WXIDConstants.APP_ID);
     }
+
+    public static IWXAPI getWXApi(){
+        return api;
+    }
+
 
     public static HttpProxyCacheServer getProxy(Context context) {
         CustomApplaction app = (CustomApplaction) context.getApplicationContext();
@@ -97,6 +121,24 @@ public class CustomApplaction extends BaseApplaction{
                 break;
         }
 
+    }
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    private void initDatabass() {
+        //这里之后会修改，关于升级数据库
+        dbHelper = new DaoMaster.DevOpenHelper(this, "notes-db", null);
+        db = dbHelper.getWritableDatabase();
+        mDaoMaster = new DaoMaster(db);
+        mDaoSession = mDaoMaster.newSession();
+    }
+    public static DaoSession getSession(){
+        return mDaoSession;
+    }
+    public SQLiteDatabase getDb(){
+        return db;
     }
 
 }

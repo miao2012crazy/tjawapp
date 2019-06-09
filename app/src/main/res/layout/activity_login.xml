@@ -26,6 +26,7 @@
             android:textColor="#222"
             android:textSize="28sp" />
         <TextView
+            android:id="@+id/tv_tip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
@@ -49,6 +50,7 @@
             android:textSize="16sp" />
 
         <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -84,6 +86,7 @@
             android:layout_height="0dp"
             android:layout_weight="1">
             <Button
+                android:id="@+id/btn_wechat"
                 android:layout_marginBottom="40dp"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
@@ -91,8 +94,8 @@
                 android:layout_gravity="center_horizontal"
                 android:textSize="10sp"
                 android:background="@mipmap/wechat"
-                android:layout_width="30dp"
-                android:layout_height="30dp" />
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
         </RelativeLayout>
 
 

@@ -1,11 +1,15 @@
 package com.zysoft.tjawshapingapp.viewmodule;
 
+import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.databinding.ActivityMainBinding;
+import com.zysoft.tjawshapingapp.ui.BottomBar;
 import com.zysoft.tjawshapingapp.view.HomeFragment;
 import com.zysoft.tjawshapingapp.view.CustomVideoFragment;
 import com.zysoft.tjawshapingapp.view.IMFragment;
 import com.zysoft.tjawshapingapp.view.UserCenterFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by mr.miao on 2019/3/31.
@@ -43,5 +47,12 @@ public class MainVM {
                         R.mipmap.ic_center_default,
                         R.mipmap.ic_center_check)
                 .build();
+        mBind.bottomBar.setCheckedChangeListener(new BottomBar.OnCheckListener() {
+            @Override
+            public void change(int positon) {
+                EventBus.getDefault().post(new NetResponse("TAB_POSION",positon));
+                EventBus.getDefault().post(new NetResponse("MSG",""));
+            }
+        });
     }
 }

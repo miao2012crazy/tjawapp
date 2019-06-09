@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.zysoft.baseapp.base.BaseFragment;
+import com.zysoft.baseapp.commonUtil.UIUtils;
+import com.zysoft.tjawshapingapp.handler.CustomHandlerEvent;
 
 import java.util.HashMap;
 
@@ -15,6 +17,7 @@ import java.util.HashMap;
 
 public class CustomBaseFragment extends BaseFragment {
     protected HashMap<String, Object> map = new HashMap();
+    protected CustomHandlerEvent handlerEvent =new CustomHandlerEvent(UIUtils.getContext());
 
 
     protected void setStatusBar(String rgbStr) {

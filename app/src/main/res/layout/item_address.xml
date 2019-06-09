@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="handler"
+            type="com.zysoft.tjawshapingapp.handler.CustomHandlerEvent" />
+
+        <variable
+            name="item"
+            type="com.zysoft.tjawshapingapp.bean.AddressBean" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_center_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="18dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="46dp"
+                android:text="@{item.recvName}"
+                android:textColor="#222222"
+                android:textSize="16sp" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:minWidth="46dp"
+                android:text="@{item.recvTel}"
+                android:textColor="#222222"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:minWidth="46dp"
+            android:text="@{item.detailAddr}"
+            android:textColor="#222222"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:textColor="#eeeeee"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:onClick="@{(view)->handler.setDefault(item)}"
+                android:checked="@{item.isDefault==1}"
+                style="@style/customCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:text="设为默认地址"
+                android:textColor="#333"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginEnd="20dp"
+                android:drawableLeft="@mipmap/updateadd"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:onClick="@{(view)->handler.updateAddr(item)}"
+                android:text="修改"
+                android:textColor="#333"
+                android:textSize="12sp" />
+
+            <TextView
+                android:onClick="@{(view)->handler.deleteAddr(item)}"
+
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginEnd="20dp"
+                android:drawableLeft="@mipmap/deleteaddr"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:text="删除"
+                android:textColor="#333"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</layout>

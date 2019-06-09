@@ -1,18 +1,24 @@
 package com.zysoft.tjawshapingapp.view.video;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.bumptech.glide.request.RequestOptions;
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.tencent.rtmp.ITXVodPlayListener;
 import com.tencent.rtmp.TXVodPlayer;
@@ -21,7 +27,10 @@ import com.zysoft.baseapp.commonUtil.LogUtils;
 import com.zysoft.baseapp.commonUtil.UIUtils;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.applaction.CustomApplaction;
-import com.zysoft.tjawshapingapp.base.VideoBaseFragment;
+import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
+import com.zysoft.tjawshapingapp.bean.ProjectVideoBean;
+import com.zysoft.tjawshapingapp.databinding.FmVideoBinding;
+import com.zysoft.tjawshapingapp.view.ProjectDetailActivity;
 
 import java.lang.reflect.Field;
 
@@ -36,31 +45,30 @@ import static com.tencent.rtmp.TXLiveConstants.PLAY_EVT_PLAY_BEGIN;
  */
 
 
-public class VideoFragment extends VideoBaseFragment {
+public class VideoFragment extends BaseLazyFragment {
     TXCloudVideoView txvVideo;
     RelativeLayout rlBackRight;
     DrawerLayout dlBackPlay;
     ImageView ivPlayThun;
     private TXVodPlayer mVodPlayer;
-    private String url;
+    private ProjectVideoBean projectVideoBean;
     public static final String URL = "URL";
     private String proxyUrl;
+    private FmVideoBinding bind;
+
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.fm_video;
-    }
-
-    @Override
-    protected void initView(View rootView) {
-        txvVideo= rootView.findViewById(R.id.txv_video);
-        rlBackRight= rootView.findViewById(R.id.rl_back_right);
-        dlBackPlay= rootView.findViewById(R.id.dl_back_play);
-        ivPlayThun= rootView.findViewById(R.id.iv_play_thun);
-
-        url = getArguments().getString(URL);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        txvVideo = bind.txvVideo;
+//        rlBackRight= bind.rlBackRight;
+//        dlBackPlay= bind.dlBackPlay;
+        ivPlayThun = bind.ivPlayThun;
+        projectVideoBean = (ProjectVideoBean) getArguments().getSerializable(URL);
+        bind.tvProjectName.setText(projectVideoBean.getVideoName());
+        bind.tvDesc.setText(projectVideoBean.getVideoDesc());
         HttpProxyCacheServer proxy = CustomApplaction.getProxy(UIUtils.getContext());
-        proxyUrl = proxy.getProxyUrl(url);
+        proxyUrl = proxy.getProxyUrl(projectVideoBean.getVideoPath());
         //创建player对象
         mVodPlayer = new TXVodPlayer(UIUtils.getContext());
 //关键player对象与界面view
@@ -71,7 +79,7 @@ public class VideoFragment extends VideoBaseFragment {
         mVodPlayer.setVodListener(new ITXVodPlayListener() {
             @Override
             public void onPlayEvent(TXVodPlayer txVodPlayer, int i, Bundle bundle) {
-                if (i==PLAY_EVT_PLAY_BEGIN){
+                if (i == PLAY_EVT_PLAY_BEGIN) {
                     //开始播放
                     ivPlayThun.setVisibility(View.GONE);
                 }
@@ -82,8 +90,25 @@ public class VideoFragment extends VideoBaseFragment {
 
             }
         });
-        Glide.with(UIUtils.getContext()).load(proxyUrl).diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .crossFade().centerCrop().into(new GlideDrawableImageViewTarget(ivPlayThun));
+
+        RequestOptions requestOptions = new RequestOptions()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+
+        Glide.with(UIUtils.getContext()).load(proxyUrl).apply(requestOptions).into(ivPlayThun);
+
+
+        bind.btnProjectDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("PROJECT_ID", String.valueOf(projectVideoBean.getProjectId()));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
 
 //        Glide.with(UIUtils.getContext())
 //                .load(proxyUrl)
@@ -118,19 +143,50 @@ public class VideoFragment extends VideoBaseFragment {
 //        //设置菜单内容之外其他区域的背景色
 //        dlBackPlay.setScrimColor(Color.TRANSPARENT);
 //        //设置 全屏滑动
-        setDrawerRightEdgeSize(getActivity(), dlBackPlay, 1);
-        LogUtils.e("预加载"+url);
+//        setDrawerRightEdgeSize(getActivity(), dlBackPlay, 1);
+        LogUtils.e("预加载" + projectVideoBean.getVideoPath());
+
+
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        bind = DataBindingUtil.inflate(inflater, R.layout.fm_video, container, false);
+        return bind.getRoot();
     }
 
     @Override
-    protected void loadData() {
+    public void onFirstUserVisible() {
+        super.onFirstUserVisible();
+
         mVodPlayer.startPlay(proxyUrl);
     }
 
     @Override
+    public void onUserInvisible() {
+        super.onUserInvisible();
+        if (mVodPlayer != null) {
+            mVodPlayer.pause();
+        }
+        LogUtils.e("video" + ":::pause();");
+    }
+
+    @Override
+    public void onUserVisible() {
+        super.onUserVisible();
+        if (mVodPlayer != null) {
+            mVodPlayer.resume();
+        }
+        LogUtils.e("video" + ":::onResume();");
+    }
+
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-
+        LogUtils.e("video" + isVisibleToUser);
         if (mVodPlayer == null) {
             return;
         }
@@ -143,25 +199,8 @@ public class VideoFragment extends VideoBaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (mVodPlayer != null) {
-            mVodPlayer.resume();
-        }
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mVodPlayer != null) {
-            mVodPlayer.pause();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         if (mVodPlayer != null) {
             // true代表清除最后一帧画面
             mVodPlayer.stopPlay(true);
@@ -169,6 +208,7 @@ public class VideoFragment extends VideoBaseFragment {
         if (txvVideo != null) {
             txvVideo.onDestroy();
         }
+        LogUtils.e("video" + ":::onDestroy();");
     }
 
 

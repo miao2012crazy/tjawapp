@@ -56,6 +56,7 @@ public class NetModel extends BaseModel {
 
             @Override
             public void onError(Throwable e) {
+                e.printStackTrace();
                 EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR, "网络连接失败！"));
 
             }
@@ -76,6 +77,10 @@ public class NetModel extends BaseModel {
                         case "T":
                             EventBus.getDefault().post(new NetResponse(AppConstant.STATE_TIMEOUT, jsonObject.getString("msg")));
                             break;
+                        case "B":
+                            EventBus.getDefault().post(new NetResponse(AppConstant.STATE_BIND_TEL,jsonObject.getString("msg")));
+                            break;
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -126,6 +131,9 @@ public class NetModel extends BaseModel {
                             break;
                         case "N":
                             EventBus.getDefault().post(new NetResponse(AppConstant.STATE_USER_NOEXIT, jsonObject.getString("data")));
+                        case "B":
+                            EventBus.getDefault().post(new NetResponse(AppConstant.STATE_BIND_TEL,jsonObject.getString("msg")));
+                            break;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -12,12 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.zysoft.baseapp.commonUtil.UIUtils;
+import com.zysoft.tjawshapingapp.handler.CustomHandlerEvent;
+
 
 public abstract class VideoBaseFragment extends Fragment {
 
     protected String TAG = getClass().getSimpleName();
     protected Context context;
     private View rootView;
+    protected CustomHandlerEvent handlerEvent =new CustomHandlerEvent(UIUtils.getContext());
+
 
     protected abstract int getLayoutId();
 

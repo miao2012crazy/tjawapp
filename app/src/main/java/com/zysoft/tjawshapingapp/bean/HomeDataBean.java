@@ -3,6 +3,7 @@ package com.zysoft.tjawshapingapp.bean;
 import com.zysoft.baseapp.base.BindingAdapterItem;
 import com.zysoft.tjawshapingapp.R;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -317,7 +318,7 @@ public class HomeDataBean {
         }
     }
 
-    public static class ProjectListBean implements BindingAdapterItem{
+    public static class ProjectListBean implements BindingAdapterItem, Serializable {
         /**
          * id : 1
          * stateUsable : 0
@@ -796,7 +797,7 @@ public class HomeDataBean {
         }
     }
 
-    public static class OptionBean implements BindingAdapterItem{
+    public static class OptionBean implements BindingAdapterItem, Serializable {
         /**
          * id : 1
          * stateUsable : 0

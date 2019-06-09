@@ -92,7 +92,7 @@
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:background="#fe0"
+                        android:background="@mipmap/ic_yj_bg"
                         android:orientation="vertical">
 
                         <TextView
@@ -119,7 +119,7 @@
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:background="#f40"
+                        android:background="@mipmap/ic_hy_bg"
                         android:orientation="vertical">
 
                         <TextView

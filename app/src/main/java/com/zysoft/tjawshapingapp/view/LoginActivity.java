@@ -7,11 +7,19 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.zysoft.baseapp.commonUtil.GsonUtil;
+import com.zysoft.baseapp.commonUtil.SPUtils;
 import com.zysoft.baseapp.commonUtil.UIUtils;
 import com.zysoft.baseapp.constant.NetResponse;
+import com.zysoft.tjawshapingapp.applaction.CustomApplaction;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.bean.ResultBean;
+import com.zysoft.tjawshapingapp.bean.UserInfoBean;
+import com.zysoft.tjawshapingapp.bean.WXBean;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.databinding.ActivityLoginBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
@@ -45,7 +53,6 @@ public class LoginActivity extends CustomBaseActivity {
         super.onCreate(savedInstanceState);
         ActivityLoginBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         EventBus.getDefault().register(this);
-
         binding.etUserTel.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -103,6 +110,17 @@ public class LoginActivity extends CustomBaseActivity {
             EasyPermissions.requestPermissions(this, "",
                     RC_CAMERA_AND_LOCATION, perms);
         }
+
+        binding.btnWechat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";//
+//                req.scope = "snsapi_login";//提示 scope参数错误，或者没有scope权限
+                req.state = "wechat_sdk_微信登录";
+                CustomApplaction.getWXApi().sendReq(req);
+            }
+        });
     }
 
     @Subscribe
@@ -120,6 +138,30 @@ public class LoginActivity extends CustomBaseActivity {
                 //用户不存在跳转到注册
                 startActivityBase(RegeditActivity.class);
                 finish();
+                break;
+            case "WXLOGINCODE":
+                // code
+                WXBean data = (WXBean) netResponse.getData();
+                //上传code 换取用户信息
+                map.put("code",data.getCode());
+                NetModel.getInstance().getDataFromNet("WXDATA",HttpUrls.WXLOGIN,map);
+                break;
+            case "WXDATA":
+                String data1 = (String) netResponse.getData();
+                UserInfoBean userInfoBean = GsonUtil.GsonToBean(data1, UserInfoBean.class);
+                AppConstant.USER_INFO_BEAN = userInfoBean;
+                SPUtils.setParam(UIUtils.getContext(), "USER_INFO", data1);
+//                Intent intent = new Intent();
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivityBase(MainActivity.class);
+                EventBus.getDefault().post(new NetResponse("LOGIN_SUCCESS","登录成功！"));
+                finish();
+                break;
+            case AppConstant.STATE_BIND_TEL:
+                //TODO 绑定手机号
+                startActivityBase(LoginActivity.class);
+
+
                 break;
 
         }

@@ -1,6 +1,5 @@
 package com.zysoft.tjawshapingapp.view;
 
-import android.Manifest;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.zysoft.baseapp.commonUtil.GlideApp;
 import com.zysoft.baseapp.commonUtil.LogUtils;
 import com.zysoft.baseapp.commonUtil.UIUtils;
 import com.zysoft.baseapp.constant.NetResponse;
@@ -25,9 +25,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -53,12 +51,9 @@ import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
-import pub.devrel.easypermissions.EasyPermissions;
 
 import static cn.jiguang.imui.commons.models.IMessage.MessageType.RECEIVE_TEXT;
 import static cn.jiguang.imui.commons.models.IMessage.MessageType.SEND_TEXT;
-import static cn.jpush.im.android.api.enums.MessageStatus.receive_success;
-import static cn.jpush.im.android.api.enums.MessageStatus.send_success;
 
 /**
  * Created by mr.miao on 2019/5/21.
@@ -91,7 +86,7 @@ public class IMDetailActivity extends CustomBaseActivity {
         adapter = new MsgListAdapter<>(AppConstant.USER_INFO_BEAN.getUserTel(), new MsgListAdapter.HoldersConfig(), new ImageLoader() {
             @Override
             public void loadAvatarImage(ImageView avatarImageView, String string) {
-                Glide.with(IMDetailActivity.this)
+                GlideApp.with(IMDetailActivity.this)
                         .load(string)
                         .centerCrop()
                         .into(avatarImageView);
@@ -99,7 +94,7 @@ public class IMDetailActivity extends CustomBaseActivity {
 
             @Override
             public void loadImage(ImageView imageView, String string) {
-                Glide.with(IMDetailActivity.this)
+                GlideApp.with(IMDetailActivity.this)
                         .load(string)
                         .centerCrop()
                         .into(imageView);

@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#f4f3f8"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="25dp">
+
 
         <LinearLayout
-            android:background="#fff"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:background="#fff"
             android:orientation="horizontal">
 
             <RelativeLayout
                 android:id="@+id/rl_address"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-               >
+                android:layout_height="match_parent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -52,95 +54,125 @@
                     android:layout_centerVertical="true"
                     android:background="@mipmap/ic_msg" />
             </RelativeLayout>
-
-
         </LinearLayout>
 
-
-        <android.support.v4.widget.NestedScrollView
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:layout_height="match_parent">
 
-            <LinearLayout
+            <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:background="#fff">
+
+
+                <!--<android.support.v4.widget.NestedScrollView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:scrollbars="none"-->
+                <!--app:layout_scrollFlags="scroll">-->
+
 
                 <com.stx.xhb.xbanner.XBanner
                     android:id="@+id/banner"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     app:AutoPlayTime="2500"
+                    app:layout_scrollFlags="scroll"
                     app:pointsPosition="RIGHT"
                     app:tipTextColor="#FFFFFFFF"
                     app:tipTextSize="12sp" />
 
                 <android.support.v7.widget.RecyclerView
-                    android:background="#fff"
-
                     android:id="@+id/recycler_tabs"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    app:layout_scrollFlags="scroll" />
 
                 <LinearLayout
-                    android:padding="7dp"
-                    android:background="#fff"
+
                     android:layout_width="match_parent"
                     android:layout_height="98dp"
-                    android:orientation="horizontal">
+                    android:background="#fff"
+                    android:orientation="horizontal"
+                    android:padding="7dp"
+                    app:layout_scrollFlags="scroll">
 
                     <ImageView
                         android:id="@+id/iv_recomment_1"
                         android:layout_width="0dp"
-                        android:scaleType="fitXY"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@mipmap/sample_recommend_1" />
+                        android:background="@mipmap/sample_recommend_1"
+                        android:scaleType="fitXY" />
 
                     <ImageView
-                        android:scaleType="fitXY"
                         android:id="@+id/iv_recomment_2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="7dp"
                         android:layout_weight="1"
-                        android:background="@mipmap/sample_recommend_2" />
+                        android:background="@mipmap/sample_recommend_2"
+                        android:scaleType="fitXY" />
 
                 </LinearLayout>
+
                 <RelativeLayout
-                    android:background="#fff"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    app:layout_scrollFlags="scroll">
+
                     <ImageView
-                        android:layout_centerInParent="true"
-                        android:layout_marginBottom="14dp"
                         android:id="@+id/iv_recomment_3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginBottom="14dp"
                         android:layout_marginEnd="7dp"
                         android:layout_marginStart="7dp"
-                        android:background="@mipmap/sample_add_dl" />
+                        android:background="@mipmap/sample_add_dl"
+                        app:layout_scrollFlags="scroll" />
                 </RelativeLayout>
 
 
                 <android.support.design.widget.TabLayout
-                    android:background="#fff"
-                    android:layout_marginTop="8dp"
-                    app:tabMode="scrollable"
-                    app:tabSelectedTextColor="#ff758c"
-                    app:tabTextColor="#000000"
-                    app:tabIndicatorColor="#ff758c"
-                    app:tabIndicatorHeight="4dp"
                     android:id="@+id/tablayout"
                     android:layout_width="match_parent"
-                    android:layout_height="44dp" />
+                    android:layout_height="44dp"
+                    android:background="#fff"
+                    app:tabIndicatorColor="#ff758c"
+                    app:tabIndicatorHeight="4dp"
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="#ff758c"
+                    app:tabTextColor="#000000" />
 
-                <include
-                    android:id="@+id/recycler_list_2"
-                    layout="@layout/layout_list" />
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+
+                <!--</android.support.v4.widget.NestedScrollView>-->
+
+
+            </android.support.design.widget.AppBarLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </android.support.v4.view.ViewPager>
+
+                <!--<include-->
+                    <!--android:id="@+id/recycler_list_2"-->
+                    <!--layout="@layout/layout_list" />-->
+            </RelativeLayout>
+
+
+        </android.support.design.widget.CoordinatorLayout>
     </LinearLayout>
+
 
 </layout>

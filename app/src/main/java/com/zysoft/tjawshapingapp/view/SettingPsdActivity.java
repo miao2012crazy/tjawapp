@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 
 import com.zysoft.baseapp.commonUtil.GsonUtil;
+import com.zysoft.baseapp.commonUtil.LogUtils;
 import com.zysoft.baseapp.commonUtil.SPUtils;
 import com.zysoft.baseapp.commonUtil.UIUtils;
 import com.zysoft.baseapp.constant.NetResponse;
@@ -20,6 +21,11 @@ import com.zysoft.tjawshapingapp.module.NetModel;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.GetUserInfoCallback;
+import cn.jpush.im.android.api.model.UserInfo;
+import cn.jpush.im.api.BasicCallback;
 
 /**
  * Created by mr.miao on 2019/5/17.
@@ -118,14 +124,32 @@ public class SettingPsdActivity extends CustomBaseActivity {
                 AppConstant.USER_INFO_BEAN = GsonUtil.GsonToBean(data, UserInfoBean.class);
                 SPUtils.setParam(UIUtils.getContext(), "USER_INFO", data);
                 EventBus.getDefault().post(new NetResponse("LOGIN_SUCCESS","登录成功！"));
-
+                regeditUserIM();
                 //成功！
                 finish();
 
                 break;
         }
     }
+    private void regeditUserIM() {
+        UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
+        JMessageClient.register(userInfoBean.getUserTel(), userPsd1, new BasicCallback() {
+            @Override
+            public void gotResult(int i, String s) {
+                if (i==0){
+                    UIUtils.showToast("注册成功");
+                    JMessageClient.getUserInfo(userInfoBean.getUserTel(), new GetUserInfoCallback() {
+                        @Override
+                        public void gotResult(int i, String s, UserInfo userInfo) {
+                            LogUtils.e(i+"::"+s+"::"+userInfo.toJson());
+                        }
+                    });
+                }
 
+                LogUtils.e(i + ":::::" + s);
+            }
+        });
+    }
 
     @Override
     protected void onDestroy() {

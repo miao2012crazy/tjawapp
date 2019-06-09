@@ -17,6 +17,7 @@ import com.zysoft.baseapp.commonUtil.UIUtils;
 import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.CustomMsgListAdapter;
+import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
 import com.zysoft.tjawshapingapp.base.BaseRecAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
@@ -38,7 +39,7 @@ import cn.jpush.im.android.api.model.UserInfo;
  * Created by mr.miao on 2019/5/21.
  */
 
-public class TwoFragment extends CustomBaseFragment {
+public class TwoFragment extends BaseLazyFragment {
 
     private FragmentTwoBinding binding;
     private Conversation singleConversation;
@@ -77,7 +78,6 @@ public class TwoFragment extends CustomBaseFragment {
                 startActivity(intent);
             }
         });
-        initData();
     }
 
     private void initData() {
@@ -97,12 +97,19 @@ public class TwoFragment extends CustomBaseFragment {
         }
     }
 
-
     @Override
-    public void onResume() {
-        super.onResume();
-
+    public void onFirstUserVisible() {
+        super.onFirstUserVisible();
+        initData();
     }
+
+
+
+
+
+
+
+
 
     @Override
     public void onDestroyView() {

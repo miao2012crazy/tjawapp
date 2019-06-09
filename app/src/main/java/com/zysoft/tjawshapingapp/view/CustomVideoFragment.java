@@ -5,43 +5,41 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.zysoft.baseapp.commonUtil.GsonUtil;
 import com.zysoft.baseapp.commonUtil.UIUtils;
+import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.VerticalViewPagerAdapter;
-import com.zysoft.tjawshapingapp.base.BaseRecAdapter;
-import com.zysoft.tjawshapingapp.base.BaseRecViewHolder;
+import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
 import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
+import com.zysoft.tjawshapingapp.bean.HomeDataBean;
+import com.zysoft.tjawshapingapp.bean.ProjectVideoBean;
 import com.zysoft.tjawshapingapp.databinding.FragmentVideoBinding;
-import com.zysoft.tjawshapingapp.ui.widget.MyVideoPlayer;
+import com.zysoft.tjawshapingapp.http.HttpUrls;
+import com.zysoft.tjawshapingapp.module.NetModel;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerStandard;
 
 /**
  *
  * Created by mr.miao on 2019/5/20.
  */
-public class CustomVideoFragment extends CustomBaseFragment {
+public class CustomVideoFragment extends BaseLazyFragment {
 
     public static final String URL = "URL";
     private FragmentVideoBinding bind;
     private List<String> urlList = new ArrayList<>();
     private VerticalViewPagerAdapter pagerAdapter;
-
+    private  List<ProjectVideoBean> projectVideoBeans=new ArrayList<>();
 
     @Nullable
     @Override
@@ -53,44 +51,52 @@ public class CustomVideoFragment extends CustomBaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        EventBus.getDefault().register(this);
+        NetModel.getInstance().getDataFromNet("GET_VIDEO", HttpUrls.GET_VIDEO,map);
         setStatusBar("#00000000");
-        initView();
-        addListener();
+        setAndroidNativeLightStatusBar(getActivity(),false);
+//        initView();
 
     }
 
-    private void addListener() {
-//        bind.srlPage.setEnableAutoLoadMore(false);
-//        bind.srlPage.setEnableLoadMore(false);
-//        bind.srlPage.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
-//            @Override
-//            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-//                bind.srlPage.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        urlList.addAll(urlList);
-//                        pagerAdapter.setUrlList(urlList);
-//                        pagerAdapter.notifyDataSetChanged();
-//
-//                        bind.srlPage.finishLoadMore();
-//                    }
-//                }, 2000);
-//
-//            }
-//
-//            @Override
-//            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-//
-//            }
-//        });
+    @Override
+    public void onFirstUserVisible() {
+        super.onFirstUserVisible();
+
     }
+
+    @Override
+    public void onUserVisible() {
+        super.onUserVisible();
+        NetModel.getInstance().getDataFromNet("GET_VIDEO", HttpUrls.GET_VIDEO,map);
+
+    }
+
+
+
+    @Subscribe
+    public void revceiveData(NetResponse netResponse) {
+        switch (netResponse.getTag()) {
+            case "GET_VIDEO":
+                String data = (String) netResponse.getData();
+                projectVideoBeans = GsonUtil.GsonToList(data, ProjectVideoBean.class);
+                initView();
+//                pagerAdapter.setUrlList(projectVideoBeans);
+//                pagerAdapter.notifyDataSetChanged();
+                break;
+            case "check":
+                UIUtils.showToast(String.valueOf(netResponse.getData()));
+                break;
+        }
+    }
+
+
 
     private void initView() {
-        makeData();
-        pagerAdapter = new VerticalViewPagerAdapter(getActivity().getSupportFragmentManager());
+        pagerAdapter = new VerticalViewPagerAdapter(getChildFragmentManager());
         bind.vvpBackPlay.setVertical(true);
         bind.vvpBackPlay.setOffscreenPageLimit(10);
-        pagerAdapter.setUrlList(urlList);
+        pagerAdapter.setUrlList(projectVideoBeans);
         bind.vvpBackPlay.setAdapter(pagerAdapter);
         bind.vvpBackPlay.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -129,5 +135,12 @@ public class CustomVideoFragment extends CustomBaseFragment {
         urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803141625005241.mp4");
         urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803141624378522.mp4");
         urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803131546119319.mp4");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+
     }
 }

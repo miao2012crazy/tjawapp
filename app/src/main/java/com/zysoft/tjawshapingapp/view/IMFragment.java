@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.zysoft.baseapp.commonUtil.LogUtils;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.CustomPagerAdapter;
+import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
 import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.databinding.FragmentImBinding;
@@ -34,11 +35,15 @@ import cn.jpush.im.api.BasicCallback;
  * Created by mr.miao on 2019/5/20.
  */
 
-public class IMFragment extends CustomBaseFragment {
+public class IMFragment extends BaseLazyFragment {
 
 
     private FragmentImBinding bind;
-//    private Conversation singleConversation;
+    //    private Conversation singleConversation;
+    private List<BaseLazyFragment> fragmentList = new ArrayList<>();
+    private List<String> list_Title = new ArrayList<>();
+    private CustomPagerAdapter adapter;
+
 
     @Nullable
     @Override
@@ -50,17 +55,25 @@ public class IMFragment extends CustomBaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setAndroidNativeLightStatusBar(getActivity(),true);
         initTab();
     }
 
     private void initTab() {
-        List<CustomBaseFragment> fragmentList = new ArrayList<>();
-        List<String> list_Title = new ArrayList<>();
+        fragmentList.clear();
+        list_Title.clear();
         fragmentList.add(new OneFragment());
         fragmentList.add(new TwoFragment());
         list_Title.add("官方通知");
         list_Title.add("我的消息");
-        bind.viewpager.setAdapter(new CustomPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), fragmentList, list_Title));
+        adapter = new CustomPagerAdapter(getChildFragmentManager(), getActivity(), fragmentList, list_Title);
+        bind.viewpager.setAdapter(adapter);
         bind.tablayout.setupWithViewPager(bind.viewpager);
+    }
+
+    @Override
+    public void onFirstUserVisible() {
+        super.onFirstUserVisible();
+
     }
 }

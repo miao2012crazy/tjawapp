@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,14 +21,17 @@ import com.stx.xhb.xbanner.XBanner;
 import com.zysoft.baseapp.base.BaseActivity;
 import com.zysoft.baseapp.base.BindingAdapter;
 import com.zysoft.baseapp.base.BindingAdapterItem;
+import com.zysoft.baseapp.commonUtil.GlideApp;
 import com.zysoft.baseapp.commonUtil.GlideRoundTransform;
 import com.zysoft.baseapp.commonUtil.GsonUtil;
 import com.zysoft.baseapp.commonUtil.LogUtils;
 import com.zysoft.baseapp.commonUtil.UIUtils;
 import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.HomeDataBean;
 import com.zysoft.tjawshapingapp.bean.ProjectDetailBean;
+import com.zysoft.tjawshapingapp.common.CommonUtil;
 import com.zysoft.tjawshapingapp.common.DeviceUtils;
 import com.zysoft.tjawshapingapp.common.DisplayUtil;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
@@ -46,7 +51,7 @@ import java.util.List;
  * Created by mr.miao on 2019/5/18.
  */
 
-public class ProjectDetailActivity extends BaseActivity {
+public class ProjectDetailActivity extends CustomBaseActivity {
     private List<String> images = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
     private List<BindingAdapterItem> mainList = new ArrayList<>();
@@ -55,6 +60,7 @@ public class ProjectDetailActivity extends BaseActivity {
     private boolean isSelect = false;
     private int mAmount;
     private TextView tv_select_time;
+    private long time=0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,16 +84,17 @@ public class ProjectDetailActivity extends BaseActivity {
                 if (!isSelect) {
                     showBottomDialog(projectDetailBean.getProjectInfo());
 
-                } else {
-                    Intent intent = new Intent(ProjectDetailActivity.this, ConfirmOrderActivity.class);
-                    Bundle bundle = new Bundle();
-                    ProjectDetailBean.ProjectInfoBean projectInfo = projectDetailBean.getProjectInfo();
-                    AppConstant.PROJECT_INFO = projectInfo;
-                    bundle.putString("PRODUCT_NUM", String.valueOf(mAmount));
-                    intent.putExtras(bundle);
-                    //确认订单
-                    startActivity(intent);
                 }
+//                else {
+//                    Intent intent = new Intent(ProjectDetailActivity.this, ConfirmOrderActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    ProjectDetailBean.ProjectInfoBean projectInfo = projectDetailBean.getProjectInfo();
+//                    AppConstant.PROJECT_INFO = projectInfo;
+//                    bundle.putString("PRODUCT_NUM", String.valueOf(mAmount));
+//                    intent.putExtras(bundle);
+//                    //确认订单
+//                    startActivity(intent);
+//                }
             }
         });
 
@@ -101,8 +108,8 @@ public class ProjectDetailActivity extends BaseActivity {
                 projectDetailBean = GsonUtil.GsonToBean((String) netResponse.getData(), ProjectDetailBean.class);
                 initBanner(projectDetailBean.getLoop());
                 binding.setItem(projectDetailBean.getProjectInfo());
-                int projectEarnestMoney = projectDetailBean.getProjectInfo().getProjectEarnestMoney();
-                int projectOrginPrice = projectDetailBean.getProjectInfo().getProjectOrginPrice();
+                double projectEarnestMoney = projectDetailBean.getProjectInfo().getProjectEarnestMoney();
+                double projectOrginPrice = projectDetailBean.getProjectInfo().getProjectOrginPrice();
                 binding.tvPreparePay.setText("预付款" + projectDetailBean.getProjectInfo().getProjectEarnestMoney() + "元，到院再付尾款" + (projectOrginPrice - projectEarnestMoney) + "元");
                 initImgList(projectDetailBean.getImgDetail());
 
@@ -114,7 +121,7 @@ public class ProjectDetailActivity extends BaseActivity {
     private void initImgList(List<ProjectDetailBean.ImgDetailBean> imgDetail) {
         mainList.clear();
         mainList.addAll(imgDetail);
-        setList_V(binding.recyclerList, mainList, new BindingAdapter.CustomOnClickListener() {
+        setList_V(binding.recyclerList, mainList, handlerEvent, new BindingAdapter.CustomOnClickListener() {
             @Override
             public void onItemClick(BindingAdapterItem bindingAdapterItem) {
 
@@ -141,7 +148,7 @@ public class ProjectDetailActivity extends BaseActivity {
         binding.banner.setmAdapter(new XBanner.XBannerAdapter() {
             @Override
             public void loadBanner(XBanner banner, View view, int position) {
-                Glide.with(ProjectDetailActivity.this).load(images.get(position)).error(R.mipmap.sample_add_dl).into((ImageView) view);
+                GlideApp.with(ProjectDetailActivity.this).load(images.get(position)).error(R.mipmap.sample_add_dl).into((ImageView) view);
             }
         });
     }
@@ -165,11 +172,12 @@ public class ProjectDetailActivity extends BaseActivity {
         TextView tv_or_price = view.findViewById(R.id.tv_or_price);
         TextView tv_member_price = view.findViewById(R.id.tv_member_price);
         TextView tv_prepare_price = view.findViewById(R.id.tv_prepare_price);
+        Button btn_confirm = view.findViewById(R.id.btn_confirm);
         tv_select_time = view.findViewById(R.id.tv_select_time);
         TextView tv_tag = view.findViewById(R.id.tv_tag);
         TextView tv_project_name = view.findViewById(R.id.tv_project_name);
         mAmountView.setGoods_storage(999);
-        Glide.with(this).load(projectInfo.getProductIcon()).transform(new GlideRoundTransform(UIUtils.getContext(), 4)).into(imageView);
+        GlideApp.with(this).load(projectInfo.getProductIcon()).transform(new GlideRoundTransform( 4)).into(imageView);
         tv_or_price.setText("¥" + projectInfo.getProjectOrginPrice());
         tv_member_price.setText("¥" + projectInfo.getProjectMemberPrice());
         tv_prepare_price.setText("¥" + projectInfo.getProjectEarnestMoney());
@@ -186,38 +194,36 @@ public class ProjectDetailActivity extends BaseActivity {
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(UIUtils.getContext(), 400));
         dialog.show();
         dialog.setOnDismissListener(dialogInterface -> {
-            isSelect = true;
-            mAmount = mAmountView.getAmount();
-            binding.tvSelect.setText("已选：" + mAmountView.getAmount() + "件服务");
-        });
 
+        });
+        btn_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (time==0){
+                    UIUtils.showToast("请选择时间！");
+                    return;
+                }
+                isSelect = true;
+                mAmount = mAmountView.getAmount();
+                binding.tvSelect.setText("已选：" + mAmountView.getAmount() + "件服务");
+                //跳转
+                Intent intent = new Intent(ProjectDetailActivity.this, ConfirmOrderActivity.class);
+                bundle.clear();
+                bundle.putString("time", String.valueOf(time));
+                bundle.putString("count", mAmount+"");
+                bundle.putSerializable("project",projectDetailBean.getProjectInfo());
+                intent.putExtras(bundle);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
         tv_select_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectTIme();
 
+                selectTIme();
             }
         });
-//        dialog.findViewById(R.id.tv_take_photo).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        dialog.findViewById(R.id.tv_take_pic).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        dialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                dialog.dismiss();
-//            }
-//        });
 
     }
 
@@ -225,10 +231,12 @@ public class ProjectDetailActivity extends BaseActivity {
         TimePickerView pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                tv_select_time.setText(date.getTime() + "");
+                time = date.getTime();
+                String s = CommonUtil.ms2date("MM-dd HH:mm", date.getTime());
+                tv_select_time.setText(s);
             }
         })
-                .setType(new boolean[]{true, true, true, true, true, false})// 默认全部显示
+                .setType(new boolean[]{false, true, true, true, true, false})// 默认全部显示
                 .setCancelText("取消")//取消按钮文字
                 .setSubmitText("确定")//确认按钮文字
 //                .setContentSize(18)//滚轮文字大小
@@ -245,7 +253,7 @@ public class ProjectDetailActivity extends BaseActivity {
 ////                .setRangDate(startDate,endDate)//起始终止年月日设定
 //                //.setLabel("年","月","日","时","分","秒")//默认设置为年月日时分秒
                 .isCenterLabel(true) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
-                .isDialog(false)//是否显示为对话框样式
+                .isDialog(true)//是否显示为对话框样式
                 .build();
 
         pvTime.show();

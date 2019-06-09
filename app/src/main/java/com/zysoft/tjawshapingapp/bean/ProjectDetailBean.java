@@ -3,6 +3,7 @@ package com.zysoft.tjawshapingapp.bean;
 import com.zysoft.baseapp.base.BindingAdapterItem;
 import com.zysoft.tjawshapingapp.R;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -45,7 +46,7 @@ public class ProjectDetailBean {
         this.imgDetail = imgDetail;
     }
 
-    public static class ProjectInfoBean {
+    public static class ProjectInfoBean implements Serializable {
         /**
          * id : 1
          * stateUsable : 0
@@ -72,11 +73,11 @@ public class ProjectDetailBean {
         private String projectDesc;
         private String productIcon;
         private String projectVideo;
-        private int projectOrginPrice;
-        private int projectMemberPrice;
-        private int projectFirstPrice;
-        private int projectSecondPrice;
-        private int projectEarnestMoney;
+        private double projectOrginPrice;
+        private double projectMemberPrice;
+        private double projectFirstPrice;
+        private double projectSecondPrice;
+        private double projectEarnestMoney;
         private String regDate;
         private int isRecomment;
         private int projectOption;
@@ -132,7 +133,7 @@ public class ProjectDetailBean {
             this.projectVideo = projectVideo;
         }
 
-        public int getProjectOrginPrice() {
+        public double getProjectOrginPrice() {
             return projectOrginPrice;
         }
 
@@ -140,7 +141,7 @@ public class ProjectDetailBean {
             this.projectOrginPrice = projectOrginPrice;
         }
 
-        public int getProjectMemberPrice() {
+        public double getProjectMemberPrice() {
             return projectMemberPrice;
         }
 
@@ -148,7 +149,7 @@ public class ProjectDetailBean {
             this.projectMemberPrice = projectMemberPrice;
         }
 
-        public int getProjectFirstPrice() {
+        public double getProjectFirstPrice() {
             return projectFirstPrice;
         }
 
@@ -156,7 +157,7 @@ public class ProjectDetailBean {
             this.projectFirstPrice = projectFirstPrice;
         }
 
-        public int getProjectSecondPrice() {
+        public double getProjectSecondPrice() {
             return projectSecondPrice;
         }
 
@@ -164,7 +165,7 @@ public class ProjectDetailBean {
             this.projectSecondPrice = projectSecondPrice;
         }
 
-        public int getProjectEarnestMoney() {
+        public double getProjectEarnestMoney() {
             return projectEarnestMoney;
         }
 

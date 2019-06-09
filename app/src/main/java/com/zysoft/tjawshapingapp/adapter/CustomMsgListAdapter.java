@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zysoft.baseapp.commonUtil.LogUtils;
@@ -47,10 +48,11 @@ public class CustomMsgListAdapter extends BaseQuickAdapter<Conversation,BaseView
 
         helper.setText(R.id.tv_name,nickname);
         helper.setText(R.id.tv_msg,text);
+        RequestOptions requestOptions = new RequestOptions().centerCrop();
 
         Glide.with(UIUtils.getContext())
                 .load(targetInfo.getAvatarFile())
-                .centerCrop()
+                .apply(requestOptions)
                 .into((ImageView) helper.getView(R.id.iv_img));
 
         int unReadMsgCnt = item.getUnReadMsgCnt();

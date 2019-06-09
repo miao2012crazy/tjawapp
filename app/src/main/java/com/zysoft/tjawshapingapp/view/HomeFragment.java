@@ -2,30 +2,25 @@ package com.zysoft.tjawshapingapp.view;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.util.Log;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.stx.xhb.xbanner.XBanner;
-import com.zysoft.baseapp.base.BaseFragment;
-import com.zysoft.baseapp.base.BindingAdapter;
 import com.zysoft.baseapp.base.BindingAdapterItem;
+import com.zysoft.baseapp.commonUtil.GlideApp;
 import com.zysoft.baseapp.commonUtil.GlideRoundTransform;
 import com.zysoft.baseapp.commonUtil.GsonUtil;
-import com.zysoft.baseapp.commonUtil.LogUtils;
 import com.zysoft.baseapp.commonUtil.UIUtils;
 import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.adapter.CustomLazyPagerAdapter;
+import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
 import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
 import com.zysoft.tjawshapingapp.bean.HomeDataBean;
 import com.zysoft.tjawshapingapp.databinding.FragmentHomeBinding;
@@ -43,20 +38,27 @@ import java.util.List;
  */
 
 public class HomeFragment extends CustomBaseFragment {
-    private FragmentHomeBinding bind;
+    private ViewDataBinding binding;
     private List<String> images = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
     protected List<BindingAdapterItem> mainList2 = new ArrayList<>();
     private NetModel netModel;
     private List<String> info = new ArrayList<>();
 
-    private List<BindingAdapterItem> optionList=new ArrayList<>();
+    private List<BindingAdapterItem> optionList = new ArrayList<>();
+
+    List<BaseLazyFragment> fragmentList = new ArrayList<>();
+    List<String> list_Title = new ArrayList<>();
+    private FragmentHomeBinding bind;
+    private HomeDataBean homeDataBean;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        bind = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
-        return bind.getRoot();
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
+        bind = (FragmentHomeBinding) binding;
+        return binding.getRoot();
     }
 
 
@@ -64,12 +66,35 @@ public class HomeFragment extends CustomBaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
-
-        NetModel.getInstance().getAllData("HOME_DATA", HttpUrls.GET_HOME_DATA,map);
-
-
+        NetModel.getInstance().getAllData("HOME_DATA", HttpUrls.GET_HOME_DATA, map);
+        bind.ivRecomment1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (homeDataBean!=null){
+                    List<HomeDataBean.RecommendBean> recommend = homeDataBean.getRecommend();
+                    if (recommend.size()!=0){
+                        Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("PROJECT_ID", String.valueOf(recommend.get(0).getId()));
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
+        bind.ivRecomment2.setOnClickListener(v -> {
+            if (homeDataBean!=null){
+                List<HomeDataBean.RecommendBean> recommend = homeDataBean.getRecommend();
+                if (recommend.size()!=0){
+                    Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("PROJECT_ID", String.valueOf(recommend.get(1).getId()));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            }
+        });
     }
-
 
 
     @Subscribe
@@ -77,11 +102,11 @@ public class HomeFragment extends CustomBaseFragment {
         switch (netResponse.getTag()) {
             case "HOME_DATA":
                 String data = (String) netResponse.getData();
-                HomeDataBean homeDataBean = GsonUtil.GsonToBean(data, HomeDataBean.class);
+                homeDataBean = GsonUtil.GsonToBean(data, HomeDataBean.class);
                 initLoop(homeDataBean.getLoop());
                 initRecyclerTabs(homeDataBean.getOption());
-                initRecommendImage(homeDataBean.getRecommend(),homeDataBean.getAppDL());
-                initProject(homeDataBean.getProjectList());
+                initRecommendImage(homeDataBean.getRecommend(), homeDataBean.getAppDL());
+//                initProject(homeDataBean.getProjectList());
                 initTablayout(homeDataBean.getOption());
                 break;
             case "check":
@@ -91,54 +116,96 @@ public class HomeFragment extends CustomBaseFragment {
     }
 
     private void initTablayout(List<HomeDataBean.OptionBean> option) {
-
-
-    }
-
-
-    private void initProject(List<HomeDataBean.ProjectListBean> projectList) {
-        mainList2.clear();
-        mainList2.addAll(projectList);
-        setList_V(bind.recyclerList2.recyclerList, mainList2, new BindingAdapter.CustomOnClickListener() {
+        for (HomeDataBean.OptionBean item : option) {
+            bind.tablayout.addTab(bind.tablayout.newTab().setText(item.getOptionName()));
+            OptionFragment optionFragment = new OptionFragment();
+            Bundle bundle = new Bundle();
+            setArgments(optionFragment, bundle, String.valueOf(item.getId()));
+            fragmentList.add(optionFragment);
+            list_Title.add(item.getOptionName());
+        }
+        bind.viewpager.setAdapter(new CustomLazyPagerAdapter(getChildFragmentManager(), getActivity(), fragmentList, list_Title));
+        bind.tablayout.setupWithViewPager(bind.viewpager);
+        bind.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onItemClick(BindingAdapterItem bindingAdapterItem) {
-                HomeDataBean.ProjectListBean bindingAdapterItem1 = (HomeDataBean.ProjectListBean) bindingAdapterItem;
-                Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("PROJECT_ID", String.valueOf(bindingAdapterItem1.getId()));
-                intent.putExtras(bundle);
-                startActivity(intent);
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+
+
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
             }
         });
-        bind.recyclerList2.smartRefresh.setEnableAutoLoadMore(false);
-        bind.recyclerList2.smartRefresh.setEnableRefresh(false);
+
+    }
+    private void setArgments(OptionFragment optionFragment, Bundle bundle, String type) {
+        bundle.putString("type",type);
+        optionFragment.setArguments(bundle);
+
     }
 
+//    private void initProject(List<HomeDataBean.ProjectListBean> projectList) {
+//        mainList2.clear();
+//        mainList2.addAll(projectList);
+//        setList_V(bind.recyclerList2.recyclerList, mainList2, handlerEvent, new BindingAdapter.CustomOnClickListener() {
+//            @Override
+//            public void onItemClick(BindingAdapterItem bindingAdapterItem) {
+//                HomeDataBean.ProjectListBean bindingAdapterItem1 = (HomeDataBean.ProjectListBean) bindingAdapterItem;
+//                Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("PROJECT_ID", String.valueOf(bindingAdapterItem1.getId()));
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+//
+//            }
+//        });
+//        bind.recyclerList2.smartRefresh.setEnableAutoLoadMore(false);
+//        bind.recyclerList2.smartRefresh.setEnableRefresh(false);
+//    }
+
     private void initRecommendImage(List<HomeDataBean.RecommendBean> recommend, HomeDataBean.AppDLBean appDL) {
-        if (recommend.size()==1){
-            Glide.with(this).load(recommend.get(0).getProductIcon()).centerCrop().transform(new GlideRoundTransform(UIUtils.getContext(),4)).into(bind.ivRecomment1);
-        }else if (recommend.size()>=2){
-            Glide.with(this).load(recommend.get(0).getProductIcon()).transform(new GlideRoundTransform(UIUtils.getContext(),4)).into(bind.ivRecomment1);
-            Glide.with(this).load(recommend.get(1).getProductIcon()).into(bind.ivRecomment2);
+        if (recommend.size() == 1) {
+            GlideApp.with(this).load(recommend.get(0).getProductIcon()).centerCrop().transform(new GlideRoundTransform( 4)).into(bind.ivRecomment1);
+        } else if (recommend.size() >= 2) {
+            GlideApp.with(this).load(recommend.get(0).getProductIcon()).transform(new GlideRoundTransform( 4)).into(bind.ivRecomment1);
+            GlideApp.with(this).load(recommend.get(1).getProductIcon()).into(bind.ivRecomment2);
         }
-        Glide.with(this).load(appDL.getProjectImg()).transform(new GlideRoundTransform(UIUtils.getContext(),4)).into(bind.ivRecomment3);
+        GlideApp.with(this).load(appDL.getProjectImg()).transform(new GlideRoundTransform( 4)).into(bind.ivRecomment3);
+
+
+
+
+
+
     }
 
     private void initRecyclerTabs(List<HomeDataBean.OptionBean> option) {
         optionList.clear();
         optionList.addAll(option);
-        setList_H(bind.recyclerTabs, optionList, 5, new BindingAdapter.CustomOnClickListener() {
-            @Override
-            public void onItemClick(BindingAdapterItem bindingAdapterItem) {
+        setList_H(bind.recyclerTabs, optionList, 5,handlerEvent, bindingAdapterItem -> {
+            Intent intent = new Intent(getActivity(), OptionActvity.class);
+            bundle.clear();
+            bundle.putSerializable("OPTION_ID", (HomeDataBean.OptionBean) bindingAdapterItem);
+            intent.putExtras(bundle);
+            startActivity(intent);
 
-            }
+
         });
     }
 
 
 //
 //
+
     /**
      * List<HomeDataBean.LoopBean> loopBeans
      *
@@ -152,7 +219,7 @@ public class HomeFragment extends CustomBaseFragment {
             images.add(loopbean.getLoopImgPath());
             titles.add("1");
         }
-        if ( bind.banner == null) {
+        if (bind.banner == null) {
             return;
         }
         titles.add("");
@@ -162,7 +229,7 @@ public class HomeFragment extends CustomBaseFragment {
         bind.banner.setmAdapter(new XBanner.XBannerAdapter() {
             @Override
             public void loadBanner(XBanner banner, View view, int position) {
-                Glide.with(HomeFragment.this).load(images.get(position)).error(R.mipmap.sample_add_dl).into((ImageView) view);
+                GlideApp.with(HomeFragment.this).load(images.get(position)).error(R.mipmap.sample_add_dl).into((ImageView) view);
             }
         });
     }
@@ -178,5 +245,7 @@ public class HomeFragment extends CustomBaseFragment {
     public void onResume() {
         super.onResume();
 //        CustomApplaction.getmLocationClient().startLocation();
+        setStatusBar("#ffffff");
+
     }
 }

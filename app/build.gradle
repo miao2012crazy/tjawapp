@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'org.greenrobot.greendao'
 android {
-    compileSdkVersion 28
+    compileSdkVersion 27
     defaultConfig {
         applicationId "com.zysoft.tjawshapingapp"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        multiDexEnabled true
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
             abiFilters 'armeabi', 'armeabi-v7a'
@@ -17,16 +17,18 @@ android {
         }
 
         manifestPlaceholders = [
-                JPUSH_PKGNAME : applicationId,
+                JPUSH_PKGNAME: applicationId,
                 JPUSH_APPKEY : "fb3cd179356b93c799192fec", //JPush 上注册的包名对应的 Appkey.
-                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
 
         packagingOptions {
             doNotStrip '*/mips/*.so'
             doNotStrip '*/mips64/*.so'
         }
-
+        packagingOptions {
+            exclude 'META-INF/rxjava.properties'
+        }
     }
     buildTypes {
         release {
@@ -53,28 +55,33 @@ android {
             dirs 'libs'
         }
     }
+
+
+    greendao {
+        schemaVersion 2
+        daoPackage 'com.zysoft.tjawshapingapp.gen'
+        targetGenDir 'src/main/java'
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation(name:'baseapp', ext:'aar')
+    implementation(name: 'baseapp', ext: 'aar'){
+        exclude group: 'com.android.support'
+    }
     implementation(name: 'LiteAVSDK_UGC_5.0.4978', ext: 'aar')
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
     implementation 'org.greenrobot:eventbus:3.0.0'
-    implementation 'com.android.support:design:28.0.0'
-    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:design:27.1.1'
+
     implementation 'com.tamic.novate:novate:1.5.4.1'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'me.jessyan:autosize:0.9.5'
-    implementation 'com.github.wildma:PictureSelector:1.1.2'
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
-    implementation 'com.xhb:xbanner:1.2.2'
-    implementation 'com.tamic.novate:novate:1.5.4.1'
+//    implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'pub.devrel:easypermissions:1.0.1'
+
     implementation 'cn.jiguang.sdk:jpush:3.2.0'
     implementation 'cn.jiguang.sdk:jcore:2.0.0'
     implementation 'cn.jiguang.sdk:janalytics:1.0.0' // 此处以JAnalytics 1.0.0 版本为例。
@@ -90,6 +97,21 @@ dependencies {
     //视频缓存
     implementation 'com.danikula:videocache:2.7.1'
     implementation 'cn.jiguang.imui:messagelist:0.4.6'
-    implementation ('cn.jiguang.imui:chatinput:0.10.0'){exclude group: 'com.github.bumptech.glide'}
+    implementation('cn.jiguang.imui:chatinput:0.10.0')
+            {
+                exclude group: 'com.github.bumptech.glide'
+            }
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    implementation 'com.qmuiteam:qmui:1.2.0'
+
+    implementation'org.greenrobot:greendao:3.0.1'
+    implementation'org.greenrobot:greendao-generator:3.0.0'
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.1.9'
+// glide 依赖
+//    compile 'com.github.bumptech.glide:glide:4.6.1'
+// glide 相关注解，生成GlideApp代码
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
+
+
 }

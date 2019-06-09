@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/ic_center_bg"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="false"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title"
+            layout="@layout/layout_title_bar_com" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="164dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/ic_center_bg"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+
+                android:background="@mipmap/ic_center_bg"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="32dp"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@mipmap/ic_right"
+                        android:gravity="center_vertical"
+                        android:text="可用余额"
+                        android:textColor="#fff"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:paddingTop="10dp"
+                        android:text="129.81"
+                        android:textColor="#fff"
+                        android:textSize="30sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="32dp"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@mipmap/ic_right"
+                        android:gravity="center_vertical"
+                        android:text="可用积分"
+                        android:textColor="#fff"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:paddingTop="10dp"
+                        android:text="129"
+                        android:textColor="#fff"
+                        android:textSize="30sp" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <Button
+                android:layout_marginTop="8dp"
+                android:textColor="#fff"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/shape_recharge"
+                android:text="我要充值"
+                android:id="@+id/btn_recharge"
+                android:layout_width="150dp"
+                android:layout_height="40dp" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-10dp"
+            android:background="@drawable/shape_center_bg"
+            android:descendantFocusability="blocksDescendants">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_list_center_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</layout>

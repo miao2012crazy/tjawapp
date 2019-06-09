@@ -32,7 +32,7 @@
             android:gravity="center"
             android:text="@{item.tag_name}"
             android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
