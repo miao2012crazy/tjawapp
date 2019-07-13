@@ -24,5 +24,16 @@ public class UserWalletActivity extends CustomBaseActivity{
         ViewDataBinding viewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_wallet);
         binding = (ActivityWalletBinding) viewDataBinding;
 
+
+
+
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setStatusBar("#00000000");
     }
 }

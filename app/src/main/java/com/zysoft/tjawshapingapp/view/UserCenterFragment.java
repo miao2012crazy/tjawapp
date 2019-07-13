@@ -57,7 +57,6 @@ public class UserCenterFragment extends CustomBaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
-        setStatusBar("#00000000");
         mainList.clear();
         mainList2.clear();
         mainList3.clear();
@@ -135,12 +134,9 @@ public class UserCenterFragment extends CustomBaseFragment {
 
 
                         break;
-                    case 2:
+                    case 9:
                         Intent intent5 = new Intent(getActivity(), UserWalletActivity.class);
                         startActivity(intent5);
-
-
-
                         break;
 
 
@@ -183,6 +179,7 @@ public class UserCenterFragment extends CustomBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        setStatusBar("#00000000");
         if (AppConstant.USER_INFO_BEAN != null) {
             map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
             NetModel.getInstance().getDataFromNet("USER_INFO", HttpUrls.USER, map);

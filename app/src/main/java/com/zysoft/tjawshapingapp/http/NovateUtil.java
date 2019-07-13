@@ -8,6 +8,8 @@ import com.zysoft.tjawshapingapp.constants.AppConstant;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.Cache;
+
 /**
  * Created by mr.miao on 2018/7/30.
  */
@@ -59,6 +61,7 @@ public class NovateUtil {
                 .baseUrl(HttpUrls.getBaseUrl())
                 .addHeader(headers)
                 .addCache(true)
+                .addCacheMaxSize(20)
                 .addCookie(true)
                 .connectTimeout(8)  //连接时间 可以忽略
                 .addLog(true)
