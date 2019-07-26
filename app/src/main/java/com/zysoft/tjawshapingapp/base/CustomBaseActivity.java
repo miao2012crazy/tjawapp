@@ -25,8 +25,4 @@ public abstract class CustomBaseActivity extends BaseActivity {
         startActivity(intent);
     }
 
-
-
-
-
 }
