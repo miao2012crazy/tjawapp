@@ -4,9 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
-import com.zysoft.baseapp.commonUtil.UIUtils;
-
-import java.util.UUID;
 
 public class DeviceUtils {
 

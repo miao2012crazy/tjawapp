@@ -1,14 +1,13 @@
 package com.zysoft.tjawshapingapp.http;
 
 import com.tamic.novate.Novate;
-import com.zysoft.baseapp.commonUtil.UIUtils;
 import com.zysoft.tjawshapingapp.common.DeviceUtils;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.Cache;
 
 /**
  * Created by mr.miao on 2018/7/30.

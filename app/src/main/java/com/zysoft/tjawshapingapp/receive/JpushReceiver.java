@@ -7,10 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.zysoft.baseapp.commonUtil.GsonUtil;
 import com.zysoft.tjawshapingapp.MainActivity;
 import com.zysoft.tjawshapingapp.applaction.CustomApplaction;
 import com.zysoft.tjawshapingapp.bean.JPushBean;
+import com.zysoft.tjawshapingapp.common.GsonUtil;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.gen.DataBeanDao;
 import com.zysoft.tjawshapingapp.view.NoticeActivity;

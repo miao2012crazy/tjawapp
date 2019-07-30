@@ -66,9 +66,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation(name: 'baseapp', ext: 'aar'){
-        exclude group: 'com.android.support'
-    }
     implementation(name: 'LiteAVSDK_UGC_5.0.4978', ext: 'aar')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

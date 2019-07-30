@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.zysoft.baseapp.base.BaseFragment;
-import com.zysoft.baseapp.commonUtil.UIUtils;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.handler.CustomHandlerEvent;
 
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.HashMap;
  * Email: tiantian.china.2@gmail.com
  * Date: 1/23/15.
  */
-public class BaseLazyFragment extends BaseFragment {
+public class BaseLazyFragment extends Fragment {
     private static final String TAG = BaseLazyFragment.class.getSimpleName();
     private boolean isPrepared;
     protected HashMap<String, Object> map = new HashMap();

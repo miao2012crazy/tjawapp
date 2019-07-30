@@ -5,17 +5,19 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.view.View;
 
-import com.zysoft.baseapp.base.BindingAdapter;
-import com.zysoft.baseapp.base.BindingAdapterItem;
-import com.zysoft.baseapp.commonUtil.GsonUtil;
-import com.zysoft.baseapp.commonUtil.UIUtils;
-import com.zysoft.baseapp.constant.NetResponse;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.adapter.ProjectAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
 import com.zysoft.tjawshapingapp.bean.HomeDataBean;
+import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.UIUtils;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityOptionBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
@@ -34,7 +36,8 @@ import java.util.Optional;
 public class OptionActvity extends CustomBaseActivity {
 
     private ActivityOptionBinding binding;
-    private List<BindingAdapterItem> mainList2 = new ArrayList<>();
+    private List<HomeDataBean.ProjectListBean> mainList2 = new ArrayList<>();
+    private ProjectAdapter projectAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +45,7 @@ public class OptionActvity extends CustomBaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_option);
         EventBus.getDefault().register(this);
         map.clear();
-
+        initList();
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             return;
@@ -54,7 +57,7 @@ public class OptionActvity extends CustomBaseActivity {
             CustomTitleBean customTitleBean = new CustomTitleBean(option_id.getOptionName(), "", true, -1);
             binding.title.setItem(customTitleBean);
             binding.title.toolbar.setBackgroundColor(Color.WHITE);
-            initTitle(binding.title.tvReturn, null);
+//            initTitle(binding.title.tvReturn, null);
             map.put("option", option_id.getId());
             map.put("pageIndex", "0");
             NetModel.getInstance().getDataFromNet("OPTION_DATA", HttpUrls.GET_OPTION_DATA, map);
@@ -63,13 +66,31 @@ public class OptionActvity extends CustomBaseActivity {
             CustomTitleBean customTitleBean = new CustomTitleBean(option_name, "", true, -1);
             binding.title.setItem(customTitleBean);
             binding.title.toolbar.setBackgroundColor(Color.WHITE);
-            initTitle(binding.title.tvReturn, null);
+//            initTitle(binding.title.tvReturn, null);
             map.put("option", option_id1);
             map.put("pageIndex", "0");
             NetModel.getInstance().getDataFromNet("OPTION_DATA", HttpUrls.GET_OPTION_DATA, map);
         }
 
 
+    }
+
+    private void initList() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
+        projectAdapter = new ProjectAdapter(mainList2);
+        binding.recyclerList.recyclerList.setLayoutManager(linearLayoutManager);
+        binding.recyclerList.recyclerList.setAdapter(projectAdapter);
+        projectAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                HomeDataBean.ProjectListBean bindingAdapterItem1 = mainList2.get(position);
+                Intent intent = new Intent(OptionActvity.this, ProjectDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("PROJECT_ID", String.valueOf(bindingAdapterItem1.getId()));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -90,20 +111,7 @@ public class OptionActvity extends CustomBaseActivity {
     private void initProject(List<HomeDataBean.ProjectListBean> projectList) {
         mainList2.clear();
         mainList2.addAll(projectList);
-        setList_V(binding.recyclerList.recyclerList, mainList2, handlerEvent, new BindingAdapter.CustomOnClickListener() {
-            @Override
-            public void onItemClick(BindingAdapterItem bindingAdapterItem) {
-                HomeDataBean.ProjectListBean bindingAdapterItem1 = (HomeDataBean.ProjectListBean) bindingAdapterItem;
-                Intent intent = new Intent(OptionActvity.this, ProjectDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("PROJECT_ID", String.valueOf(bindingAdapterItem1.getId()));
-                intent.putExtras(bundle);
-                startActivity(intent);
-
-            }
-        });
-//        bind.recyclerList2.smartRefresh.setEnableAutoLoadMore(false);
-//        bind.recyclerList2.smartRefresh.setEnableRefresh(false);
+        projectAdapter.notifyDataSetChanged();
     }
 
 

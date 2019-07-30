@@ -34,6 +34,6 @@ public class UserWalletActivity extends CustomBaseActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        setStatusBar("#00000000");
+//        setStatusBar("#00000000");
     }
 }

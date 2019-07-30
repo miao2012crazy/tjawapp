@@ -8,14 +8,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.zysoft.baseapp.commonUtil.GlideApp;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
+import com.zysoft.tjawshapingapp.common.GlideApp;
 import com.zysoft.tjawshapingapp.databinding.ActivityRealBinding;
 
 import java.util.List;

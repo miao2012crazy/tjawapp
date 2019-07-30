@@ -1,7 +1,5 @@
 package com.zysoft.tjawshapingapp.bean;
 
-import com.zysoft.baseapp.base.BindingAdapterItem;
-import com.zysoft.tjawshapingapp.R;
 
 import java.io.Serializable;
 import java.util.List;
@@ -298,7 +296,7 @@ public class ProjectDetailBean {
         }
     }
 
-    public static class ImgDetailBean implements BindingAdapterItem {
+    public static class ImgDetailBean {
         /**
          * id : 1
          * detailId : 1
@@ -373,9 +371,5 @@ public class ProjectDetailBean {
             this.regDate = regDate;
         }
 
-        @Override
-        public int getViewType() {
-            return R.layout.item_img;
-        }
     }
 }

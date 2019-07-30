@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.zysoft.baseapp.commonUtil.SPUtils;
-import com.zysoft.baseapp.commonUtil.UIUtils;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
+import com.zysoft.tjawshapingapp.common.SPUtils;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.databinding.ActivitySettingBinding;
 
@@ -40,6 +40,6 @@ public class SettingActivity extends CustomBaseActivity{
         CustomTitleBean customTitleBean = new CustomTitleBean("设置", "", true, -1);
         binding.title.setItem(customTitleBean);
         binding.title.toolbar.setBackgroundColor(Color.WHITE);
-        initTitle(binding.title.tvReturn, null);
+//        initTitle(binding.title.tvReturn, null);
     }
 }

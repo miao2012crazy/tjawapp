@@ -11,16 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.zysoft.baseapp.commonUtil.GsonUtil;
-import com.zysoft.baseapp.commonUtil.LogUtils;
-import com.zysoft.baseapp.commonUtil.UIUtils;
-import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.CustomMsgListAdapter;
 import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
 import com.zysoft.tjawshapingapp.base.BaseRecAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.FragmentTwoBinding;
 
 import org.greenrobot.eventbus.EventBus;
@@ -34,6 +32,7 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.android.api.model.UserInfo;
+import me.jessyan.autosize.utils.LogUtils;
 
 /**
  * Created by mr.miao on 2019/5/21.

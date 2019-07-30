@@ -7,16 +7,15 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.tamic.novate.Novate;
-import com.zysoft.baseapp.commonUtil.GsonUtil;
-import com.zysoft.baseapp.commonUtil.LogUtils;
-import com.zysoft.baseapp.commonUtil.SPUtils;
-import com.zysoft.baseapp.commonUtil.UIUtils;
-import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.CommonUtil;
 import com.zysoft.tjawshapingapp.common.DeviceUtils;
+import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.SPUtils;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityMainBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.http.NovateUtil;
@@ -38,6 +37,7 @@ import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
+import me.jessyan.autosize.utils.LogUtils;
 
 public class MainActivity extends CustomBaseActivity {
     private HashMap<String, Object> map = new HashMap<>();

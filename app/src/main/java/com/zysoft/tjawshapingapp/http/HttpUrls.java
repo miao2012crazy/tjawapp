@@ -32,7 +32,7 @@ public class HttpUrls {
     public static String getBaseUrl() {
         if (AppConstant.isDebug) {
 //            ic_return "http://192.168.1.101:8080/";
-            return "http://101.37.64.119/tjawserverapp/";
+            return "http://192.168.18.3:8080/";
 
         } else {
             return "http://101.37.64.119/tjawserverapp/";

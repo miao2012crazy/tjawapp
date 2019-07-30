@@ -10,9 +10,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
-import com.zysoft.baseapp.commonUtil.UIUtils;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.handler.CustomHandlerEvent;
 
 

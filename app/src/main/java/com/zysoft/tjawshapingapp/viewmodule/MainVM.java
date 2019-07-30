@@ -1,7 +1,7 @@
 package com.zysoft.tjawshapingapp.viewmodule;
 
-import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityMainBinding;
 import com.zysoft.tjawshapingapp.ui.BottomBar;
 import com.zysoft.tjawshapingapp.view.HomeFragment;

@@ -6,15 +6,14 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 
-import com.zysoft.baseapp.commonUtil.GsonUtil;
-import com.zysoft.baseapp.commonUtil.LogUtils;
-import com.zysoft.baseapp.commonUtil.SPUtils;
-import com.zysoft.baseapp.commonUtil.UIUtils;
-import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.bean.UserInfoBean;
+import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.SPUtils;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivitySettingPsdBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
@@ -26,6 +25,7 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
+import me.jessyan.autosize.utils.LogUtils;
 
 /**
  * Created by mr.miao on 2019/5/17.

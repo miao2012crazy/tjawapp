@@ -1,14 +1,12 @@
 package com.zysoft.tjawshapingapp.bean;
 
-import com.zysoft.baseapp.base.BindingAdapterItem;
-import com.zysoft.tjawshapingapp.R;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
-public  class DataBean implements BindingAdapterItem{
+public  class DataBean {
     /**
      * desc : 您有一笔订单等待付款，请及时付款！
      * id : 201905252311035260001
@@ -116,8 +114,5 @@ public  class DataBean implements BindingAdapterItem{
         this.id = id;
     }
 
-    @Override
-    public int getViewType() {
-        return R.layout.item_gg;
-    }
+
 }

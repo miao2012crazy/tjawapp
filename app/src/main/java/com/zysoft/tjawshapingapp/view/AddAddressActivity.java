@@ -1,6 +1,5 @@
 package com.zysoft.tjawshapingapp.view;
 
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
@@ -10,16 +9,13 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
-import com.zysoft.baseapp.base.BindingAdapter;
-import com.zysoft.baseapp.base.BindingAdapterItem;
-import com.zysoft.baseapp.commonUtil.GsonUtil;
-import com.zysoft.baseapp.commonUtil.UIUtils;
-import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.AddressBean;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityAddAddrBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
@@ -86,7 +82,7 @@ public class AddAddressActivity extends CustomBaseActivity {
         CustomTitleBean customTitleBean = new CustomTitleBean("新增地址", "", true, -1);
         binding.title.setItem(customTitleBean);
         binding.title.toolbar.setBackgroundColor(Color.WHITE);
-        initTitle(binding.title.tvReturn, null);
+//        initTitle(binding.title.tvReturn, null);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.getSerializable("ADDRESS_BEAN") != null) {

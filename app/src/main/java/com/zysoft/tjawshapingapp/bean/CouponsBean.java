@@ -1,13 +1,12 @@
 package com.zysoft.tjawshapingapp.bean;
 
-import com.zysoft.baseapp.base.BindingAdapterItem;
 import com.zysoft.tjawshapingapp.R;
 
 /**
  * Created by mr.miao on 2019/5/22.
  */
 
-public class CouponsBean implements BindingAdapterItem {
+public class CouponsBean {
     private int id;
     //用户id
     private String userId;
@@ -291,8 +290,4 @@ public class CouponsBean implements BindingAdapterItem {
         this.regDate = regDate;
     }
 
-    @Override
-    public int getViewType() {
-        return R.layout.item_coupons;
-    }
 }

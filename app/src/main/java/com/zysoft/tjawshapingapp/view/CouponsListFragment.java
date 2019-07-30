@@ -3,23 +3,26 @@ package com.zysoft.tjawshapingapp.view;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
-import com.zysoft.baseapp.base.BindingAdapterItem;
-import com.zysoft.baseapp.commonUtil.GsonUtil;
-import com.zysoft.baseapp.commonUtil.UIUtils;
-import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.adapter.CouponsAdapter;
 import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
 import com.zysoft.tjawshapingapp.bean.CouponsBean;
-import com.zysoft.tjawshapingapp.bean.OrderBean;
+import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.LayoutListBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
@@ -36,9 +39,10 @@ import java.util.List;
 
 public class CouponsListFragment extends BaseLazyFragment {
 
-    private List<BindingAdapterItem> mainList = new ArrayList<>();
+    private List<CouponsBean> mainList = new ArrayList<>();
     private String type;
     private LayoutListBinding bind;
+    private CouponsAdapter adapter;
 
     @Nullable
     @Override
@@ -49,11 +53,13 @@ public class CouponsListFragment extends BaseLazyFragment {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
         type = getArguments().getString("type");
+        initAdapter();
         map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
         map.put("type", type);
         map.put("index", "0");
@@ -61,23 +67,15 @@ public class CouponsListFragment extends BaseLazyFragment {
 
     }
 
-    @Override
-    public void onFirstUserVisible() {
-        super.onFirstUserVisible();
-
-
-    }
-
-
-    @Subscribe
-    public void revceiveData(NetResponse netResponse) {
-        if (netResponse.getTag().equals("GET_COUPONS_LIST" + type)) {
-
-            List<CouponsBean> couponsBeans = GsonUtil.GsonToList((String) netResponse.getData(), CouponsBean.class);
-            mainList.clear();
-            mainList.addAll(couponsBeans);
-            setList_V(bind.recyclerList, mainList, handlerEvent,bindingAdapterItem -> {
-                CouponsBean couponsBean = (CouponsBean) bindingAdapterItem;
+    private void initAdapter() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
+        bind.recyclerList.setLayoutManager(linearLayoutManager);
+        adapter = new CouponsAdapter(mainList);
+        bind.recyclerList.setAdapter(adapter);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                CouponsBean couponsBean = mainList.get(position);
                 if (couponsBean.getCouponsState() != 0) {
                     return;
                 }
@@ -125,11 +123,26 @@ public class CouponsListFragment extends BaseLazyFragment {
                 }
 
 
-            });
-        }
-
+            }
+        });
     }
 
+    @Override
+    public void onFirstUserVisible() {
+        super.onFirstUserVisible();
+    }
+
+
+    @Subscribe
+    public void revceiveData(NetResponse netResponse) {
+        if (netResponse.getTag().equals("GET_COUPONS_LIST" + type)) {
+
+            List<CouponsBean> couponsBeans = GsonUtil.GsonToList((String) netResponse.getData(), CouponsBean.class);
+            mainList.clear();
+            mainList.addAll(couponsBeans);
+            adapter.notifyDataSetChanged();
+        }
+    }
     @Override
     public void onUserInvisible() {
         super.onUserInvisible();

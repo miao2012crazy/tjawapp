@@ -20,6 +20,7 @@
             android:layout_height="35dp" />
 
         <TextView
+            android:id="@+id/tv_option_name"
             android:text="@{item.optionName}"
             android:padding="5dp"
             android:textSize="12sp"

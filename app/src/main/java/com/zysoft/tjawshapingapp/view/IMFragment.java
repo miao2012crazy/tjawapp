@@ -1,35 +1,20 @@
 package com.zysoft.tjawshapingapp.view;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.zysoft.baseapp.commonUtil.LogUtils;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.CustomPagerAdapter;
 import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
-import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
-import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.databinding.FragmentImBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.callback.GetUserInfoCallback;
-import cn.jpush.im.android.api.content.TextContent;
-import cn.jpush.im.android.api.model.Conversation;
-import cn.jpush.im.android.api.model.Message;
-import cn.jpush.im.android.api.model.UserInfo;
-import cn.jpush.im.api.BasicCallback;
 
 /**
  * Created by mr.miao on 2019/5/20.

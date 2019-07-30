@@ -5,10 +5,9 @@ import android.databinding.BindingAdapter;
 import android.view.View;
 import android.widget.TextView;
 
-import com.zysoft.baseapp.constant.NetResponse;
-import com.zysoft.baseapp.handler.HandlerEvent;
 import com.zysoft.tjawshapingapp.bean.AddressBean;
 import com.zysoft.tjawshapingapp.bean.OrderBean;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 
 import org.greenrobot.eventbus.EventBus;
 

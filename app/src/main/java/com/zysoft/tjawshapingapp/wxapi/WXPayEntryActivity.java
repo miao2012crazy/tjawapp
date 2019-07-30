@@ -9,9 +9,9 @@ import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.zysoft.baseapp.commonUtil.UIUtils;
-import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.common.UIUtils;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 
 import org.greenrobot.eventbus.EventBus;
 

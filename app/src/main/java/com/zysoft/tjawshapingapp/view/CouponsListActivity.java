@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.zysoft.baseapp.base.BindingAdapter;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.CustomPagerAdapter;
 import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
@@ -37,7 +36,7 @@ public class CouponsListActivity extends CustomBaseActivity{
         CustomTitleBean customTitleBean = new CustomTitleBean("我的优惠券", "", true, -1);
         binding.title.setItem(customTitleBean);
         binding.title.toolbar.setBackgroundColor(Color.WHITE);
-        initTitle(binding.title.tvReturn, null);
+//        initTitle(binding.title.tvReturn, null);
 
     }
 

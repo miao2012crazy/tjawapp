@@ -1,13 +1,11 @@
 package com.zysoft.tjawshapingapp.bean;
 
-import com.zysoft.baseapp.base.BindingAdapterItem;
-import com.zysoft.tjawshapingapp.R;
 
 /**
  * Created by mr.miao on 2019/5/23.
  */
 
-public class OrderBean implements BindingAdapterItem {
+public class OrderBean {
 
     /**
      * id : 1
@@ -280,8 +278,4 @@ public class OrderBean implements BindingAdapterItem {
         this.userId = userId;
     }
 
-    @Override
-    public int getViewType() {
-        return R.layout.item_order;
-    }
 }

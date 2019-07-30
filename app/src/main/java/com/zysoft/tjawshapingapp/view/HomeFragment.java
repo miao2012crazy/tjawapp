@@ -6,23 +6,25 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.stx.xhb.xbanner.XBanner;
-import com.zysoft.baseapp.base.BindingAdapterItem;
-import com.zysoft.baseapp.commonUtil.GlideApp;
-import com.zysoft.baseapp.commonUtil.GlideRoundTransform;
-import com.zysoft.baseapp.commonUtil.GsonUtil;
-import com.zysoft.baseapp.commonUtil.UIUtils;
-import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.CustomLazyPagerAdapter;
+import com.zysoft.tjawshapingapp.adapter.OptionTabAdapter;
 import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
 import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
 import com.zysoft.tjawshapingapp.bean.HomeDataBean;
+import com.zysoft.tjawshapingapp.common.GlideApp;
+import com.zysoft.tjawshapingapp.common.GlideRoundTransform;
+import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.UIUtils;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.FragmentHomeBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
@@ -41,16 +43,17 @@ public class HomeFragment extends CustomBaseFragment {
     private ViewDataBinding binding;
     private List<String> images = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
-    protected List<BindingAdapterItem> mainList2 = new ArrayList<>();
+//    protected List<BindingAdapterItem> mainList2 = new ArrayList<>();
     private NetModel netModel;
     private List<String> info = new ArrayList<>();
 
-    private List<BindingAdapterItem> optionList = new ArrayList<>();
+    private List<HomeDataBean.OptionBean> optionList = new ArrayList<>();
 
     List<BaseLazyFragment> fragmentList = new ArrayList<>();
     List<String> list_Title = new ArrayList<>();
     private FragmentHomeBinding bind;
     private HomeDataBean homeDataBean;
+    private OptionTabAdapter optionTabAdapter;
 
 
     @Nullable
@@ -66,6 +69,10 @@ public class HomeFragment extends CustomBaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
+        initOptionTab();
+
+
+
         NetModel.getInstance().getAllData("HOME_DATA", HttpUrls.GET_HOME_DATA, map);
         bind.ivRecomment1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +100,20 @@ public class HomeFragment extends CustomBaseFragment {
                     startActivity(intent);
                 }
             }
+        });
+    }
+
+    private void initOptionTab() {
+        optionTabAdapter = new OptionTabAdapter(optionList);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(UIUtils.getContext(), 5);
+        bind.recyclerTabs.setLayoutManager(gridLayoutManager);
+        bind.recyclerTabs.setAdapter(optionTabAdapter);
+        optionTabAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent = new Intent(getActivity(), OptionActvity.class);
+            bundle.clear();
+            bundle.putSerializable("OPTION_ID", optionList.get(position));
+            intent.putExtras(bundle);
+            startActivity(intent);
         });
     }
 
@@ -124,25 +145,20 @@ public class HomeFragment extends CustomBaseFragment {
             fragmentList.add(optionFragment);
             list_Title.add(item.getOptionName());
         }
+
         bind.viewpager.setAdapter(new CustomLazyPagerAdapter(getChildFragmentManager(), getActivity(), fragmentList, list_Title));
         bind.tablayout.setupWithViewPager(bind.viewpager);
         bind.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
             public void onPageSelected(int position) {
-
-
-
-
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
@@ -191,15 +207,7 @@ public class HomeFragment extends CustomBaseFragment {
     private void initRecyclerTabs(List<HomeDataBean.OptionBean> option) {
         optionList.clear();
         optionList.addAll(option);
-        setList_H(bind.recyclerTabs, optionList, 5,handlerEvent, bindingAdapterItem -> {
-            Intent intent = new Intent(getActivity(), OptionActvity.class);
-            bundle.clear();
-            bundle.putSerializable("OPTION_ID", (HomeDataBean.OptionBean) bindingAdapterItem);
-            intent.putExtras(bundle);
-            startActivity(intent);
-
-
-        });
+        optionTabAdapter.notifyDataSetChanged();
     }
 
 

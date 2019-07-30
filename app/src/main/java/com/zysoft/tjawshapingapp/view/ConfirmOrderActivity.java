@@ -6,20 +6,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.zysoft.baseapp.base.BaseActivity;
-import com.zysoft.baseapp.commonUtil.GlideApp;
-import com.zysoft.baseapp.commonUtil.GsonUtil;
-import com.zysoft.baseapp.commonUtil.LogUtils;
-import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.CouponsBean;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
 import com.zysoft.tjawshapingapp.bean.ProjectDetailBean;
 import com.zysoft.tjawshapingapp.common.CommonUtil;
+import com.zysoft.tjawshapingapp.common.GlideApp;
+import com.zysoft.tjawshapingapp.common.GsonUtil;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityConfirmOrderBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
@@ -34,7 +30,7 @@ import java.util.List;
 /**
  * Created by mr.miao on 2019/5/19.
  */
-public class ConfirmOrderActivity extends BaseActivity {
+public class ConfirmOrderActivity extends CustomBaseActivity {
 
 
     private ProjectDetailBean.ProjectInfoBean projectInfo;
@@ -56,7 +52,7 @@ public class ConfirmOrderActivity extends BaseActivity {
         CustomTitleBean customTitleBean = new CustomTitleBean("确认支付", "", true, -1);
         binding.title.setItem(customTitleBean);
         binding.title.toolbar.setBackgroundColor(Color.WHITE);
-        initTitle(binding.title.tvReturn, null);
+//        initTitle(binding.title.tvReturn, null);
         map.clear();
         map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
         map.put("projectId", projectInfo.getId());

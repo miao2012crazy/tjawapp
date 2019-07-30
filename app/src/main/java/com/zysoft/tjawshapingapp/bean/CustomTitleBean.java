@@ -3,14 +3,12 @@ package com.zysoft.tjawshapingapp.bean;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import com.zysoft.baseapp.BR;
-import com.zysoft.baseapp.base.BindingAdapterItem;
 
 /**
  * Created by mr.miao on 2019/1/19.
  */
 
-public class CustomTitleBean extends BaseObservable implements BindingAdapterItem {
+public class CustomTitleBean extends BaseObservable  {
 
     /**
      * 中间标题
@@ -76,7 +74,7 @@ public class CustomTitleBean extends BaseObservable implements BindingAdapterIte
 
     public void setRight_title(String right_title) {
         this.right_title = right_title;
-        notifyPropertyChanged(BR.right_title);
+//        notifyPropertyChanged(BR.right_title);
     }
 
 
@@ -88,8 +86,8 @@ public class CustomTitleBean extends BaseObservable implements BindingAdapterIte
         this.iv_right = iv_right;
     }
 
-    @Override
-    public int getViewType() {
-        return com.zysoft.baseapp.R.layout.layout_title_bar;
-    }
+//    @Override
+//    public int getViewType() {
+//        return com.zysoft.baseapp.R.layout.layout_title_bar;
+//    }
 }

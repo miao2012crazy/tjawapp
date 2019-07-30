@@ -26,7 +26,7 @@ public class NoticeActivity extends CustomBaseActivity{
         CustomTitleBean customTitleBean = new CustomTitleBean("我的消息", "", true, -1);
         binding.title.setItem(customTitleBean);
         binding.title.toolbar.setBackgroundColor(Color.WHITE);
-        initTitle(binding.title.tvReturn, null);
+//        initTitle(binding.title.tvReturn, null);
 
     }
 }

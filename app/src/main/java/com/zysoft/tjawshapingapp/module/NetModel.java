@@ -2,10 +2,9 @@ package com.zysoft.tjawshapingapp.module;
 
 import com.tamic.novate.BaseSubscriber;
 import com.tamic.novate.Throwable;
-import com.zysoft.baseapp.base.BaseModel;
-import com.zysoft.baseapp.constant.NetResponse;
-import com.zysoft.baseapp.httputil.HttpConstant;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
+import com.zysoft.tjawshapingapp.http.HttpConstant;
 import com.zysoft.tjawshapingapp.http.NovateUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -22,7 +21,7 @@ import okhttp3.ResponseBody;
  * Created by mr.miao on 2019/3/26.
  */
 
-public class NetModel extends BaseModel {
+public class NetModel {
 
     private static NetModel netModel;
 

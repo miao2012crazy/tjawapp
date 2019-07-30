@@ -1,12 +1,11 @@
 package com.zysoft.tjawshapingapp.view;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.format.DateUtils;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,25 +15,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
-import com.bumptech.glide.Glide;
 import com.stx.xhb.xbanner.XBanner;
-import com.zysoft.baseapp.base.BaseActivity;
-import com.zysoft.baseapp.base.BindingAdapter;
-import com.zysoft.baseapp.base.BindingAdapterItem;
-import com.zysoft.baseapp.commonUtil.GlideApp;
-import com.zysoft.baseapp.commonUtil.GlideRoundTransform;
-import com.zysoft.baseapp.commonUtil.GsonUtil;
-import com.zysoft.baseapp.commonUtil.LogUtils;
-import com.zysoft.baseapp.commonUtil.UIUtils;
-import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.adapter.ImageAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
-import com.zysoft.tjawshapingapp.bean.HomeDataBean;
 import com.zysoft.tjawshapingapp.bean.ProjectDetailBean;
 import com.zysoft.tjawshapingapp.common.CommonUtil;
-import com.zysoft.tjawshapingapp.common.DeviceUtils;
 import com.zysoft.tjawshapingapp.common.DisplayUtil;
-import com.zysoft.tjawshapingapp.constants.AppConstant;
+import com.zysoft.tjawshapingapp.common.GlideApp;
+import com.zysoft.tjawshapingapp.common.GlideRoundTransform;
+import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.UIUtils;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityDetailBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
@@ -54,20 +46,22 @@ import java.util.List;
 public class ProjectDetailActivity extends CustomBaseActivity {
     private List<String> images = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
-    private List<BindingAdapterItem> mainList = new ArrayList<>();
+    private List<ProjectDetailBean.ImgDetailBean> mainList = new ArrayList<>();
     private ActivityDetailBinding binding;
     private ProjectDetailBean projectDetailBean;
     private boolean isSelect = false;
     private int mAmount;
     private TextView tv_select_time;
     private long time=0;
+    private ImageAdapter imageAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
         EventBus.getDefault().register(this);
-        setStatusBar("#00000000");
+//        setStatusBar("#00000000");
+        initImgList();
         String project_id = getIntent().getExtras().getString("PROJECT_ID");
         map.clear();
         map.put("projectId", project_id);
@@ -111,24 +105,19 @@ public class ProjectDetailActivity extends CustomBaseActivity {
                 double projectEarnestMoney = projectDetailBean.getProjectInfo().getProjectEarnestMoney();
                 double projectOrginPrice = projectDetailBean.getProjectInfo().getProjectOrginPrice();
                 binding.tvPreparePay.setText("预付款" + projectDetailBean.getProjectInfo().getProjectEarnestMoney() + "元，到院再付尾款" + (projectOrginPrice - projectEarnestMoney) + "元");
-                initImgList(projectDetailBean.getImgDetail());
-
+                mainList.clear();
+                mainList.addAll(projectDetailBean.getImgDetail());
+                imageAdapter.notifyDataSetChanged();
                 break;
 
         }
     }
 
-    private void initImgList(List<ProjectDetailBean.ImgDetailBean> imgDetail) {
-        mainList.clear();
-        mainList.addAll(imgDetail);
-        setList_V(binding.recyclerList, mainList, handlerEvent, new BindingAdapter.CustomOnClickListener() {
-            @Override
-            public void onItemClick(BindingAdapterItem bindingAdapterItem) {
-
-            }
-        });
-
-
+    private void initImgList() {
+        imageAdapter = new ImageAdapter(mainList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
+        binding.recyclerList.setLayoutManager(linearLayoutManager);
+        binding.recyclerList.setAdapter(imageAdapter);
     }
 
     private void initBanner(List<ProjectDetailBean.LoopBean> loop) {

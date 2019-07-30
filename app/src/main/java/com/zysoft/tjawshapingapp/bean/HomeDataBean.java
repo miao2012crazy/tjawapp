@@ -1,7 +1,5 @@
 package com.zysoft.tjawshapingapp.bean;
 
-import com.zysoft.baseapp.base.BindingAdapterItem;
-import com.zysoft.tjawshapingapp.R;
 
 import java.io.Serializable;
 import java.util.List;
@@ -318,7 +316,7 @@ public class HomeDataBean {
         }
     }
 
-    public static class ProjectListBean implements BindingAdapterItem, Serializable {
+    public static class ProjectListBean implements Serializable {
         /**
          * id : 1
          * stateUsable : 0
@@ -493,10 +491,6 @@ public class HomeDataBean {
             this.projectTag = projectTag;
         }
 
-        @Override
-        public int getViewType() {
-            return R.layout.item_project;
-        }
     }
 
     public static class LoopBean {
@@ -797,7 +791,7 @@ public class HomeDataBean {
         }
     }
 
-    public static class OptionBean implements BindingAdapterItem, Serializable {
+    public static class OptionBean implements  Serializable {
         /**
          * id : 1
          * stateUsable : 0
@@ -862,9 +856,5 @@ public class HomeDataBean {
             this.isProject = isProject;
         }
 
-        @Override
-        public int getViewType() {
-            return R.layout.item_option_data;
-        }
     }
 }

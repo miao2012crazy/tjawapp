@@ -6,16 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.zysoft.baseapp.commonUtil.GlideApp;
-import com.zysoft.baseapp.commonUtil.LogUtils;
-import com.zysoft.baseapp.commonUtil.UIUtils;
-import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
 import com.zysoft.tjawshapingapp.common.CommonUtil;
+import com.zysoft.tjawshapingapp.common.GlideApp;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityImDetailBinding;
 import com.zysoft.tjawshapingapp.view.im.DefaultUser;
 import com.zysoft.tjawshapingapp.view.im.MyMessage;
@@ -51,6 +49,7 @@ import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
+import me.jessyan.autosize.utils.LogUtils;
 
 import static cn.jiguang.imui.commons.models.IMessage.MessageType.RECEIVE_TEXT;
 import static cn.jiguang.imui.commons.models.IMessage.MessageType.SEND_TEXT;
@@ -75,7 +74,7 @@ public class IMDetailActivity extends CustomBaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bind = DataBindingUtil.setContentView(this, R.layout.activity_im_detail);
+        bind = DataBindingUtil.setContentView(IMDetailActivity.this, R.layout.activity_im_detail);
         EventBus.getDefault().register(this);
         //发送者信息
         sendInfo = JMessageClient.getMyInfo();
@@ -108,7 +107,7 @@ public class IMDetailActivity extends CustomBaseActivity {
 
         CustomTitleBean customTitleBean = new CustomTitleBean(recvUserName,"",true,-1);
         bind.title.setItem(customTitleBean);
-        initTitle(bind.title.tvReturn,null);
+//        initTitle(bind.title.tvReturn,null);
     }
 
     private void initChatView() {

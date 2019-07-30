@@ -9,15 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zysoft.baseapp.commonUtil.GsonUtil;
-import com.zysoft.baseapp.commonUtil.UIUtils;
-import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.VerticalViewPagerAdapter;
 import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
-import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
-import com.zysoft.tjawshapingapp.bean.HomeDataBean;
 import com.zysoft.tjawshapingapp.bean.ProjectVideoBean;
+import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.UIUtils;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.FragmentVideoBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;

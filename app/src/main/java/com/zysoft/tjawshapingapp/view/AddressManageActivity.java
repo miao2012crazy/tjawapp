@@ -5,20 +5,20 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
-import com.zysoft.baseapp.base.BindingAdapter;
-import com.zysoft.baseapp.base.BindingAdapterItem;
-import com.zysoft.baseapp.commonUtil.GsonUtil;
-import com.zysoft.baseapp.commonUtil.UIUtils;
-import com.zysoft.baseapp.constant.NetResponse;
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.adapter.AddressAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.AddressBean;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
+import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityAddressBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
@@ -36,7 +36,8 @@ import java.util.List;
 public class AddressManageActivity extends CustomBaseActivity {
 
     private ActivityAddressBinding binding;
-    private List<BindingAdapterItem> mainList = new ArrayList<>();
+    private List<AddressBean> mainList = new ArrayList<>();
+    private AddressAdapter addressAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,8 +55,16 @@ public class AddressManageActivity extends CustomBaseActivity {
         CustomTitleBean customTitleBean = new CustomTitleBean("地址管理", "", true, -1);
         binding.title.setItem(customTitleBean);
         binding.title.toolbar.setBackgroundColor(Color.WHITE);
-        initTitle(binding.title.tvReturn, null);
+//        initTitle(binding.title.tvReturn, null);
+        initList();
 
+    }
+
+    private void initList() {
+        addressAdapter = new AddressAdapter(mainList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        binding.recyclerList.recyclerList.setLayoutManager(linearLayoutManager);
+        binding.recyclerList.recyclerList.setAdapter(addressAdapter);
     }
 
 
@@ -67,12 +76,7 @@ public class AddressManageActivity extends CustomBaseActivity {
                 List<AddressBean> addressBeans = GsonUtil.GsonToList(data, AddressBean.class);
                 mainList.clear();
                 mainList.addAll(addressBeans);
-                setList_V(binding.recyclerList.recyclerList, mainList, handlerEvent, new BindingAdapter.CustomOnClickListener() {
-                    @Override
-                    public void onItemClick(BindingAdapterItem bindingAdapterItem) {
-
-                    }
-                });
+                addressAdapter.notifyDataSetChanged();
                 break;
             case "UPDATE_ADDR":
                 AddressBean addressBean = (AddressBean) netResponse.getData();

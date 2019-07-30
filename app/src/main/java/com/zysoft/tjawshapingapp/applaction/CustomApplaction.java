@@ -3,13 +3,13 @@ package com.zysoft.tjawshapingapp.applaction;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.zysoft.baseapp.BaseApplaction.BaseApplaction;
-import com.zysoft.baseapp.constant.NetResponse;
 
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.gen.DaoMaster;
 import com.zysoft.tjawshapingapp.gen.DaoSession;
 import com.zysoft.tjawshapingapp.ui.widget.MyFileNameGenerator;
@@ -32,13 +32,14 @@ import cn.jpush.im.android.api.model.Message;
  * Created by mr.miao on 2019/5/6.
  */
 
-public class CustomApplaction extends BaseApplaction{
+public class CustomApplaction extends MultiDexApplication{
     private HttpProxyCacheServer proxy;
     private DaoMaster.DevOpenHelper dbHelper;
     private SQLiteDatabase db;
     private DaoMaster mDaoMaster;
     private static DaoSession mDaoSession;
     private static IWXAPI api;
+    private static Context app;
 
 
     @Override
@@ -56,6 +57,7 @@ public class CustomApplaction extends BaseApplaction{
         api = WXAPIFactory.createWXAPI(this, WXIDConstants.APP_ID,true);
         //将应用的appid注册到微信
         api.registerApp(WXIDConstants.APP_ID);
+        app=getApplicationContext();
     }
 
     public static IWXAPI getWXApi(){
@@ -141,4 +143,7 @@ public class CustomApplaction extends BaseApplaction{
         return db;
     }
 
+    public static Context getContext() {
+        return app;
+    }
 }

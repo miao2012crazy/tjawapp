@@ -1,15 +1,12 @@
 package com.zysoft.tjawshapingapp.bean;
 
-import com.zysoft.baseapp.base.BindingAdapterItem;
-import com.zysoft.tjawshapingapp.R;
-
 import java.io.Serializable;
 
 /**
  * Created by mr.miao on 2019/5/27.
  */
 
-public class AddressBean implements BindingAdapterItem, Serializable {
+public class AddressBean implements  Serializable {
 
 
     private int id;
@@ -103,8 +100,4 @@ public class AddressBean implements BindingAdapterItem, Serializable {
         this.regDate = regDate;
     }
 
-    @Override
-    public int getViewType() {
-        return R.layout.item_address;
-    }
 }
