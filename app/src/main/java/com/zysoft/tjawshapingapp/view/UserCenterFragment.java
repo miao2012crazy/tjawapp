@@ -175,7 +175,6 @@ public class UserCenterFragment extends CustomBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        setStatusBar("#00000000");
         if (AppConstant.USER_INFO_BEAN != null) {
             map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
             NetModel.getInstance().getDataFromNet("USER_INFO", HttpUrls.USER, map);

@@ -23,16 +23,21 @@ import com.danikula.videocache.HttpProxyCacheServer;
 import com.tencent.rtmp.ITXVodPlayListener;
 import com.tencent.rtmp.TXVodPlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
-import com.zysoft.baseapp.commonUtil.LogUtils;
-import com.zysoft.baseapp.commonUtil.UIUtils;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.applaction.CustomApplaction;
 import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
 import com.zysoft.tjawshapingapp.bean.ProjectVideoBean;
+import com.zysoft.tjawshapingapp.common.UIUtils;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.FmVideoBinding;
 import com.zysoft.tjawshapingapp.view.ProjectDetailActivity;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.lang.reflect.Field;
+
+import me.jessyan.autosize.utils.LogUtils;
 
 import static com.tencent.rtmp.TXLiveConstants.PLAY_EVT_PLAY_BEGIN;
 
@@ -60,6 +65,7 @@ public class VideoFragment extends BaseLazyFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        EventBus.getDefault().register(this);
         txvVideo = bind.txvVideo;
 //        rlBackRight= bind.rlBackRight;
 //        dlBackPlay= bind.dlBackPlay;
@@ -149,6 +155,24 @@ public class VideoFragment extends BaseLazyFragment {
 
     }
 
+    @Subscribe
+    public void receiveData(NetResponse netResponse) {
+        switch (netResponse.getTag()) {
+            case "TAB_POSION":
+                int data = (int) netResponse.getData();
+                if (data != 1) {
+                    //切换
+                    if (mVodPlayer == null) {
+                        return;
+                    }
+                    mVodPlayer.pause();
+                }else {
+                    mVodPlayer.resume();
+                }
+                break;
+        }
+    }
+
 
     @Nullable
     @Override
@@ -208,6 +232,7 @@ public class VideoFragment extends BaseLazyFragment {
         if (txvVideo != null) {
             txvVideo.onDestroy();
         }
+        EventBus.getDefault().unregister(this);
         LogUtils.e("video" + ":::onDestroy();");
     }
 

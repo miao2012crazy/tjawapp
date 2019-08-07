@@ -11,7 +11,6 @@
         <include layout="@layout/layout_list"
             android:id="@+id/recycler_msg_list"/>
 
-
     </LinearLayout>
 
 

@@ -1,13 +1,12 @@
 package com.zysoft.tjawshapingapp.bean;
 
-import com.zysoft.baseapp.base.BindingAdapterItem;
 import com.zysoft.tjawshapingapp.R;
 
 /**
  * Created by mr.miao on 2019/5/21.
  */
 
-public class CenterToolBean implements BindingAdapterItem{
+public class CenterToolBean {
     private int type;//0 标题 1标签
     private String tag_name;
     private int tag_drawable;
@@ -54,26 +53,26 @@ public class CenterToolBean implements BindingAdapterItem{
         this.id = id;
     }
 
-    @Override
-    public int getViewType() {
-        switch (type){
-            case 0:
-                //我的订单  常用工具 热门服务
-                return R.layout.item_center_1;
-            case 1:
-                //已预约 。。。
-                return R.layout.item_center_2;
-            case 2:
-                //
-                return R.layout.item_center_3;
-//            case 3:
-//                //广告
-//                return R.layout.item_center_4;
-        }
-
-
-
-
-        return 0;
-    }
+//    @Override
+//    public int getViewType() {
+//        switch (type){
+//            case 0:
+//                //我的订单  常用工具 热门服务
+//                return R.layout.item_center_1;
+//            case 1:
+//                //已预约 。。。
+//                return R.layout.item_center_2;
+//            case 2:
+//                //
+//                return R.layout.item_center_3;
+////            case 3:
+////                //广告
+////                return R.layout.item_center_4;
+//        }
+//
+//
+//
+//
+//        return 0;
+//    }
 }

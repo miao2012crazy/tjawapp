@@ -9,7 +9,7 @@
             type="com.zysoft.tjawshapingapp.bean.CenterToolBean" />
         <variable
             name="handler"
-            type="com.zysoft.baseapp.handler.HandlerEvent"/>
+            type="com.zysoft.tjawshapingapp.handler.CustomHandlerEvent"/>
         <import type="android.view.View" />
     </data>
 

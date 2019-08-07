@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.stx.xhb.xbanner.XBanner;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.CustomLazyPagerAdapter;
@@ -69,23 +70,20 @@ public class HomeFragment extends CustomBaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
+        QMUIStatusBarHelper.translucent(getActivity());
+        QMUIStatusBarHelper.setStatusBarDarkMode(getActivity());
         initOptionTab();
 
-
-
         NetModel.getInstance().getAllData("HOME_DATA", HttpUrls.GET_HOME_DATA, map);
-        bind.ivRecomment1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (homeDataBean!=null){
-                    List<HomeDataBean.RecommendBean> recommend = homeDataBean.getRecommend();
-                    if (recommend.size()!=0){
-                        Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("PROJECT_ID", String.valueOf(recommend.get(0).getId()));
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }
+        bind.ivRecomment1.setOnClickListener(v -> {
+            if (homeDataBean!=null){
+                List<HomeDataBean.RecommendBean> recommend = homeDataBean.getRecommend();
+                if (recommend.size()!=0){
+                    Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("PROJECT_ID", String.valueOf(recommend.get(0).getId()));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
             }
         });
@@ -169,25 +167,6 @@ public class HomeFragment extends CustomBaseFragment {
 
     }
 
-//    private void initProject(List<HomeDataBean.ProjectListBean> projectList) {
-//        mainList2.clear();
-//        mainList2.addAll(projectList);
-//        setList_V(bind.recyclerList2.recyclerList, mainList2, handlerEvent, new BindingAdapter.CustomOnClickListener() {
-//            @Override
-//            public void onItemClick(BindingAdapterItem bindingAdapterItem) {
-//                HomeDataBean.ProjectListBean bindingAdapterItem1 = (HomeDataBean.ProjectListBean) bindingAdapterItem;
-//                Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("PROJECT_ID", String.valueOf(bindingAdapterItem1.getId()));
-//                intent.putExtras(bundle);
-//                startActivity(intent);
-//
-//            }
-//        });
-//        bind.recyclerList2.smartRefresh.setEnableAutoLoadMore(false);
-//        bind.recyclerList2.smartRefresh.setEnableRefresh(false);
-//    }
-
     private void initRecommendImage(List<HomeDataBean.RecommendBean> recommend, HomeDataBean.AppDLBean appDL) {
         if (recommend.size() == 1) {
             GlideApp.with(this).load(recommend.get(0).getProductIcon()).centerCrop().transform(new GlideRoundTransform( 4)).into(bind.ivRecomment1);
@@ -253,7 +232,6 @@ public class HomeFragment extends CustomBaseFragment {
     public void onResume() {
         super.onResume();
 //        CustomApplaction.getmLocationClient().startLocation();
-        setStatusBar("#ffffff");
 
     }
 }

@@ -58,6 +58,7 @@ public class CustomApplaction extends MultiDexApplication{
         //将应用的appid注册到微信
         api.registerApp(WXIDConstants.APP_ID);
         app=getApplicationContext();
+
     }
 
     public static IWXAPI getWXApi(){

@@ -40,7 +40,7 @@ public class OrderActivity extends CustomBaseActivity {
         CustomTitleBean customTitleBean = new CustomTitleBean("我的订单", "", true, -1);
         binding.title.setItem(customTitleBean);
         binding.title.toolbar.setBackgroundColor(Color.WHITE);
-        initTitle(binding.title.tvReturn, null);
+//        initTitle(binding.title.tvReturn, null);
         initTab();
         Bundle extras = getIntent().getExtras();
         if (extras!=null){

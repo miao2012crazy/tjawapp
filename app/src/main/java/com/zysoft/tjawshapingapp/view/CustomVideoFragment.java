@@ -19,6 +19,7 @@ import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.FragmentVideoBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
+import com.zysoft.tjawshapingapp.ui.ViewPagerScroller;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,9 +27,10 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.jessyan.autosize.utils.LogUtils;
+
 
 /**
- *
  * Created by mr.miao on 2019/5/20.
  */
 public class CustomVideoFragment extends BaseLazyFragment {
@@ -37,7 +39,7 @@ public class CustomVideoFragment extends BaseLazyFragment {
     private FragmentVideoBinding bind;
     private List<String> urlList = new ArrayList<>();
     private VerticalViewPagerAdapter pagerAdapter;
-    private  List<ProjectVideoBean> projectVideoBeans=new ArrayList<>();
+    private List<ProjectVideoBean> projectVideoBeans = new ArrayList<>();
 
     @Nullable
     @Override
@@ -50,9 +52,8 @@ public class CustomVideoFragment extends BaseLazyFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
-        NetModel.getInstance().getDataFromNet("GET_VIDEO", HttpUrls.GET_VIDEO,map);
-        setStatusBar("#00000000");
-        setAndroidNativeLightStatusBar(getActivity(),false);
+        NetModel.getInstance().getDataFromNet("GET_VIDEO", HttpUrls.GET_VIDEO, map);
+        setAndroidNativeLightStatusBar(getActivity(), false);
 //        initView();
 
     }
@@ -66,10 +67,9 @@ public class CustomVideoFragment extends BaseLazyFragment {
     @Override
     public void onUserVisible() {
         super.onUserVisible();
-        NetModel.getInstance().getDataFromNet("GET_VIDEO", HttpUrls.GET_VIDEO,map);
+        NetModel.getInstance().getDataFromNet("GET_VIDEO", HttpUrls.GET_VIDEO, map);
 
     }
-
 
 
     @Subscribe
@@ -89,7 +89,6 @@ public class CustomVideoFragment extends BaseLazyFragment {
     }
 
 
-
     private void initView() {
         pagerAdapter = new VerticalViewPagerAdapter(getChildFragmentManager());
         bind.vvpBackPlay.setVertical(true);
@@ -99,7 +98,10 @@ public class CustomVideoFragment extends BaseLazyFragment {
         bind.vvpBackPlay.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                LogUtils.e("滑动" + positionOffset);
+                if (positionOffset > 0.15) {
+                    bind.vvpBackPlay.setCurrentItem(position + 1, true);
+                }
             }
 
             @Override
@@ -119,21 +121,10 @@ public class CustomVideoFragment extends BaseLazyFragment {
 
             }
         });
-
-
+        ViewPagerScroller scroller = new ViewPagerScroller(getActivity());
+        scroller.initViewPagerScroll(bind.vvpBackPlay);
     }
 
-    private void makeData() {
-        urlList.clear();
-        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201805/100651/201805181532123423.mp4");
-        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803151735198462.mp4");
-        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803150923220770.mp4");
-        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803150922255785.mp4");
-        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803150920130302.mp4");
-        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803141625005241.mp4");
-        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803141624378522.mp4");
-        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803131546119319.mp4");
-    }
 
     @Override
     public void onDestroyView() {

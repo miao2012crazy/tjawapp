@@ -113,9 +113,16 @@ public class ProjectDetailActivity extends CustomBaseActivity {
         }
     }
 
+
+
     private void initImgList() {
         imageAdapter = new ImageAdapter(mainList);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext()){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         binding.recyclerList.setLayoutManager(linearLayoutManager);
         binding.recyclerList.setAdapter(imageAdapter);
     }

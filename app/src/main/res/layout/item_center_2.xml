@@ -9,7 +9,7 @@
             type="com.zysoft.tjawshapingapp.bean.CenterToolBean" />
         <variable
             name="handler"
-            type="com.zysoft.baseapp.handler.HandlerEvent"/>
+            type="com.zysoft.tjawshapingapp.handler.CustomHandlerEvent"/>
         <import type="android.view.View" />
     </data>
 
@@ -19,7 +19,6 @@
         android:orientation="vertical">
 
         <ImageView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
