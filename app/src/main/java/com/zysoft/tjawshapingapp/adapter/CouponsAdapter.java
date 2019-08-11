@@ -21,6 +21,12 @@ public class CouponsAdapter extends BaseQuickAdapter<CouponsBean,BaseViewHolder>
 
     @Override
     protected void convert(BaseViewHolder helper, CouponsBean item) {
-        helper.setText(R.id.textView6,item.getCouponsDesc());
+        helper.setText(R.id.textView6,item.getCouponsDesc())
+        .setText(R.id.textView4,item.getCouponsName())
+        .setBackgroundRes(R.id.iv_bg,item.getBg0())
+        .setBackgroundRes(R.id.iv_bg_2,item.getBg1())
+        .setText(R.id.tv_out_time,item.getOutTime())
+        .setText(R.id.tv_btn_name,item.getBtnName());
+
     }
 }

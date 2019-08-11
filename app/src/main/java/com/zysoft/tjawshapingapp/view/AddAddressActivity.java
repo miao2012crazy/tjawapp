@@ -79,10 +79,11 @@ public class AddAddressActivity extends CustomBaseActivity {
 
             }
         });
-        CustomTitleBean customTitleBean = new CustomTitleBean("新增地址", "", true, -1);
-        binding.title.setItem(customTitleBean);
-        binding.title.toolbar.setBackgroundColor(Color.WHITE);
-//        initTitle(binding.title.tvReturn, null);
+
+        binding.title.qmTopBar.setTitle("新增地址");
+        binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
+
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.getSerializable("ADDRESS_BEAN") != null) {

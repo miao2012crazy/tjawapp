@@ -21,6 +21,9 @@ public class AddressAdapter extends BaseQuickAdapter<AddressBean,BaseViewHolder>
 
     @Override
     protected void convert(BaseViewHolder helper, AddressBean item) {
-        helper.setText(R.id.tv_recvName,item.getRecvName());
+        helper.setText(R.id.tv_recvName,item.getRecvName())
+        .setText(R.id.tv_detail_addr,item.getDetailAddr())
+        .setText(R.id.tv_recv_tel,item.getRecvTel())
+        .setChecked(R.id.cb_check,item.getIsDefault()==1);
     }
 }

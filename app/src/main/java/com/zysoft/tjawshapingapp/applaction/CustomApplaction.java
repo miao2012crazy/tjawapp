@@ -5,10 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.bumptech.glide.request.target.ViewTarget;
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.gen.DaoMaster;
 import com.zysoft.tjawshapingapp.gen.DaoSession;
@@ -45,6 +47,7 @@ public class CustomApplaction extends MultiDexApplication{
     @Override
     public void onCreate() {
         super.onCreate();
+        ViewTarget.setTagId(R.id.indexTag);
         MultiDex.install(this);
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);

@@ -28,18 +28,15 @@ public class SettingActivity extends CustomBaseActivity{
         super.onCreate(savedInstanceState);
         ViewDataBinding viewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_setting);
         binding = (ActivitySettingBinding) viewDataBinding;
-        binding.btnReturn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppConstant.USER_INFO_BEAN=null;
-                SPUtils.clear(UIUtils.getContext());
-                startActivityBase(LoginActivity.class);
-                finish();
-            }
+        binding.btnReturn.setOnClickListener(v -> {
+            AppConstant.USER_INFO_BEAN=null;
+            SPUtils.clear(UIUtils.getContext());
+            startActivityBase(LoginActivity.class);
+            finish();
         });
-        CustomTitleBean customTitleBean = new CustomTitleBean("设置", "", true, -1);
-        binding.title.setItem(customTitleBean);
-        binding.title.toolbar.setBackgroundColor(Color.WHITE);
-//        initTitle(binding.title.tvReturn, null);
+        binding.title.qmTopBar.setTitle("设置");
+        binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
+
+
     }
 }

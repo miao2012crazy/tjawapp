@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.OrderAdapter;
 import com.zysoft.tjawshapingapp.base.BaseLazyFragment;

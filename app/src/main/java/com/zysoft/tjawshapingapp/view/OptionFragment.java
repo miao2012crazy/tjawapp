@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.ProjectAdapter;
 import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
@@ -51,12 +52,15 @@ public class OptionFragment extends BaseLazyFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
+        QMUIStatusBarHelper.translucent(getActivity());
+        QMUIStatusBarHelper.setStatusBarLightMode(getActivity());
 
     }
 
     @Override
     public void onFirstUserVisible() {
         super.onFirstUserVisible();
+
         initList();
         type = getArguments().getString("type");
         map.put("option", type);

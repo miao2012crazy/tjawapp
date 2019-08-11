@@ -24,7 +24,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="160dp">
+                        android:layout_height="wrap_content">
 
                         <LinearLayout
                             android:id="@+id/ll_user"
@@ -34,16 +34,16 @@
                             android:paddingTop="25dp">
 
                             <RelativeLayout
-                                android:layout_margin="10dp"
-                                android:padding="2dp"
+                                android:layout_margin="15dp"
+                                android:padding="1dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/shape_center_img">
 
                                 <com.zysoft.tjawshapingapp.ui.CircleImageView
                                     android:id="@+id/iv_head"
-                                    android:layout_width="80dp"
-                                    android:layout_height="80dp"
+                                    android:layout_width="66dp"
+                                    android:layout_height="66dp"
                                     android:scaleType="fitXY"
                                     android:src="@mipmap/default_head" />
                             </RelativeLayout>
@@ -51,9 +51,9 @@
 
                             <LinearLayout
                                 android:layout_width="0dp"
-                                android:layout_height="80dp"
+                                android:layout_height="60dp"
                                 android:layout_marginBottom="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
 
@@ -70,7 +70,7 @@
                                         android:gravity="center_vertical"
                                         android:text="123123123"
                                         android:textColor="#fff"
-                                        android:textSize="16sp" />
+                                        android:textSize="14sp" />
 
                                     <ImageView
                                         android:id="@+id/iv_levels"
@@ -125,7 +125,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        android:drawableRight="@mipmap/ic_return"
+                        android:drawableRight="@mipmap/ic_right"
                         android:gravity="center_vertical"
                         android:paddingEnd="10dp"
                         android:paddingLeft="10dp"
@@ -143,6 +143,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
+
+
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="8dp"
@@ -150,7 +153,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        android:drawableRight="@mipmap/ic_return"
+                        android:drawableRight="@mipmap/ic_right"
                         android:gravity="center_vertical"
                         android:paddingEnd="10dp"
                         android:paddingLeft="10dp"

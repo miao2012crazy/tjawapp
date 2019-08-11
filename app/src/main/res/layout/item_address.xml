@@ -36,7 +36,7 @@
                 android:textSize="16sp" />
 
             <TextView
-
+                android:id="@+id/tv_recv_tel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -49,6 +49,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_detail_addr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -73,6 +74,7 @@
             android:orientation="horizontal">
 
             <CheckBox
+                android:id="@+id/cb_check"
                 android:onClick="@{(view)->handler.setDefault(item)}"
                 android:checked="@{item.isDefault==1}"
                 style="@style/customCheckBox"
@@ -97,6 +99,7 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/tv_update"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_marginEnd="20dp"
@@ -109,6 +112,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/tv_delete"
                 android:onClick="@{(view)->handler.deleteAddr(item)}"
 
                 android:layout_width="wrap_content"

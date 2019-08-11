@@ -20,7 +20,7 @@ import java.util.List;
  * Created by mr.miao on 2019/5/26.
  */
 
-public class CouponsListActivity extends CustomBaseActivity{
+public class CouponsListActivity extends CustomBaseActivity {
 
     private ActivityCouponsListBinding binding;
     List<BaseLazyFragment> fragmentList = new ArrayList<>();
@@ -33,9 +33,8 @@ public class CouponsListActivity extends CustomBaseActivity{
         ViewDataBinding viewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_coupons_list);
         binding = (ActivityCouponsListBinding) viewDataBinding;
         initTab();
-        CustomTitleBean customTitleBean = new CustomTitleBean("我的优惠券", "", true, -1);
-        binding.title.setItem(customTitleBean);
-        binding.title.toolbar.setBackgroundColor(Color.WHITE);
+        binding.title.qmTopBar.setTitle("我的优惠券");
+        binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
 //        initTitle(binding.title.tvReturn, null);
 
     }
@@ -66,9 +65,8 @@ public class CouponsListActivity extends CustomBaseActivity{
     }
 
 
-
     private void setArgments(CouponsListFragment couponsListFragment, Bundle bundle, String type) {
-        bundle.putString("type",type);
+        bundle.putString("type", type);
         couponsListFragment.setArguments(bundle);
 
     }

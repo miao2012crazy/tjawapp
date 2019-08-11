@@ -12,6 +12,8 @@ import com.zysoft.tjawshapingapp.common.GlideRoundTransform;
 
 import java.util.List;
 
+import me.jessyan.autosize.utils.LogUtils;
+
 /**
  * Created by mr.miao on 2019/7/3.
  */
@@ -24,11 +26,15 @@ public class ImageAdapter extends BaseQuickAdapter<ProjectDetailBean.ImgDetailBe
     @Override
     protected void convert(BaseViewHolder helper, ProjectDetailBean.ImgDetailBean item) {
         ImageView view = helper.getView(R.id.image_msg);
-        view.setTag(null);
-        GlideApp.with(view.getContext())
-                .load(item.getImgPath())
-                .centerCrop()
-                .transform(new GlideRoundTransform(4))
-                .into(view);
+        if (!item.getImgPath().equals(view.getTag())){
+            view.setTag(null);
+            GlideApp.with(view.getContext())
+                    .load(item.getImgPath())
+                    .centerCrop()
+                    .transform(new GlideRoundTransform(4))
+                    .into(view);
+            view.setTag(item.getImgPath());
+        }
+
     }
 }

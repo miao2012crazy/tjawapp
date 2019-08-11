@@ -15,22 +15,23 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/iv_drawable"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
             app:imageUrlLocal="@{item.tag_drawable}" />
 
         <TextView
-            android:layout_marginTop="9dp"
+            android:id="@+id/tv_tag_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:gravity="center"
-            android:text="@{item.tag_name}"
-            android:textColor="#ffffff"
+            android:text="123123123"
+            android:textColor="#000"
             android:textSize="12sp" />
 
     </LinearLayout>

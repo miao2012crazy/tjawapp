@@ -46,10 +46,15 @@ public class CustomMsgListAdapter extends BaseQuickAdapter<Conversation,BaseView
         helper.setText(R.id.tv_msg,text);
         RequestOptions requestOptions = new RequestOptions().centerCrop();
 
-        Glide.with(UIUtils.getContext())
-                .load(targetInfo.getAvatarFile())
-                .apply(requestOptions)
-                .into((ImageView) helper.getView(R.id.iv_img));
+        ImageView view1 = (ImageView) helper.getView(R.id.iv_img);
+        if (!targetInfo.getAvatarFile().equals(view1.getTag())){
+            view1.setTag(null);
+            Glide.with(view1.getContext())
+                    .load(targetInfo.getAvatarFile())
+                    .apply(requestOptions)
+                    .into(view1);
+            view1.setTag(targetInfo.getAvatarFile());
+        }
 
         int unReadMsgCnt = item.getUnReadMsgCnt();
         TextView view = helper.getView(R.id.tv_no_see);

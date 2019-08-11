@@ -1,32 +1,30 @@
 package com.zysoft.tjawshapingapp.bean;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.zysoft.tjawshapingapp.R;
 
 /**
  * Created by mr.miao on 2019/5/21.
  */
 
-public class CenterToolBean {
-    private int type;//0 标题 1标签
+public class CenterToolBean implements MultiItemEntity {
+    public static final int center_0=0;
+    public static final int center_1=1;
+
+    private int itemType;
     private String tag_name;
     private int tag_drawable;
     private int id;
 
+    public CenterToolBean(int itemType) {
+        this.itemType = itemType;
+    }
 
-
-    public CenterToolBean(int type, String tag_name, int tag_drawable, int id) {
-        this.type = type;
+    public CenterToolBean(int itemType, String tag_name, int tag_drawable, int id) {
+        this.itemType = itemType;
         this.tag_name = tag_name;
         this.tag_drawable = tag_drawable;
         this.id = id;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public String getTag_name() {
@@ -51,6 +49,11 @@ public class CenterToolBean {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public int getItemType() {
+        return itemType;
     }
 
 //    @Override

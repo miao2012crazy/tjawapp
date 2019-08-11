@@ -9,8 +9,9 @@
         android:fitsSystemWindows="true"
         android:clipToPadding="true"
         android:layout_height="match_parent">
-        <include layout="@layout/layout_title_bar_com"
-            android:id="@+id/title"/>
+       <include
+            android:id="@+id/title"
+            layout="@layout/layout_title_bar" />
         <fragment
             android:id="@+id/fragment_im"
             android:name="com.zysoft.tjawshapingapp.view.IMFragment"

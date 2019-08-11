@@ -52,10 +52,9 @@ public class AddressManageActivity extends CustomBaseActivity {
                 startActivityBase(AddAddressActivity.class);
             }
         });
-        CustomTitleBean customTitleBean = new CustomTitleBean("地址管理", "", true, -1);
-        binding.title.setItem(customTitleBean);
-        binding.title.toolbar.setBackgroundColor(Color.WHITE);
-//        initTitle(binding.title.tvReturn, null);
+        binding.title.qmTopBar.setTitle("地址管理");
+        binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
+        
         initList();
 
     }

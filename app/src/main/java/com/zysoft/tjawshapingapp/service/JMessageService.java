@@ -1,6 +1,5 @@
 package com.zysoft.tjawshapingapp.service;
 
-import android.app.Service;
 
 import cn.jpush.android.service.JCommonService;
 
@@ -9,6 +8,7 @@ import cn.jpush.android.service.JCommonService;
  */
 
 public class JMessageService extends JCommonService {
+
 
 
 

@@ -52,6 +52,10 @@ public class RealStateActivity extends CustomBaseActivity{
                 chooseImg();
             }
         });
+        binding.title.qmTopBar.setTitle("实名认证");
+        binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
+
+
     }
 
     private void chooseImg() {

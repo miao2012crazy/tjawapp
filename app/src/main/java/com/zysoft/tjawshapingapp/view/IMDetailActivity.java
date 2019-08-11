@@ -104,10 +104,8 @@ public class IMDetailActivity extends CustomBaseActivity {
         initMsg();
         initChatView();
         recvUserName = getIntent().getExtras().getString("recvNickName");
-
-        CustomTitleBean customTitleBean = new CustomTitleBean(recvUserName,"",true,-1);
-        bind.title.setItem(customTitleBean);
-//        initTitle(bind.title.tvReturn,null);
+        bind.title.qmTopBar.setTitle(recvUserName);
+        bind.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
     }
 
     private void initChatView() {

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.CustomLazyPagerAdapter;
 import com.zysoft.tjawshapingapp.adapter.CustomPagerAdapter;
@@ -37,16 +38,17 @@ public class OrderActivity extends CustomBaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_order);
-        CustomTitleBean customTitleBean = new CustomTitleBean("我的订单", "", true, -1);
-        binding.title.setItem(customTitleBean);
-        binding.title.toolbar.setBackgroundColor(Color.WHITE);
-//        initTitle(binding.title.tvReturn, null);
+        QMUIStatusBarHelper.translucent(this);
+        QMUIStatusBarHelper.setStatusBarLightMode(this);
+        binding.title.qmTopBar.setTitle("我的订单");
+        binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
+
         initTab();
         Bundle extras = getIntent().getExtras();
-        if (extras!=null){
+        if (extras != null) {
             String tabid = extras.getString("TABID");
-            if (!TextUtils.isEmpty(tabid)){
-                binding.tablayout.getTabAt(Integer.parseInt(tabid)-4).select();
+            if (!TextUtils.isEmpty(tabid)) {
+                binding.tablayout.getTabAt(Integer.parseInt(tabid) - 4).select();
             }
 
         }
@@ -95,8 +97,6 @@ public class OrderActivity extends CustomBaseActivity {
             public void onPageSelected(int position) {
 
 
-
-
             }
 
             @Override
@@ -107,7 +107,7 @@ public class OrderActivity extends CustomBaseActivity {
     }
 
     private void setArgments(OrderOneFragment orderOneFragment, Bundle bundle, String type) {
-        bundle.putString("type",type);
+        bundle.putString("type", type);
         orderOneFragment.setArguments(bundle);
 
     }

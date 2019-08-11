@@ -51,9 +51,13 @@ public class CouponsSelectActivity extends CustomBaseActivity {
             map.put("projectId", coupons);
             NetModel.getInstance().getAllData("getCoupons", HttpUrls.GETUSERCOUPONS, map);
         }
-        CustomTitleBean customTitleBean = new CustomTitleBean("确认支付", "", true, -1);
-        binding.title.setItem(customTitleBean);
-        binding.title.toolbar.setBackgroundColor(Color.WHITE);
+//        CustomTitleBean customTitleBean = new CustomTitleBean("确认支付", "", true, -1);
+        binding.title.qmTopBar.setTitle("选择优惠券");
+        binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
+//
+//
+//        binding.title.setItem(customTitleBean);
+//        binding.title.toolbar.setBackgroundColor(Color.WHITE);
 //        initTitle(binding.title.tvReturn,null);
 
     }

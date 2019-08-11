@@ -12,7 +12,7 @@ public class AppConstant {
 
 
     public static boolean IS_REGEDIT = true;
-    public static boolean isDebug = false;
+    public static boolean isDebug = true;
     public static final String STATE_TIMEOUT = "STATE_TIMEOUT";
     public static final String STATE_USER_NOEXIT = "STATE_USER_NOEXIT";
     public static String MsgId = null;

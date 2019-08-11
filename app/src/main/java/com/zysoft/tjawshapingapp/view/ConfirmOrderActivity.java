@@ -49,10 +49,10 @@ public class ConfirmOrderActivity extends CustomBaseActivity {
         time = getIntent().getExtras().getString("time");
         projectInfo = (ProjectDetailBean.ProjectInfoBean) getIntent().getSerializableExtra("project");
         initView(product_num, time, projectInfo);
-        CustomTitleBean customTitleBean = new CustomTitleBean("确认支付", "", true, -1);
-        binding.title.setItem(customTitleBean);
-        binding.title.toolbar.setBackgroundColor(Color.WHITE);
-//        initTitle(binding.title.tvReturn, null);
+
+        binding.title.qmTopBar.setTitle("确认支付");
+        binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
+
         map.clear();
         map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
         map.put("projectId", projectInfo.getId());

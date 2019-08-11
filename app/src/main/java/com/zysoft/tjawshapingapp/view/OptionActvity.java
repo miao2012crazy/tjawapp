@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.ProjectAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
@@ -44,6 +45,8 @@ public class OptionActvity extends CustomBaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_option);
         EventBus.getDefault().register(this);
+        QMUIStatusBarHelper.translucent(this);
+        QMUIStatusBarHelper.setStatusBarLightMode(this);
         map.clear();
         initList();
         Bundle extras = getIntent().getExtras();
@@ -54,24 +57,22 @@ public class OptionActvity extends CustomBaseActivity {
         String option_id1 = extras.getString("OPTION_ID");
         if (TextUtils.isEmpty(option_id1)) {
             HomeDataBean.OptionBean option_id = (HomeDataBean.OptionBean) getIntent().getExtras().getSerializable("OPTION_ID");
-            CustomTitleBean customTitleBean = new CustomTitleBean(option_id.getOptionName(), "", true, -1);
-            binding.title.setItem(customTitleBean);
-            binding.title.toolbar.setBackgroundColor(Color.WHITE);
+
+            binding.qmTopBar.setTitle(option_id.getOptionName());
+
+            binding.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
 //            initTitle(binding.title.tvReturn, null);
             map.put("option", option_id.getId());
             map.put("pageIndex", "0");
             NetModel.getInstance().getDataFromNet("OPTION_DATA", HttpUrls.GET_OPTION_DATA, map);
         }else {
             String option_name = extras.getString("OPTION_NAME");
-            CustomTitleBean customTitleBean = new CustomTitleBean(option_name, "", true, -1);
-            binding.title.setItem(customTitleBean);
-            binding.title.toolbar.setBackgroundColor(Color.WHITE);
-//            initTitle(binding.title.tvReturn, null);
+            binding.qmTopBar.setTitle(option_name);
+            binding.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
             map.put("option", option_id1);
             map.put("pageIndex", "0");
             NetModel.getInstance().getDataFromNet("OPTION_DATA", HttpUrls.GET_OPTION_DATA, map);
         }
-
 
     }
 

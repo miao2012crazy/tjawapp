@@ -23,6 +23,7 @@ import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
 import com.zysoft.tjawshapingapp.bean.HomeDataBean;
 import com.zysoft.tjawshapingapp.common.GlideApp;
 import com.zysoft.tjawshapingapp.common.GlideRoundTransform;
+import com.zysoft.tjawshapingapp.common.GlideUtil;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
 import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
@@ -71,7 +72,7 @@ public class HomeFragment extends CustomBaseFragment {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
         QMUIStatusBarHelper.translucent(getActivity());
-        QMUIStatusBarHelper.setStatusBarDarkMode(getActivity());
+        QMUIStatusBarHelper.setStatusBarLightMode(getActivity());
         initOptionTab();
 
         NetModel.getInstance().getAllData("HOME_DATA", HttpUrls.GET_HOME_DATA, map);

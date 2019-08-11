@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="48dp"
             android:background="#fff"
             android:orientation="horizontal">
 
@@ -22,30 +22,38 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:paddingLeft="10dp"
+                    android:drawableLeft="@mipmap/ic_dw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="天津"
+                    android:textColor="#515151"
                     android:textSize="15sp" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="262dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent">
 
                 <android.support.v7.widget.SearchView
+
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
+                    android:layout_height="30dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/shape_search" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:layout_marginRight="10dp"
                 android:id="@+id/rl_msg"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+               >
 
                 <ImageView
                     android:layout_width="21dp"
@@ -55,7 +63,10 @@
                     android:background="@mipmap/ic_msg" />
             </RelativeLayout>
         </LinearLayout>
-
+        <TextView
+            android:background="#eee"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

@@ -43,7 +43,6 @@ public class HandlerEvent {
                 GlideApp.with(imageView.getContext())
                         .load(url)
                         .error(R.drawable.ic_img_error)
-
                         .centerCrop()
                         .transform(new GlideRoundTransform(4))
                         .into(imageView);

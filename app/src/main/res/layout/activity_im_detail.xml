@@ -10,8 +10,9 @@
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 
-        <include layout="@layout/layout_title_bar_com"
-            android:id="@+id/title"/>
+        <include
+             android:id="@+id/title"
+             layout="@layout/layout_title_bar" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"

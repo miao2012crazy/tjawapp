@@ -5,11 +5,14 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:clipToPadding="true"
+        android:background="#fff"
         android:orientation="vertical">
 
-        <include
+       <include
             android:id="@+id/title"
-            layout="@layout/layout_title_bar_com" />
+            layout="@layout/layout_title_bar" />
 
         <TextView
             android:layout_width="match_parent"

@@ -11,9 +11,9 @@
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 
-        <include
+       <include
             android:id="@+id/title"
-            layout="@layout/layout_title_bar_com" />
+            layout="@layout/layout_title_bar" />
 
 
         <android.support.v4.widget.NestedScrollView

@@ -23,10 +23,10 @@ public class NoticeActivity extends CustomBaseActivity{
         super.onCreate(savedInstanceState);
         ViewDataBinding viewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_notice);
         binding= (ActivityNoticeBinding) viewDataBinding;
-        CustomTitleBean customTitleBean = new CustomTitleBean("我的消息", "", true, -1);
-        binding.title.setItem(customTitleBean);
-        binding.title.toolbar.setBackgroundColor(Color.WHITE);
-//        initTitle(binding.title.tvReturn, null);
 
+        
+        binding.title.qmTopBar.setTitle("我的消息");
+        binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
+        
     }
 }

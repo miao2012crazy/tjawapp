@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
+            android:id="@+id/iv_option"
             android:layout_gravity="center_horizontal"
             app:loadImgCircle="@{item.optionImg}"
             android:layout_width="35dp"

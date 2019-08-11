@@ -10,8 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/layout_title_bar_com"
-            android:id="@+id/title"/>
+      <include
+           android:id="@+id/title"
+           layout="@layout/layout_title_bar" />
 
         <Button
             android:id="@+id/btn_return"

@@ -185,7 +185,7 @@
                             android:layout_width="10dp"
                             android:layout_height="10dp"
                             android:layout_centerInParent="true"
-                            android:src="@mipmap/ic_return" />
+                            android:src="@mipmap/ic_right" />
                     </RelativeLayout>
 
 
@@ -221,7 +221,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:drawableRight="@mipmap/ic_return"
+                            android:drawableRight="@mipmap/ic_right"
                             android:gravity="center_vertical"
                             android:paddingEnd="10dp"
                             android:text="共2张"
@@ -269,7 +269,7 @@
                             android:layout_width="10dp"
                             android:layout_height="10dp"
                             android:layout_centerInParent="true"
-                            android:src="@mipmap/ic_return" />
+                            android:src="@mipmap/ic_right" />
                     </RelativeLayout>
 
 
@@ -306,7 +306,20 @@
                         android:background="#888" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tv_desc"
+                    android:textColor="#888"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@{item.projectDesc}"
+                    android:textSize="@dimen/sp_12" />
+
+
                 <android.support.v7.widget.RecyclerView
+                    android:layout_marginBottom="@dimen/dp_10"
                     android:id="@+id/recycler_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

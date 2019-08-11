@@ -22,6 +22,8 @@
 
 
         <ImageView
+            android:scaleType="fitXY"
+            android:id="@+id/iv_project"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="13dp"
@@ -38,12 +40,13 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_tag_name"
                 android:textColor="#000000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="3"
                 android:text="@{String.valueOf(item.projectTag)+String.valueOf(item.projectName)}"
-                android:textSize="17sp" />
+                android:textSize="13sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -51,6 +54,7 @@
                 android:layout_weight="1">
 
                 <TextView
+                    android:id="@+id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"

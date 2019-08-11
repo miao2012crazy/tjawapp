@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.stx.xhb.xbanner.XBanner;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.ImageAdapter;
@@ -60,7 +61,10 @@ public class ProjectDetailActivity extends CustomBaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
         EventBus.getDefault().register(this);
-//        setStatusBar("#00000000");
+
+        QMUIStatusBarHelper.translucent(this);
+        QMUIStatusBarHelper.setStatusBarLightMode(this);
+
         initImgList();
         String project_id = getIntent().getExtras().getString("PROJECT_ID");
         map.clear();
