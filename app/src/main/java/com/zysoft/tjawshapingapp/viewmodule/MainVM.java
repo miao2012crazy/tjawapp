@@ -5,9 +5,9 @@ import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityMainBinding;
 import com.zysoft.tjawshapingapp.ui.BottomBar;
 import com.zysoft.tjawshapingapp.view.HomeFragment;
-import com.zysoft.tjawshapingapp.view.CustomVideoFragment;
 import com.zysoft.tjawshapingapp.view.IMFragment;
 import com.zysoft.tjawshapingapp.view.UserCenterFragment;
+import com.zysoft.tjawshapingapp.view.videonew.VideoFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -30,7 +30,7 @@ public class MainVM {
                         "首页",
                         R.mipmap.ic_home_default,
                         R.mipmap.ic_home_check)
-                .addItem(CustomVideoFragment.class,
+                .addItem(VideoFragment.class,
                         "视频",
                         R.mipmap.ic_video_default,
                         R.mipmap.ic_video_check)
@@ -47,12 +47,9 @@ public class MainVM {
                         R.mipmap.ic_center_default,
                         R.mipmap.ic_center_check)
                 .build();
-        mBind.bottomBar.setCheckedChangeListener(new BottomBar.OnCheckListener() {
-            @Override
-            public void change(int positon) {
-                EventBus.getDefault().post(new NetResponse("TAB_POSION",positon));
-                EventBus.getDefault().post(new NetResponse("MSG",""));
-            }
+        mBind.bottomBar.setCheckedChangeListener(positon -> {
+            EventBus.getDefault().post(new NetResponse("TAB_POSION",positon));
+            EventBus.getDefault().post(new NetResponse("MSG",""));
         });
     }
 }

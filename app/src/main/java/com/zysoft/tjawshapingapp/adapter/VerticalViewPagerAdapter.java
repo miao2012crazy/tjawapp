@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zysoft.tjawshapingapp.bean.ProjectVideoBean;
-import com.zysoft.tjawshapingapp.view.video.VideoFragment;
 
 import java.util.List;
 
@@ -41,23 +40,23 @@ public class VerticalViewPagerAdapter extends PagerAdapter {
             mCurTransaction = fragmentManager.beginTransaction();
         }
 
-        VideoFragment fragment = new VideoFragment();
-        if (urlList != null && urlList.size() > 0) {
-            Bundle bundle = new Bundle();
-            if (position >= urlList.size()) {
-                bundle.putSerializable(VideoFragment.URL, urlList.get(position % urlList.size()));
-            } else {
-                bundle.putSerializable(VideoFragment.URL, urlList.get(position));
-            }
-            fragment.setArguments(bundle);
-        }
+//        VideoFragment fragment = new VideoFragment();
+//        if (urlList != null && urlList.size() > 0) {
+//            Bundle bundle = new Bundle();
+//            if (position >= urlList.size()) {
+//                bundle.putSerializable(VideoFragment.URL, urlList.get(position % urlList.size()));
+//            } else {
+//                bundle.putSerializable(VideoFragment.URL, urlList.get(position));
+//            }
+//            fragment.setArguments(bundle);
+//        }
+//
+//
+//        mCurTransaction.add(container.getId(), fragment,
+//                makeFragmentName(container.getId(), position));
+//        fragment.setUserVisibleHint(false);
 
-
-        mCurTransaction.add(container.getId(), fragment,
-                makeFragmentName(container.getId(), position));
-        fragment.setUserVisibleHint(false);
-
-        return fragment;
+        return null;
     }
 
 
