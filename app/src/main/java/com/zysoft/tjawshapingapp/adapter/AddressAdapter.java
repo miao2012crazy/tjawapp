@@ -24,6 +24,7 @@ public class AddressAdapter extends BaseQuickAdapter<AddressBean,BaseViewHolder>
         helper.setText(R.id.tv_recvName,item.getRecvName())
         .setText(R.id.tv_detail_addr,item.getDetailAddr())
         .setText(R.id.tv_recv_tel,item.getRecvTel())
-        .setChecked(R.id.cb_check,item.getIsDefault()==1);
+        .setChecked(R.id.cb_check,item.getIsDefault()==1)
+        .addOnClickListener(R.id.tv_update).addOnClickListener(R.id.tv_delete).addOnClickListener(R.id.cb_check);
     }
 }

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.zysoft.tjawshapingapp.R;
@@ -64,6 +65,48 @@ public class AddressManageActivity extends CustomBaseActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.recyclerList.recyclerList.setLayoutManager(linearLayoutManager);
         binding.recyclerList.recyclerList.setAdapter(addressAdapter);
+        addressAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            AddressBean addressBean = mainList.get(position);
+
+            switch (view.getId()){
+                case R.id.tv_update:
+
+                    bundle.clear();
+                    bundle.putSerializable("ADDRESS_BEAN", addressBean);
+                    startActivituCom(AddressManageActivity.this, AddAddressActivity.class, bundle);
+                    break;
+                case R.id.tv_delete:
+                    new QMUIDialog.MessageDialogBuilder(this)
+                            .setMessage("确定删除地址？")
+                            .addAction("取消", new QMUIDialogAction.ActionListener() {
+                                @Override
+                                public void onClick(QMUIDialog dialog, int index) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .addAction("确定", new QMUIDialogAction.ActionListener() {
+                                @Override
+                                public void onClick(QMUIDialog dialog, int index) {
+                                    map.clear();
+                                    map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+                                    map.put("addressId", addressBean.getId());
+                                    map.put("type", "2");
+                                    NetModel.getInstance().getDataFromNet("DELETE_ADDR_SUCCESS", HttpUrls.ADD_ADDR, map);
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                    break;
+                case R.id.cb_check:
+                    map.clear();
+                    map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+                    map.put("isDefault", addressBean.getIsDefault() == 0 ? "1" : "0");
+                    map.put("type", "1");
+                    map.put("addressId", addressBean.getId());
+                    NetModel.getInstance().getDataFromNet("SET_DEFAULT_SUCCESS", HttpUrls.ADD_ADDR, map);
+                    break;
+            }
+        });
     }
 
 
@@ -77,45 +120,45 @@ public class AddressManageActivity extends CustomBaseActivity {
                 mainList.addAll(addressBeans);
                 addressAdapter.notifyDataSetChanged();
                 break;
-            case "UPDATE_ADDR":
-                AddressBean addressBean = (AddressBean) netResponse.getData();
-                bundle.clear();
-                bundle.putSerializable("ADDRESS_BEAN", addressBean);
-                startActivituCom(AddressManageActivity.this, AddAddressActivity.class, bundle);
-                break;
-
-            case "DELETE_ADDR":
-                AddressBean addressBean1 = (AddressBean) netResponse.getData();
-                new QMUIDialog.MessageDialogBuilder(this)
-                        .setMessage("确定删除地址？")
-                        .addAction("取消", new QMUIDialogAction.ActionListener() {
-                            @Override
-                            public void onClick(QMUIDialog dialog, int index) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .addAction("确定", new QMUIDialogAction.ActionListener() {
-                            @Override
-                            public void onClick(QMUIDialog dialog, int index) {
-                                map.clear();
-                                map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
-                                map.put("addressId", addressBean1.getId());
-                                map.put("type", "2");
-                                NetModel.getInstance().getDataFromNet("DELETE_ADDR_SUCCESS", HttpUrls.ADD_ADDR, map);
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
-                break;
-            case "SET_DEFAULT":
-                AddressBean addressBean2 = (AddressBean) netResponse.getData();
-                map.clear();
-                map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
-                map.put("isDefault", addressBean2.getIsDefault() == 0 ? "1" : "0");
-                map.put("type", "1");
-                map.put("addressId", addressBean2.getId());
-                NetModel.getInstance().getDataFromNet("SET_DEFAULT_SUCCESS", HttpUrls.ADD_ADDR, map);
-                break;
+//            case "UPDATE_ADDR":
+//                AddressBean addressBean = (AddressBean) netResponse.getData();
+//                bundle.clear();
+//                bundle.putSerializable("ADDRESS_BEAN", addressBean);
+//                startActivituCom(AddressManageActivity.this, AddAddressActivity.class, bundle);
+//                break;
+//
+//            case "DELETE_ADDR":
+//                AddressBean addressBean1 = (AddressBean) netResponse.getData();
+//                new QMUIDialog.MessageDialogBuilder(this)
+//                        .setMessage("确定删除地址？")
+//                        .addAction("取消", new QMUIDialogAction.ActionListener() {
+//                            @Override
+//                            public void onClick(QMUIDialog dialog, int index) {
+//                                dialog.dismiss();
+//                            }
+//                        })
+//                        .addAction("确定", new QMUIDialogAction.ActionListener() {
+//                            @Override
+//                            public void onClick(QMUIDialog dialog, int index) {
+//                                map.clear();
+//                                map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+//                                map.put("addressId", addressBean1.getId());
+//                                map.put("type", "2");
+//                                NetModel.getInstance().getDataFromNet("DELETE_ADDR_SUCCESS", HttpUrls.ADD_ADDR, map);
+//                                dialog.dismiss();
+//                            }
+//                        })
+//                        .show();
+//                break;
+//            case "SET_DEFAULT":
+//                AddressBean addressBean2 = (AddressBean) netResponse.getData();
+//                map.clear();
+//                map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+//                map.put("isDefault", addressBean2.getIsDefault() == 0 ? "1" : "0");
+//                map.put("type", "1");
+//                map.put("addressId", addressBean2.getId());
+//                NetModel.getInstance().getDataFromNet("SET_DEFAULT_SUCCESS", HttpUrls.ADD_ADDR, map);
+//                break;
             case "DELETE_ADDR_SUCCESS":
                 NetModel.getInstance().getDataFromNet("ADDRESS", HttpUrls.GET_ADDRESS, map);
 

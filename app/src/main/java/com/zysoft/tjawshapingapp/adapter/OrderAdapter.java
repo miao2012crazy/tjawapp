@@ -28,7 +28,8 @@ public class OrderAdapter extends BaseQuickAdapter<OrderBean,BaseViewHolder>{
         helper.setText(R.id.tv_project_name,item.getProjectName())
                 .setText(R.id.tv_count,String.valueOf(item.getProjectNum()))
                 .setText(R.id.tv_time,item.getExpectTime())
-                .setText(R.id.tv_conpoun,"¥"+item.getOrderPayPrice());
+                .setText(R.id.tv_conpoun,"¥"+item.getOrderPayPrice())
+        .addOnClickListener(R.id.btn_cancel);
         ImageView view = helper.getView(R.id.iv_icon);
         if (!item.getProjectIcon().equals(view.getTag())){
             view.setTag(null);

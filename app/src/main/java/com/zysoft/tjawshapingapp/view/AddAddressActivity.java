@@ -42,42 +42,39 @@ public class AddAddressActivity extends CustomBaseActivity {
         ViewDataBinding viewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_addr);
         binding = (ActivityAddAddrBinding) viewDataBinding;
         EventBus.getDefault().register(this);
-        binding.btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String etRecvName = binding.etRecvName.getText().toString();
-                String etRecvTel = binding.etRecvTel.getText().toString();
-                String etAddrA = binding.etAddrA.getText().toString();
-                String etAddrB = binding.etAddrB.getText().toString();
-                if (TextUtils.isEmpty(etRecvName)) {
-                    builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL).setTipWord("请输入收货人姓名").create().show();
-                }
-                if (TextUtils.isEmpty(etRecvTel)) {
-                    builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL).setTipWord("请输入收货人电话").create().show();
-                }
-                if (TextUtils.isEmpty(etAddrA)) {
-                    builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL).setTipWord("请输入所在区域").create().show();
-                }
-                if (TextUtils.isEmpty(etAddrB)) {
-                    builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL).setTipWord("请输入详细地址").create().show();
-                }
-                map.clear();
-
-                map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
-                map.put("recvName", etRecvName);
-                map.put("recvTel", etRecvTel);
-                map.put("addressClassA", etAddrA);
-                map.put("addressClassB", etAddrB);
-                map.put("isDefault", "0");
-                map.put("detailAddr", etAddrA + etAddrB);
-                map.put("type", "0");
-                if (address_bean!=null){
-                    map.put("addressId", address_bean.getId());
-                    map.put("type", "1");
-                }
-                NetModel.getInstance().getDataFromNet("ADD_ADDR", HttpUrls.ADD_ADDR, map);
-
+        binding.btnAdd.setOnClickListener(v -> {
+            String etRecvName = binding.etRecvName.getText().toString();
+            String etRecvTel = binding.etRecvTel.getText().toString();
+            String etAddrA = binding.etAddrA.getText().toString();
+            String etAddrB = binding.etAddrB.getText().toString();
+            if (TextUtils.isEmpty(etRecvName)) {
+                builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL).setTipWord("请输入收货人姓名").create().show();
             }
+            if (TextUtils.isEmpty(etRecvTel)) {
+                builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL).setTipWord("请输入收货人电话").create().show();
+            }
+            if (TextUtils.isEmpty(etAddrA)) {
+                builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL).setTipWord("请输入所在区域").create().show();
+            }
+            if (TextUtils.isEmpty(etAddrB)) {
+                builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL).setTipWord("请输入详细地址").create().show();
+            }
+            map.clear();
+
+            map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+            map.put("recvName", etRecvName);
+            map.put("recvTel", etRecvTel);
+            map.put("addressClassA", etAddrA);
+            map.put("addressClassB", etAddrB);
+            map.put("isDefault", "0");
+            map.put("detailAddr", etAddrA + etAddrB);
+            map.put("type", "0");
+            if (address_bean!=null){
+                map.put("addressId", address_bean.getId());
+                map.put("type", "1");
+            }
+            NetModel.getInstance().getDataFromNet("ADD_ADDR", HttpUrls.ADD_ADDR, map);
+
         });
 
         binding.title.qmTopBar.setTitle("新增地址");

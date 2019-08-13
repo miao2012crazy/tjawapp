@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="125dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/shape_center_bg"
         android:orientation="vertical">
@@ -33,7 +33,7 @@
                 android:minWidth="46dp"
                 android:text="@{item.recvName}"
                 android:textColor="#222222"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_recv_tel"
@@ -43,7 +43,7 @@
                 android:minWidth="46dp"
                 android:text="@{item.recvTel}"
                 android:textColor="#222222"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
 
 
         </LinearLayout>
@@ -57,20 +57,20 @@
             android:minWidth="46dp"
             android:text="@{item.detailAddr}"
             android:textColor="#222222"
-            android:textSize="16sp" />
+            android:textSize="10sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:textColor="#eeeeee"
             android:textSize="16sp" />
 
         <LinearLayout
+            android:padding="5dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_weight="1"
             android:orientation="horizontal">
 
             <CheckBox

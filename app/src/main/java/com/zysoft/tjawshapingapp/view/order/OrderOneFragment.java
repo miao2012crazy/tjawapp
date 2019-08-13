@@ -1,5 +1,6 @@
 package com.zysoft.tjawshapingapp.view.order;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.FragmentOrderBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
+import com.zysoft.tjawshapingapp.view.ProjectDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -75,12 +77,25 @@ public class OrderOneFragment extends BaseLazyFragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
         bind.recyclerListOrder.recyclerList.setLayoutManager(linearLayoutManager);
         bind.recyclerListOrder.recyclerList.setAdapter(orderAdapter);
-        orderAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                UIUtils.showToast(mainList.get(position).getOrderId());
+        orderAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("ORDER_ID", String.valueOf(mainList.get(position).getOrderId()));
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
+        orderAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()){
+                case R.id.btn_cancel:
+                    //取消订单
+                    map.clear();
+                    map.put("orderId", mainList.get(position).getOrderId());
+                    NetModel.getInstance().getDataFromNet("CANCEL_ORDER", HttpUrls.CANCEL_ORDER, map);
+                    break;
             }
         });
+
+
 
     }
 
@@ -91,7 +106,16 @@ public class OrderOneFragment extends BaseLazyFragment {
             mainList.clear();
             mainList.addAll(orderBeans);
             orderAdapter.notifyDataSetChanged();
+            return;
         }
+        switch (netResponse.getTag()){
+            case "CANCEL_ORDER":
+                UIUtils.showToast(String.valueOf(netResponse.getData()));
+//                orderAdapter.notifyDataSetChanged();
+                break;
+        }
+
+
 
     }
 

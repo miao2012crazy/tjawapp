@@ -82,6 +82,7 @@
         <activity android:name=".view.AddressManageActivity" />
         <activity android:name=".view.RealStateActivity" />
         <activity android:name=".view.UserWalletActivity" />
+        <activity android:name=".view.order.OrderDetailActivity" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true" />

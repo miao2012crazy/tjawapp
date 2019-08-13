@@ -28,6 +28,7 @@ public class HttpUrls {
     public static String WXLOGIN="getWXLoginInfo";
     public static String GET_ADDRESS="getAddress";
     public static String ADD_ADDR="addressManage";
+    public static String CANCEL_ORDER="cancelOrder";
 
     public static String getBaseUrl() {
         if (AppConstant.isDebug) {

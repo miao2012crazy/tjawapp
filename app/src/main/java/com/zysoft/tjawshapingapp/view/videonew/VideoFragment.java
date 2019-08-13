@@ -1,10 +1,8 @@
 package com.zysoft.tjawshapingapp.view.videonew;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.OrientationHelper;
 import android.util.Log;
@@ -15,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
-import com.dingmouren.layoutmanagergroup.viewpager.*;
+import com.dingmouren.layoutmanagergroup.viewpager.ViewPagerLayoutManager;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.VideoAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
@@ -73,6 +71,7 @@ public class VideoFragment extends CustomBaseFragment {
         mLayoutManager.setOnViewPagerListener(new com.dingmouren.layoutmanagergroup.viewpager.OnViewPagerListener() {
             @Override
             public void onInitComplete() {
+                Log.e(TAG,"初始化完成");
 
             }
 
@@ -91,11 +90,6 @@ public class VideoFragment extends CustomBaseFragment {
             @Override
             public void onPageSelected(int position,boolean isBottom) {
                 Log.e(TAG,"选中位置:"+position+"  是否是滑动到底部:"+isBottom);
-                playVideo(0);
-            }
-
-
-            public void onLayoutComplete() {
                 playVideo(0);
             }
 
