@@ -56,6 +56,7 @@ public class TwoFragment extends BaseLazyFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         customMsgListAdapter = new CustomMsgListAdapter(conversationList);
+        customMsgListAdapter.openLoadAnimation();
         EventBus.getDefault().register(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
         binding.recyclerMsgList.recyclerList.setLayoutManager(linearLayoutManager);

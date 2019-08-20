@@ -100,8 +100,8 @@ public class OptionFragment extends BaseLazyFragment {
         mainList.addAll(projectList);
         projectAdapter.notifyDataSetChanged();
 
-        bind.recyclerListOrder.smartRefresh.setEnableAutoLoadMore(false);
-        bind.recyclerListOrder.smartRefresh.setEnableRefresh(false);
+//        bind.recyclerListOrder.smartRefresh.setEnableAutoLoadMore(false);
+//        bind.recyclerListOrder.smartRefresh.setEnableRefresh(false);
     }
 
 

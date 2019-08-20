@@ -29,12 +29,16 @@ import com.zysoft.tjawshapingapp.databinding.FragmentCenterBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
 import com.zysoft.tjawshapingapp.view.order.OrderActivity;
+import com.zysoft.tjawshapingapp.view.webView.WebViewActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.jpush.im.android.api.model.Conversation;
+import cn.jpush.im.android.api.model.UserInfo;
 
 /**
  * Created by mr.miao on 2019/5/21.
@@ -71,6 +75,26 @@ public class UserCenterFragment extends CustomBaseFragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),4);
         binding.recyclerListCenter1.setLayoutManager(gridLayoutManager);
         binding.recyclerListCenter1.setAdapter(centerAdapter);
+
+        centerAdapter.setOnItemClickListener((adapter, view13, position) -> {
+            CenterToolBean centerToolBean = mainList.get(position);
+
+            switch (centerToolBean.getId()){
+                case 1:
+                    Intent intent = new Intent(getActivity(), NoticeActivity.class);
+                    startActivity(intent);
+                    break;
+                case 2:
+                    Intent intent1 = new Intent(getActivity(), OrderActivity.class);
+                    startActivity(intent1);
+                    break;
+                case 3:
+                    Intent intent2 = new Intent(getActivity(), UserWalletActivity.class);
+                    startActivity(intent2);
+                    break;
+            }
+        });
+
 
         mainList2.clear();
         mainList2.add(new CenterToolBean(CenterToolBean.center_1, "已预约", R.mipmap.ic_yyy, 5));
@@ -137,9 +161,31 @@ public class UserCenterFragment extends CustomBaseFragment {
                     Intent intent5 = new Intent(getActivity(), UserWalletActivity.class);
                     startActivity(intent5);
                     break;
+                case 14:
+                    Conversation conversation =  Conversation.createSingleConversation("miao2012crazy@163.com");
+                    conversation.resetUnreadCount();
+                    Intent intent6 = new Intent(getActivity(), IMDetailActivity.class);
+                    bundle.clear();
+                    UserInfo targetInfo = (UserInfo) conversation.getTargetInfo();
+                    bundle.putString("recvUserName", targetInfo.getUserName());
+                    bundle.putString("recvNickName", targetInfo.getNickname());
+                    bundle.putString("recvUserAppkey", targetInfo.getAppKey());
+                    intent6.putExtras(bundle);
+                    startActivity(intent6);
+
+                    break;
+                case 12:
+
+                    break;
             }
         });
-
+        binding.rlApplyDl.setOnClickListener(v -> {
+            Intent intent1 = new Intent(getActivity(), WebViewActivity.class);
+            bundle.putString("title", "代理");
+            bundle.putString("url", "http://www.jd.com");
+            intent1.putExtras(bundle);
+            startActivity(intent1);
+        });
     }
 
     private void initUserInfo(UserInfoBean userInfoBean) {

@@ -175,6 +175,7 @@
                             android:overScrollMode="never" />
                     </RelativeLayout>
                     <RelativeLayout
+                        android:id="@+id/rl_apply_dl"
                         android:background="#f4f3f8"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">

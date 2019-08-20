@@ -63,6 +63,8 @@ public class HomeFragment extends CustomBaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
         bind = (FragmentHomeBinding) binding;
+        QMUIStatusBarHelper.translucent(getActivity());
+        QMUIStatusBarHelper.setStatusBarLightMode(getActivity());
         return binding.getRoot();
     }
 
@@ -71,11 +73,10 @@ public class HomeFragment extends CustomBaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
-        QMUIStatusBarHelper.translucent(getActivity());
-        QMUIStatusBarHelper.setStatusBarLightMode(getActivity());
+//        QMUIStatusBarHelper.translucent(getActivity());
+//        QMUIStatusBarHelper.setStatusBarLightMode(getActivity());
         initOptionTab();
 
-        NetModel.getInstance().getAllData("HOME_DATA", HttpUrls.GET_HOME_DATA, map);
         bind.ivRecomment1.setOnClickListener(v -> {
             if (homeDataBean!=null){
                 List<HomeDataBean.RecommendBean> recommend = homeDataBean.getRecommend();
@@ -100,6 +101,8 @@ public class HomeFragment extends CustomBaseFragment {
                 }
             }
         });
+        NetModel.getInstance().getAllData("HOME_DATA", HttpUrls.GET_HOME_DATA, map);
+
     }
 
     private void initOptionTab() {
@@ -107,6 +110,7 @@ public class HomeFragment extends CustomBaseFragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(UIUtils.getContext(), 5);
         bind.recyclerTabs.setLayoutManager(gridLayoutManager);
         bind.recyclerTabs.setAdapter(optionTabAdapter);
+        optionTabAdapter.openLoadAnimation();
         optionTabAdapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(getActivity(), OptionActvity.class);
             bundle.clear();
@@ -136,6 +140,7 @@ public class HomeFragment extends CustomBaseFragment {
     }
 
     private void initTablayout(List<HomeDataBean.OptionBean> option) {
+        bind.tablayout.removeAllTabs();
         for (HomeDataBean.OptionBean item : option) {
             bind.tablayout.addTab(bind.tablayout.newTab().setText(item.getOptionName()));
             OptionFragment optionFragment = new OptionFragment();
@@ -232,7 +237,6 @@ public class HomeFragment extends CustomBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        CustomApplaction.getmLocationClient().startLocation();
 
     }
 }

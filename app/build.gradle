@@ -102,7 +102,7 @@ dependencies {
 
     implementation'org.greenrobot:greendao:3.0.1'
     implementation'org.greenrobot:greendao-generator:3.0.0'
-    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.1.9'
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
 // glide 依赖
 //    compile 'com.github.bumptech.glide:glide:4.6.1'
 //    glide 相关注解，生成GlideApp代码
@@ -114,6 +114,9 @@ dependencies {
 //    implementation 'com.github.dueeeke.dkplayer:dkplayer-x86:2.5.3'
 
     implementation 'com.github.DingMouRen:LayoutManagerGroup:1e6f4f96eb'
+    //webview 框架
+    implementation 'com.just.agentweb:agentweb:4.1.2' // (必选)
+
 
 
 }

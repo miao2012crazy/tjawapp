@@ -53,7 +53,7 @@ public class MainActivity extends CustomBaseActivity {
         binding = (ActivityMainBinding) this.bind;
         EventBus.getDefault().register(this);
         String login = (String) SPUtils.getParam(UIUtils.getContext(), "USER_INFO", "");
-        if (login.equals("")) {
+        if (TextUtils.isEmpty(login)) {
             startActivityBase(LoginActivity.class);
         } else {
             AppConstant.USER_INFO_BEAN = GsonUtil.GsonToBean(login, UserInfoBean.class);
@@ -64,6 +64,20 @@ public class MainActivity extends CustomBaseActivity {
         String registrationID = JPushInterface.getRegistrationID(this);
         LogUtils.e(registrationID);
         //
+
+    }
+
+    private void regeditUserIM() {
+        JMessageClient.register(AppConstant.USER_INFO_BEAN.getUserTel(), "666666", new BasicCallback() {
+            @Override
+            public void gotResult(int i, String s) {
+                    if (i==0){
+                        LogUtils.e("注册成功！"+s);
+                    }else {
+                        LogUtils.e("注册失败！"+s);
+                    }
+            }
+        });
 
     }
 
@@ -83,9 +97,10 @@ public class MainActivity extends CustomBaseActivity {
     }
 
     private void login() {
-        JMessageClient.login(AppConstant.USER_INFO_BEAN.getUserTel(), "123456", new BasicCallback() {
+        JMessageClient.login(AppConstant.USER_INFO_BEAN.getUserTel(), "666666", new BasicCallback() {
             @Override
             public void gotResult(int i, String s) {
+                LogUtils.e(i+":::::"+s);
                 if (i == 0) {
                     UserInfo myInfo = JMessageClient.getMyInfo();
                     myInfo.setNickname(AppConstant.USER_INFO_BEAN.getUserNickName());
@@ -110,13 +125,12 @@ public class MainActivity extends CustomBaseActivity {
                 }
 
             }
+
         });
 
         //绑定bindJPushClientID
         map.put("clientId", JPushInterface.getRegistrationID(this));
         NetModel.getInstance().getDataFromNet("bindJPushClientID", HttpUrls.bindJPushClientID, map);
-
-
     }
 
 

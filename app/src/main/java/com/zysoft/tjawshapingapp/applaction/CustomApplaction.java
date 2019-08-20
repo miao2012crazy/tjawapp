@@ -53,7 +53,7 @@ public class CustomApplaction extends MultiDexApplication{
         JPushInterface.init(this);
         JAnalyticsInterface.init(this);
         JAnalyticsInterface.setDebugMode(true);
-        JMessageClient.init(this);
+//        JMessageClient.init(this);
         JMessageClient.init(this, true);
         JMessageClient.registerEventReceiver(this);
         initDatabass();

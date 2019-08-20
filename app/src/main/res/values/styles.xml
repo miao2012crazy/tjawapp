@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="QMUI.Compat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -9,13 +9,6 @@
     </style>
 
 
-    <!-- Base application theme. -->
-    <style name="CustomAppTheme" parent="QMUI.Compat.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
 
     <style name="DialogTheme" parent="@android:style/Theme.Dialog">
         <!-- 边框 -->
@@ -45,6 +38,7 @@
     </style>
 
     <!--默认样式 注意* 样式只可修改，不能删除任何一项 否则报错-->
+    <!--默认样式 注意* 样式只可修改，不能删除任何一项 否则报错-->
     <style name="picture.default.style" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <!--标题栏背景色-->
@@ -64,7 +58,7 @@
         <!--标题栏右边文字-->
         <item name="picture.right.textColor">@color/white</item>
         <!--图片列表勾选样式-->
-        <!--<item name="picture.checked.style">@drawable/checkbox_selector</item>-->
+        <item name="picture.checked.style">@drawable/checkbox_selector</item>
         <!--开启图片列表勾选数字模式-->
         <item name="picture.style.checkNumMode">false</item>
         <!--选择图片样式0/9-->
@@ -85,12 +79,10 @@
         <item name="picture.ac_preview.title.bg">@color/bar_grey</item>
         <!--预览界面底部背景色-->
         <item name="picture.ac_preview.bottom.bg">@color/bar_grey_90</item>
-        <!--预览界面状态栏颜色-->
-        <item name="picture.status.color">@color/bar_grey_90</item>
         <!--预览界面返回箭头-->
         <item name="picture.preview.leftBack.icon">@drawable/picture_back</item>
-        <!--是否改变预览界面状态栏字体颜色为黑色-->
-        <item name="picture.preview.statusFontColor">false</item>
+        <!--&lt;!&ndash;是否改变预览界面状态栏字体颜色为黑色&ndash;&gt;-->
+        <!--<item name="picture.preview.statusFontColor">false</item>-->
         <!--裁剪页面标题背景色-->
         <item name="picture.crop.toolbar.bg">@color/bar_grey</item>
         <!--裁剪页面状态栏颜色-->
@@ -100,5 +92,6 @@
         <!--相册文件夹列表选中图标-->
         <item name="picture.folder_checked_dot">@drawable/orange_oval</item>
     </style>
+
 
 </resources>

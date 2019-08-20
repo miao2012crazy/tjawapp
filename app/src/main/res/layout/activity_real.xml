@@ -1,145 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.zysoft.tjawshapingapp.bean.RealBean" />
+
+        <variable
+            name="handler"
+            type="com.zysoft.tjawshapingapp.handler.CustomHandlerEvent" />
+
+        <import type="android.view.View" />
+    </data>
+
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:clipToPadding="true"
         android:background="#fff"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
         android:orientation="vertical">
-
-       <include
+        <include
             android:id="@+id/title"
             layout="@layout/layout_title_bar" />
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="28dp"
-            android:text="基本个人信息"
-            android:textColor="#7c7c7c"
-            android:textSize="14sp" />
-
-
-        <EditText
-            android:id="@+id/et_recv_name"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/shape_coupons"
-            android:drawableLeft="@mipmap/dzshr"
-            android:drawablePadding="10dp"
-            android:hint="请输入真实姓名"
-            android:paddingLeft="15dp"
-            android:textColor="#7c7c7c"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/et_recv_num"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/shape_coupons"
-            android:drawableLeft="@mipmap/dzshr"
-            android:drawablePadding="10dp"
-            android:hint="请输入身份证号"
-            android:inputType="number"
-            android:paddingLeft="15dp"
-            android:textColor="#7c7c7c"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="28dp"
-            android:text="上传证件照片"
-            android:textColor="#7c7c7c"
-            android:textSize="14sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="16dp"
-            android:orientation="horizontal">
-
+            android:layout_height="match_parent">
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/iv_front"
-                    android:layout_width="match_parent"
-                    android:layout_height="112dp"
-                    android:background="@mipmap/ic_real_front" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="上传证件正面照"
-                    android:textColor="#000000"
-                    android:textSize="13dp" />
-            </LinearLayout>
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="28dp"
+                    android:text="基本个人信息"
+                    android:textColor="#7c7c7c"
+                    android:textSize="14sp" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/iv_bg"
+                <EditText
+
+                    android:id="@+id/et_recv_name"
                     android:layout_width="match_parent"
-                    android:layout_height="112dp"
-                    android:background="@mipmap/ic_real_front" />
+                    android:layout_height="44dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/shape_coupons"
+                    android:drawableLeft="@mipmap/dzshr"
+                    android:drawablePadding="10dp"
+                    android:hint="请输入真实姓名"
+                    android:paddingLeft="15dp"
+                    android:text="@{item.userReal.userRealName}"
+                    android:textColor="#7c7c7c"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/et_recv_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/shape_coupons"
+                    android:drawableLeft="@mipmap/dzshr"
+                    android:drawablePadding="10dp"
+                    android:hint="请输入身份证号"
+                    android:inputType="number"
+                    android:paddingLeft="15dp"
+                    android:text="@{item.userReal.userRealNum}"
+                    android:textColor="#7c7c7c"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="28dp"
+                    android:text="上传证件照片"
+                    android:textColor="#7c7c7c"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_margin="16dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_front"
+                            android:layout_width="match_parent"
+                            android:layout_height="112dp"
+                            android:background="@mipmap/ic_real_front"
+                            app:imageUrl="@{item.userReal.userRealImgFront}" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:text="上传证件正面照"
+                            android:textColor="#000000"
+                            android:textSize="13dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="112dp"
+                            android:background="@mipmap/ic_real_front"
+                            app:imageUrl="@{item.userReal.userRealImgBg}" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:text="上传证件背面照"
+                            android:textColor="#000000"
+                            android:textSize="13dp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btn_commit"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/shape_btn_commit"
+                    android:text="提交"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
                     android:gravity="center"
-                    android:text="上传证件背面照"
-                    android:textColor="#000000"
-                    android:textSize="13dp" />
+                    android:text="温馨提示：请务必把证件上的信息拍照清晰"
+                    android:textColor="#999"
+                    android:textSize="14sp" />
             </LinearLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:visibility="@{item.state!=2?View.GONE:View.VISIBLE}">
 
-        </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-        <Button
-            android:id="@+id/btn_commit"
-            android:text="提交"
-            android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:background="@drawable/shape_btn_commit"
-            android:layout_margin="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="44dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="温馨提示：请务必把证件上的信息拍照清晰"
-            android:gravity="center"
-            android:layout_marginBottom="20dp"
-            android:textColor="#999"
-            android:textSize="14sp" />
+                <TextView
+                    android:paddingBottom="?attr/qmui_topbar_height"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/real_tip"
+                    android:textColor="#000" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
     </LinearLayout>
+
 
 </layout>

@@ -7,6 +7,9 @@ import java.io.Serializable;
  */
 
 public class ProjectVideoBean implements Serializable {
+
+
+
     private int id;
     private int projectId;
     private int stateUsable;
@@ -14,7 +17,15 @@ public class ProjectVideoBean implements Serializable {
     private String videoDesc;
     private String videoPath;
     private String regDate;
+    private String videoImg;
 
+    public String getVideoImg() {
+        return videoImg;
+    }
+
+    public void setVideoImg(String videoImg) {
+        this.videoImg = videoImg;
+    }
 
     public int getId() {
         return id;

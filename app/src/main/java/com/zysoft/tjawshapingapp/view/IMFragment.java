@@ -41,6 +41,7 @@ public class IMFragment extends BaseLazyFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setAndroidNativeLightStatusBar(getActivity(),true);
+//        bind.tablayout.setPadding(0,10,0,0);
         initTab();
     }
 

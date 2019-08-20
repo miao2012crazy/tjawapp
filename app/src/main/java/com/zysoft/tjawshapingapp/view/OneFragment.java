@@ -46,6 +46,7 @@ public class OneFragment extends BaseLazyFragment {
         mainList.addAll(list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
         NoticeOneAdapter noticeOneAdapter = new NoticeOneAdapter(mainList);
+        noticeOneAdapter.openLoadAnimation();
         bind.recyclerListGg.recyclerList.setLayoutManager(linearLayoutManager);
         bind.recyclerListGg.recyclerList.setAdapter(noticeOneAdapter);
         noticeOneAdapter.setOnItemClickListener((adapter, view1, position) -> {

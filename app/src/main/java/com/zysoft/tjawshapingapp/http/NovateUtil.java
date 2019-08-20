@@ -62,7 +62,7 @@ public class NovateUtil {
                 .addCache(true)
                 .addCacheMaxSize(20)
                 .addCookie(true)
-                .connectTimeout(8)  //连接时间 可以忽略
+//                .connectTimeout(12)  //连接时间 可以忽略
                 .addLog(true)
                 .build();
         return novate;

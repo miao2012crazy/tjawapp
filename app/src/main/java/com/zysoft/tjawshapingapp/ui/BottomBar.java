@@ -300,19 +300,20 @@ public class BottomBar extends View {
         if (fragment != null) {
             FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
 //            transaction.replace(frameLayoutId, fragment);
-            if (fragment.isAdded()) {
-                if (currentFragment != null) {
-                    transaction.hide(currentFragment).show(fragment);
-                } else {
-                    transaction.show(fragment);
-                }
-            } else {
-                if (currentFragment != null) {
-                    transaction.hide(currentFragment).add(frameLayoutId, fragment);
-                } else {
-                    transaction.add(frameLayoutId, fragment);
-                }
-            }
+//            if (fragment.isAdded()) {
+//                if (currentFragment != null) {
+//                    transaction.hide(currentFragment).show(fragment);
+//                } else {
+//                    transaction.show(fragment);
+//                }
+//            } else {
+//                if (currentFragment != null) {
+//                    transaction.hide(currentFragment).add(frameLayoutId, fragment);
+//                } else {
+//                    transaction.add(frameLayoutId, fragment);
+//                }
+//            }
+            transaction.replace(frameLayoutId,fragment);
             currentFragment = fragment;
             transaction.commit();
             if (onCheckListener!=null){

@@ -8,6 +8,7 @@ import com.zysoft.tjawshapingapp.constants.AppConstant;
 
 public class HttpUrls {
 
+    public static final String GET_PROJECTOR_DERDETAIL = "getProjectOrderDetail";
     public static String LOGIN="login";
     public static String CHECK="checkMobile";
     public static String CHECK_CODE="checkCode";
@@ -29,6 +30,8 @@ public class HttpUrls {
     public static String GET_ADDRESS="getAddress";
     public static String ADD_ADDR="addressManage";
     public static String CANCEL_ORDER="cancelOrder";
+    public static final String GET_USER_WALLET="getUserWallet";
+    public static final String GET_REAL_STATE="getUserRealInfo";
 
     public static String getBaseUrl() {
         if (AppConstant.isDebug) {

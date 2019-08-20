@@ -1,5 +1,6 @@
 package com.zysoft.tjawshapingapp.view.videonew;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dingmouren.layoutmanagergroup.viewpager.ViewPagerLayoutManager;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.VideoAdapter;
@@ -24,12 +26,15 @@ import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.FragmentVideoNewBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
+import com.zysoft.tjawshapingapp.view.ProjectDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.jessyan.autosize.utils.LogUtils;
 
 
 /**
@@ -45,7 +50,8 @@ public class VideoFragment extends CustomBaseFragment {
     private VideoAdapter mAdapter;
     private ViewPagerLayoutManager mLayoutManager;
     private String TAG="video";
-
+    private VideoView videoView;
+    private boolean isPlaying=false;
 
     @Nullable
     @Override
@@ -60,19 +66,40 @@ public class VideoFragment extends CustomBaseFragment {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
         mLayoutManager = new ViewPagerLayoutManager(getActivity(), OrientationHelper.VERTICAL);
+
         mAdapter = new VideoAdapter(mDatas);
         bind.recyclerList.recyclerList.setLayoutManager(mLayoutManager);
         bind.recyclerList.recyclerList.setAdapter(mAdapter);
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.btn_project_detail:
+                        int projectId = mDatas.get(position).getProjectId();
+                        Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("PROJECT_ID", String.valueOf(projectId));
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
+
+
         initListener();
         NetModel.getInstance().getDataFromNet("GET_VIDEO", HttpUrls.GET_VIDEO, map);
     }
+
+
+
 
     private void initListener() {
         mLayoutManager.setOnViewPagerListener(new com.dingmouren.layoutmanagergroup.viewpager.OnViewPagerListener() {
             @Override
             public void onInitComplete() {
                 Log.e(TAG,"初始化完成");
-
+                playVideo(0);
             }
 
             @Override
@@ -99,7 +126,7 @@ public class VideoFragment extends CustomBaseFragment {
 
     private void playVideo(int position) {
         View itemView = bind.recyclerList.recyclerList.getChildAt(0);
-        final VideoView videoView = itemView.findViewById(R.id.video_view);
+        videoView = itemView.findViewById(R.id.video_view);
         final ImageView imgPlay = itemView.findViewById(R.id.img_play);
         final ImageView imgThumb = itemView.findViewById(R.id.img_thumb);
         final RelativeLayout rootView = itemView.findViewById(R.id.root_view);
@@ -115,30 +142,21 @@ public class VideoFragment extends CustomBaseFragment {
                 return false;
             }
         });
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                Log.e(TAG,"onPrepared");
-
-            }
-        });
+        videoView.setOnPreparedListener(mp -> Log.e(TAG,"onPrepared"));
 
 
-        imgPlay.setOnClickListener(new View.OnClickListener() {
-            boolean isPlaying = true;
-            @Override
-            public void onClick(View v) {
-                if (videoView.isPlaying()){
-                    Log.e(TAG,"isPlaying:"+videoView.isPlaying());
-                    imgPlay.animate().alpha(1f).start();
-                    videoView.pause();
-                    isPlaying = false;
-                }else {
-                    Log.e(TAG,"isPlaying:"+videoView.isPlaying());
-                    imgPlay.animate().alpha(0f).start();
-                    videoView.start();
-                    isPlaying = true;
-                }
+        imgPlay.setOnClickListener(v -> {
+            isPlaying = true;
+            if (videoView.isPlaying()){
+                Log.e(TAG,"isPlaying:"+ videoView.isPlaying());
+                imgPlay.animate().alpha(1f).start();
+                videoView.pause();
+                isPlaying = false;
+            }else {
+                Log.e(TAG,"isPlaying:"+ videoView.isPlaying());
+                imgPlay.animate().alpha(0f).start();
+                videoView.start();
+                isPlaying = true;
             }
         });
     }
@@ -162,6 +180,7 @@ public class VideoFragment extends CustomBaseFragment {
             case "GET_VIDEO":
                 String data = (String) netResponse.getData();
                 List<ProjectVideoBean> projectVideoBeans = GsonUtil.GsonToList(data, ProjectVideoBean.class);
+                mDatas.clear();
                 mDatas.addAll(projectVideoBeans);
 //                pagerAdapter.setUrlList(projectVideoBeans);
 //                pagerAdapter.notifyDataSetChanged();
@@ -173,10 +192,27 @@ public class VideoFragment extends CustomBaseFragment {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (videoView!=null){
+            videoView.start();
+        }
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (videoView!=null){
+            videoView.pause();
+        }
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
         EventBus.getDefault().unregister(this);
     }
 }

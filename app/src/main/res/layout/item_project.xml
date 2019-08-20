@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -22,6 +23,7 @@
 
 
         <ImageView
+            tools:src="@mipmap/sample_recommend_1"
             android:scaleType="fitXY"
             android:id="@+id/iv_project"
             android:layout_width="100dp"
@@ -41,12 +43,14 @@
 
             <TextView
                 android:id="@+id/tv_tag_name"
-                android:textColor="#000000"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="3"
                 android:text="@{String.valueOf(item.projectTag)+String.valueOf(item.projectName)}"
-                android:textSize="13sp" />
+                android:textColor="#000000"
+                android:textSize="13sp"
+                tools:text="123123123" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -54,6 +58,7 @@
                 android:layout_weight="1">
 
                 <TextView
+                    tools:text="123123"
                     android:id="@+id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -77,10 +82,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_toStartOf="@+id/textView2"
-                    android:text="已售"
+                    android:text="已售:"
                     android:textColor="#888"
                     android:textSize="12sp" />
                 <TextView
+                    tools:text="1.9w"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"

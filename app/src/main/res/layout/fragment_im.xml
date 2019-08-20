@@ -8,9 +8,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <android.support.design.widget.TabLayout
-            android:paddingTop="10dp"
             android:background="#fff"
-            android:layout_marginTop="8dp"
             app:tabMode="fixed"
             app:tabSelectedTextColor="#ff758c"
             app:tabTextColor="#000000"

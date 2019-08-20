@@ -296,7 +296,10 @@ public class IMDetailActivity extends CustomBaseActivity {
         final MyMessage myMessage = new MyMessage(msg, SEND_TEXT, IMessage.MessageStatus.SEND_SUCCEED);
         myMessage.setMessage(message1);
         myMessage.setTimeString(CommonUtil.ms2date("MM-dd HH:mm", message1.getCreateTime()));
-        myMessage.setUser(new DefaultUser(JMessageClient.getMyInfo().getUserName(), "DeadPool", Uri.fromFile(JMessageClient.getMyInfo().getAvatarFile()).toString()));
+
+        File avatarFile = JMessageClient.getMyInfo().getAvatarFile();
+//        Uri uri = Uri.fromFile(avatarFile);
+        myMessage.setUser(new DefaultUser(JMessageClient.getMyInfo().getUserName(), JMessageClient.getMyInfo().getNickname(), ""));
         //返回的结果
         message1.setOnSendCompleteCallback(new BasicCallback() {
             @Override
@@ -320,18 +323,24 @@ public class IMDetailActivity extends CustomBaseActivity {
             MyMessage myMessage = null;
             switch (status) {
                 case receive_success:
+                    LogUtils.e("miao接收：：" + msg);
                     myMessage = new MyMessage(((TextContent) msg.getContent()).getText(), RECEIVE_TEXT, IMessage.MessageStatus.RECEIVE_SUCCEED);
                     UserInfo targetInfo = (UserInfo) msg.getTargetInfo();
                     addMsg(myMessage, msg, targetInfo);
                     break;
                 case send_success:
+                    LogUtils.e("miao发送：：" + msg);
+
                     myMessage = new MyMessage(((TextContent) msg.getContent()).getText(), SEND_TEXT, IMessage.MessageStatus.SEND_SUCCEED);
                     addMsg(myMessage, msg, JMessageClient.getMyInfo());
+
                     break;
             }
         }
         adapter.notifyDataSetChanged();
     }
+
+
 
     private void addMsg(MyMessage myMessage, Message msg, UserInfo userInfo) {
         myMessage.setMessage(msg);
@@ -346,7 +355,6 @@ public class IMDetailActivity extends CustomBaseActivity {
         }
         myMessage.setUser(new DefaultUser(userInfo.getUserName(), userInfo.getNickname(), avatar));
         adapter.addToStart(myMessage, true);
-
     }
 
 

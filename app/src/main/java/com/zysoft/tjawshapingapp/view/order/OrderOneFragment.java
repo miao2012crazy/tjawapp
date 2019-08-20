@@ -76,7 +76,9 @@ public class OrderOneFragment extends BaseLazyFragment {
         orderAdapter = new OrderAdapter(mainList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
         bind.recyclerListOrder.recyclerList.setLayoutManager(linearLayoutManager);
+        orderAdapter.openLoadAnimation();
         bind.recyclerListOrder.recyclerList.setAdapter(orderAdapter);
+
         orderAdapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
             Bundle bundle = new Bundle();

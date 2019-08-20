@@ -1,135 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-
-    <LinearLayout
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="item"
+            type="com.zysoft.tjawshapingapp.bean.UserWalletBean.WalletBean"/>
+    </data>
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/ic_center_bg"
-        android:clipToPadding="true"
-        android:fitsSystemWindows="false"
-        android:orientation="vertical">
-
+        android:layout_height="match_parent">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="164dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="match_parent"
             android:background="@mipmap/ic_center_bg"
+            android:fitsSystemWindows="true"
             android:orientation="vertical">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="164dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
-                android:background="@mipmap/ic_center_bg"
-                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/qmui_topbar_height">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="钱包"
+                        android:textColor="#fff"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="10dp"
+                        android:src="@drawable/picture_back" />
+                </RelativeLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="32dp"
-                        android:drawablePadding="5dp"
-                        android:drawableRight="@mipmap/ic_right"
-                        android:gravity="center_vertical"
-                        android:text="可用余额"
-                        android:textColor="#fff"
-                        android:textSize="10sp" />
+                    <LinearLayout
+                        android:id="@+id/ll_balance"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:drawablePadding="5dp"
-                        android:gravity="center_vertical"
-                        android:paddingTop="10dp"
-                        android:text="129.81"
-                        android:textColor="#fff"
-                        android:textSize="30sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:drawablePadding="5dp"
+                            android:drawableRight="@mipmap/ic_right"
+                            android:gravity="center_vertical"
+                            android:text="可用余额"
+                            android:textColor="#fff"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:drawablePadding="5dp"
+                            android:gravity="center_vertical"
+                            android:paddingTop="10dp"
+                            android:text="@{String.valueOf(item.walletBalance)}"
+                            android:textColor="#fff"
+                            android:textSize="30sp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_integral"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:drawablePadding="5dp"
+                            android:drawableRight="@mipmap/ic_right"
+                            android:gravity="center_vertical"
+                            android:text="可用积分"
+                            android:textColor="#fff"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:drawablePadding="5dp"
+                            android:gravity="center_vertical"
+                            android:paddingTop="10dp"
+                            android:text="@{String.valueOf(item.integralBalance)}"
+                            android:textColor="#fff"
+                            android:textSize="30sp" />
+
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="32dp"
-                        android:drawablePadding="5dp"
-                        android:drawableRight="@mipmap/ic_right"
-                        android:gravity="center_vertical"
-                        android:text="可用积分"
-                        android:textColor="#fff"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:drawablePadding="5dp"
-                        android:gravity="center_vertical"
-                        android:paddingTop="10dp"
-                        android:text="129"
-                        android:textColor="#fff"
-                        android:textSize="30sp" />
-
-
-                </LinearLayout>
-
-
+                <Button
+                    android:id="@+id/btn_recharge"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_recharge"
+                    android:text="我要充值"
+                    android:textColor="#fff" />
             </LinearLayout>
-            <Button
-                android:layout_marginTop="8dp"
-                android:textColor="#fff"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/shape_recharge"
-                android:text="我要充值"
-                android:id="@+id/btn_recharge"
-                android:layout_width="150dp"
-                android:layout_height="40dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/shape_center_wallet"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:text="余额变动记录"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+
+                <!-- 引入list -->
+                <android.support.v7.widget.RecyclerView
+                    android:background="#f4f3f8"
+                    android:id="@+id/recycler_list_wallet"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="-10dp"
-            android:orientation="vertical"
-            android:background="@drawable/shape_center_bg"
-            android:descendantFocusability="blocksDescendants">
-            <TextView
-                android:textColor="#888888"
-                android:textSize="15sp"
-                android:layout_marginLeft="10dp"
-                android:gravity="bottom"
-                android:text="余额变动记录"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="32dp" />
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_list_center_order"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </layout>
