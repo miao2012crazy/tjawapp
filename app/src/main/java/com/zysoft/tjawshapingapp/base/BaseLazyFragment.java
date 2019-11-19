@@ -1,15 +1,21 @@
 package com.zysoft.tjawshapingapp.base;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.zysoft.tjawshapingapp.common.UIUtils;
+import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.handler.CustomHandlerEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 
@@ -19,14 +25,18 @@ import java.util.HashMap;
  * Date: 1/23/15.
  */
 public class BaseLazyFragment extends Fragment {
+    protected Bundle bundle=new Bundle();
     private static final String TAG = BaseLazyFragment.class.getSimpleName();
     private boolean isPrepared;
     protected HashMap<String, Object> map = new HashMap();
     protected CustomHandlerEvent handlerEvent =new CustomHandlerEvent(UIUtils.getContext());
+    private QMUITipDialog.Builder builder;
+    private QMUITipDialog qmuiTipDialog;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        builder = new QMUITipDialog.Builder(getActivity());
         initPrepare();
     }
 
@@ -140,4 +150,39 @@ public class BaseLazyFragment extends Fragment {
             decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
     }
+
+
+    protected void showTipe(int type, String tipStr) {
+        switch (type) {
+            case 0:
+                qmuiTipDialog = builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL).setTipWord(tipStr).create();
+                qmuiTipDialog.show();
+
+                break;
+            case 1:
+                qmuiTipDialog = builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS).setTipWord(tipStr).create();
+                qmuiTipDialog.show();
+                break;
+            case 2:
+                qmuiTipDialog = builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING).setTipWord(tipStr).create();
+                qmuiTipDialog.show();
+                break;
+
+        }
+        new Handler().postDelayed(() -> {
+            if (qmuiTipDialog.isShowing()) {
+                qmuiTipDialog.dismiss();
+                EventBus.getDefault().post(new NetResponse("TIP_DISMISS", ""));
+            }
+        }, 1500);
+
+
+    }
+
+    protected void startActivityBase(Class clazz,Bundle bundle1) {
+        Intent intent = new Intent(getActivity(), clazz);
+        intent.putExtras(bundle1);
+        startActivity(intent);
+    }
+
 }

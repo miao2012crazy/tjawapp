@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 
+import com.just.agentweb.LogUtils;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.zysoft.tjawshapingapp.applaction.CustomApplaction;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
@@ -47,6 +48,8 @@ public class LoginActivity extends CustomBaseActivity {
 
     private HashMap<String, Object> map = new HashMap<>();
     private int RC_CAMERA_AND_LOCATION = 99;
+    private boolean is_bind_tel = false;
+    private String openId="";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,7 +97,6 @@ public class LoginActivity extends CustomBaseActivity {
                 return;
             }
             AppConstant.USER_PHONE = trim;
-
             map.clear();
             map.put("userTel", trim);
             NetModel.getInstance().getDataFromNet("LOGIN_CHECK", HttpUrls.CHECK, map);
@@ -111,22 +113,31 @@ public class LoginActivity extends CustomBaseActivity {
                     RC_CAMERA_AND_LOCATION, perms);
         }
 
-        binding.btnWechat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SendAuth.Req req = new SendAuth.Req();
-                req.scope = "snsapi_userinfo";//
+        binding.btnWechat.setOnClickListener(v -> {
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";//
 //                req.scope = "snsapi_login";//提示 scope参数错误，或者没有scope权限
-                req.state = "wechat_sdk_微信登录";
-                CustomApplaction.getWXApi().sendReq(req);
-            }
+            req.state = "wechat_sdk_微信登录";
+            CustomApplaction.getWXApi().sendReq(req);
         });
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            is_bind_tel = extras.getBoolean("IS_BIND_TEL");
+            openId = extras.getString("openId");
+            binding.btnWechat.setVisibility(is_bind_tel ? View.GONE : View.VISIBLE);
+            binding.tvBindTel.setText(is_bind_tel ? "绑定手机" : "输入手机号码");
+        }
+
     }
 
     @Subscribe
     public void receive(NetResponse netResponse) {
         switch (netResponse.getTag()) {
             case "LOGIN_CHECK":
+                if (is_bind_tel) {
+                    showTipe(0, "此手机号已注册！");
+                    return;
+                }
                 //用户已存在 输入密码
                 startActivityBase(InputPsdActivity.class);
                 finish();
@@ -135,35 +146,36 @@ public class LoginActivity extends CustomBaseActivity {
             case AppConstant.STATE_USER_NOEXIT:
                 AppConstant.IS_REGEDIT = true;
                 AppConstant.MsgId = (String) netResponse.getData();
+                bundle.clear();
+                bundle.putString("openId", openId);
                 //用户不存在跳转到注册
-                startActivityBase(RegeditActivity.class);
+                startActivityBase(RegeditActivity.class,bundle);
                 finish();
                 break;
             case "WXLOGINCODE":
                 // code
                 WXBean data = (WXBean) netResponse.getData();
                 //上传code 换取用户信息
-                map.put("code",data.getCode());
-                NetModel.getInstance().getDataFromNet("WXDATA",HttpUrls.WXLOGIN,map);
+                map.put("code", data.getCode());
+                NetModel.getInstance().getDataFromNet("WXDATA", HttpUrls.WXLOGIN, map);
                 break;
             case "WXDATA":
                 String data1 = (String) netResponse.getData();
                 UserInfoBean userInfoBean = GsonUtil.GsonToBean(data1, UserInfoBean.class);
                 AppConstant.USER_INFO_BEAN = userInfoBean;
                 SPUtils.setParam(UIUtils.getContext(), "USER_INFO", data1);
-//                Intent intent = new Intent();
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivityBase(MainActivity.class);
-                EventBus.getDefault().post(new NetResponse("LOGIN_SUCCESS","登录成功！"));
+                EventBus.getDefault().post(new NetResponse("LOGIN_SUCCESS", "登录成功！"));
                 finish();
                 break;
             case AppConstant.STATE_BIND_TEL:
+                openId = (String) netResponse.getData();
                 //TODO 绑定手机号
-                startActivityBase(LoginActivity.class);
-
-
+                bundle.clear();
+                bundle.putBoolean("IS_BIND_TEL", true);
+                bundle.putString("openId", openId);
+                startActivityBase(LoginActivity.class, bundle);
+                finish();
                 break;
-
         }
     }
 

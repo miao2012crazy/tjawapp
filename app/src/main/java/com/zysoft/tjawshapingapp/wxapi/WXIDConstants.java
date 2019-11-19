@@ -5,6 +5,6 @@ package com.zysoft.tjawshapingapp.wxapi;
  */
 
 public class WXIDConstants {
-    public static String APP_ID="wx87d3cc6a3943c5a9";
-    public static String APP_SECRET="b95874726b9fa65afa18888c6aaab666";
+    public static String APP_ID="wx1f8eaa47e947330b";
+    public static String APP_SECRET="867404c2937e02ac78db976d50d1c26a";
 }

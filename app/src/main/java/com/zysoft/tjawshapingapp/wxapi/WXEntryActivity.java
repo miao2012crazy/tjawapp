@@ -119,6 +119,5 @@ public class WXEntryActivity extends CustomBaseActivity implements IWXAPIEventHa
                 finish();
                 break;
         }
-        UIUtils.showToast(result);
     }
 }

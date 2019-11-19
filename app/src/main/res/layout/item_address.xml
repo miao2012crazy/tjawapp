@@ -55,7 +55,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:minWidth="46dp"
-            android:text="@{item.detailAddr}"
+            android:text="@{item.addressDetail}"
             android:textColor="#222222"
             android:textSize="10sp" />
 

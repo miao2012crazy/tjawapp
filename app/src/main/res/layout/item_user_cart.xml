@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="10dp"
+    android:background="#fff"
+    app:cardCornerRadius="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+        <CheckBox
+            android:layout_marginLeft="9dp"
+            android:background="@drawable/selector_cb"
+            android:id="@+id/iv_item"
+            android:button="@null"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center" />
+
+        <ImageView
+            android:id="@+id/tv_prouct_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="9dp"
+            android:scaleType="fitXY" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_product_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingTop="8dp"
+                android:text="123"
+                android:textColor="#333"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/tv_product_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:gravity="center_vertical"
+                android:text="123"
+                android:textColor="#999"
+                android:textSize="13sp" />
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="#fff"-->
+<!--                android:gravity="top"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingTop="5dp">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_jf"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="17dp"-->
+<!--                    android:background="@drawable/shape_tag"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:paddingEnd="5dp"-->
+<!--                    android:paddingStart="5dp"-->
+<!--                    android:textColor="#0094de"-->
+<!--                    android:textSize="10sp"-->
+<!--                    tools:text="购买返123123积分" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_is_agent"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="17dp"-->
+<!--                    android:layout_marginLeft="10dp"-->
+<!--                    android:background="@drawable/shape_tag"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:paddingEnd="5dp"-->
+<!--                    android:paddingStart="5dp"-->
+<!--                    android:text="可升级为代理"-->
+<!--                    android:textColor="#0094de"-->
+<!--                    android:textSize="10sp"-->
+<!--                     />-->
+
+<!--            </LinearLayout>-->
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="bottom"
+                    android:text="1231312"
+                    android:textColor="#ff0000"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <com.zysoft.tjawshapingapp.ui.AmountView
+                    android:id="@+id/amount_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="right"
+                    app:btnTextSize="13sp"
+                    app:btnWidth="20dp"
+                    app:tvWidth="20dp" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>
+

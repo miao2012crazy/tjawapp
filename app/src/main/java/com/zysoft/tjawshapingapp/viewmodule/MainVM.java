@@ -6,6 +6,7 @@ import com.zysoft.tjawshapingapp.databinding.ActivityMainBinding;
 import com.zysoft.tjawshapingapp.ui.BottomBar;
 import com.zysoft.tjawshapingapp.view.HomeFragment;
 import com.zysoft.tjawshapingapp.view.IMFragment;
+import com.zysoft.tjawshapingapp.view.ShopFragment;
 import com.zysoft.tjawshapingapp.view.UserCenterFragment;
 import com.zysoft.tjawshapingapp.view.videonew.VideoFragment;
 
@@ -25,7 +26,7 @@ public class MainVM {
     }
 
     private void initBottom() {
-        mBind.bottomBar.setContainer(R.id.fl_container).setTitleBeforeAndAfterColor("#000000", "#ff758c")
+        mBind.bottomBar.setContainer(R.id.fl_container).setTitleBeforeAndAfterColor("#000000", "#0086c9")
                 .addItem(HomeFragment.class,
                         "首页",
                         R.mipmap.ic_home_default,
@@ -34,10 +35,10 @@ public class MainVM {
                         "视频",
                         R.mipmap.ic_video_default,
                         R.mipmap.ic_video_check)
-//                .addItem(HomeFragment.class,
-//                        "商城",
-//                        R.mipmap.ic_mall_default,
-//                        R.mipmap.ic_mall_check)
+                .addItem(ShopFragment.class,
+                        "商城",
+                        R.mipmap.ic_mall_default,
+                        R.mipmap.ic_mall_check)
                 .addItem(IMFragment.class,
                         "消息",
                         R.mipmap.ic_notice_default,

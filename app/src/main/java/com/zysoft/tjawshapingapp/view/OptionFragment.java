@@ -39,6 +39,7 @@ public class OptionFragment extends BaseLazyFragment {
 
     private List<HomeDataBean.ProjectListBean> mainList=new ArrayList<>();
     private ProjectAdapter projectAdapter;
+    private boolean isRefresh;
 
     @Nullable
     @Override
@@ -74,11 +75,21 @@ public class OptionFragment extends BaseLazyFragment {
             List<HomeDataBean.ProjectListBean> projectListBeans = GsonUtil.GsonToList((String) netResponse.getData(), HomeDataBean.ProjectListBean.class);
             initProject(projectListBeans);
         }
+        if (netResponse.getTag().equals("REFRESH")){
+            isRefresh =true;
+//            mainList.clear();
+//            map.put("option", type);
+//            map.put("pageIndex","0");
+//            NetModel.getInstance().getDataFromNet("OPTION_DATA"+type, HttpUrls.GET_OPTION_DATA,map);
+        }
+
     }
 
     private void initList() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
         projectAdapter = new ProjectAdapter(mainList);
+        projectAdapter.setEmptyView(UIUtils.inflate(R.layout.layout_no_data));
+        projectAdapter.openLoadAnimation();
         bind.recyclerListOrder.recyclerList.setLayoutManager(linearLayoutManager);
         bind.recyclerListOrder.recyclerList.setAdapter(projectAdapter);
         projectAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -96,7 +107,10 @@ public class OptionFragment extends BaseLazyFragment {
 
 
     private void initProject(List<HomeDataBean.ProjectListBean> projectList) {
-        mainList.clear();
+        if (isRefresh){
+            mainList.clear();
+            isRefresh=false;
+        }
         mainList.addAll(projectList);
         projectAdapter.notifyDataSetChanged();
 

@@ -1,10 +1,6 @@
 <resources>
-    <string name="app_name">TJawShapingApp</string>
+    <string name="app_name">爱薇国际</string>
     <string name="regedit_tip">保持两次输入一致哦\n密码长度6-12位</string>
-
-
-
-
 
     <string name="input_hint">Send message</string>
     <string name="message_click_hint">Message click event</string>
@@ -15,7 +11,9 @@
     <string name="rationale_record_voice">This app needs access microphone to record voice.</string>
     <string name="rationale_photo">This app needs access photos.</string>
     <string name="rationale_camera">This app needs access camera.</string>
-    <string name="real_tip" >您的信息已提交成功！\n我们将在三个工作日内对您提交的信息完成审核，\n请您耐心等待。</string>
+    <string name="real_tip" >我们将在三个工作日内对您提交的信息完成审核，\n请您耐心等待。</string>
+    <string name="address">网址：www.beauty521.com\n地址： 天津市南开区宾水西道与凌宾路交口西南侧奥城商业广场21号楼302</string>
+
     <!-- Request permission end -->
 
     <string-array name="messages_array">

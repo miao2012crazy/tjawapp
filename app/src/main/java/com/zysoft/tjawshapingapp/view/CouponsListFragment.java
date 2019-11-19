@@ -71,6 +71,9 @@ public class CouponsListFragment extends BaseLazyFragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
         bind.recyclerList.setLayoutManager(linearLayoutManager);
         adapter = new CouponsAdapter(mainList);
+        adapter.openLoadAnimation();
+        adapter.setEmptyView(UIUtils.inflate(R.layout.layout_no_data));
+
         bind.recyclerList.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

@@ -10,9 +10,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.bean.TextMsgBean;
+import com.zysoft.tjawshapingapp.common.GlideApp;
+import com.zysoft.tjawshapingapp.common.GlideRoundTransform;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
 import com.zysoft.tjawshapingapp.common.UIUtils;
 
+import java.io.File;
 import java.util.List;
 
 import cn.jpush.im.android.api.content.TextContent;
@@ -35,7 +38,7 @@ public class CustomMsgListAdapter extends BaseQuickAdapter<Conversation, BaseVie
     protected void convert(BaseViewHolder helper, Conversation item) {
         //最新消息
 
-        LogUtils.e("msgItem:::" + item);
+        LogUtils.e("msgItem:::" + item.getAvatarFile());
 
 //        String text;
 //        try {
@@ -50,8 +53,19 @@ public class CustomMsgListAdapter extends BaseQuickAdapter<Conversation, BaseVie
         Message latestMessage = item.getLatestMessage();
         ContentType contentType = latestMessage.getContentType();
         String s = latestMessage.getContent().toJson();
+        File avatarFile = targetInfo.getAvatarFile();
+        ImageView view1 = helper.getView(R.id.iv_img);
 
-        LogUtils.e("文字消息" + s);
+        if (avatarFile != null&&view1.getTag()!=avatarFile.getPath()) {
+            view1.setTag(null);
+            GlideApp.with(view1)
+                    .load(avatarFile)
+                    .centerCrop()
+                    .transform(new GlideRoundTransform(4))
+                    .into(view1);
+            view1.setTag(view1.getTag()!=avatarFile.getPath());
+        }
+
 
         switch (contentType) {
             case text:
@@ -61,11 +75,12 @@ public class CustomMsgListAdapter extends BaseQuickAdapter<Conversation, BaseVie
                 LogUtils.e("文字消息" + s);
                 break;
             case unknown:
-
                 break;
             case image:
+                helper.setText(R.id.tv_msg, "[图片]");
                 break;
             case video:
+                helper.setText(R.id.tv_msg, "[视频]");
                 break;
             case file:
                 break;
@@ -74,12 +89,13 @@ public class CustomMsgListAdapter extends BaseQuickAdapter<Conversation, BaseVie
             case custom:
                 break;
             case voice:
+                helper.setText(R.id.tv_msg, "[语音消息]");
                 break;
         }
         helper.setText(R.id.tv_name, nickname);
         RequestOptions requestOptions = new RequestOptions().centerCrop();
 
-        ImageView view1 = helper.getView(R.id.iv_img);
+
 //        if (!targetInfo.getAvatarFile().equals(view1.getTag())){
 //            view1.setTag(null);
 //            Glide.with(view1.getContext())

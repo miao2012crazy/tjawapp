@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.bean.HomeDataBean;
 import com.zysoft.tjawshapingapp.common.GlideApp;
+import com.zysoft.tjawshapingapp.common.GlideCircleTransform;
 import com.zysoft.tjawshapingapp.common.GlideRoundTransform;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class OptionTabAdapter extends BaseQuickAdapter<HomeDataBean.OptionBean, 
                     .load(item.getOptionImg())
                     .error(R.drawable.ic_img_error)
                     .centerCrop()
-                    .transform(new GlideRoundTransform(4))
+                    .transform(new GlideCircleTransform())
                     .into(iv);
             iv.setTag(item.getOptionImg());
         }

@@ -12,6 +12,7 @@ import com.zysoft.tjawshapingapp.adapter.UserWalletAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.UserWalletBean;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityWalletBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
@@ -43,11 +44,12 @@ public class UserWalletActivity extends CustomBaseActivity {
         binding = (ActivityWalletBinding) viewDataBinding;
         EventBus.getDefault().register(this);
         userWalletAdapter = new UserWalletAdapter(mainList);
+        userWalletAdapter.setEmptyView(UIUtils.inflate(R.layout.layout_no_data));
+        userWalletAdapter.openLoadAnimation();
+
         binding.recyclerListWallet.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerListWallet.setAdapter(userWalletAdapter);
-        //获取订单详情
-        map.clear();
-        NetModel.getInstance().getAllData("GET_USERWALLET", HttpUrls.GET_USER_WALLET, map);
+
         binding.llBalance.setOnClickListener(v -> {
             bundle.clear();
             bundle.putString("type","0");
@@ -57,6 +59,9 @@ public class UserWalletActivity extends CustomBaseActivity {
             bundle.clear();
             bundle.putString("type","1");
             startActivituCom(this,DescActivity.class,bundle);
+        });
+        binding.btnRecharge.setOnClickListener(v -> {
+            startActivityBase(RechargeActivity.class);
         });
     }
 
@@ -80,6 +85,9 @@ public class UserWalletActivity extends CustomBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //获取订单详情
+        map.clear();
+        NetModel.getInstance().getAllData("GET_USERWALLET", HttpUrls.GET_USER_WALLET, map);
     }
 
 

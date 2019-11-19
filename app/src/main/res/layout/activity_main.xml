@@ -3,8 +3,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:clipToPadding="true"
         android:orientation="vertical">
         <FrameLayout
             android:background="#f5f5f5"
@@ -19,6 +17,7 @@
             android:layout_height="1dp" />
         <com.zysoft.tjawshapingapp.ui.BottomBar
             android:textSize="10sp"
+
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="52dp"

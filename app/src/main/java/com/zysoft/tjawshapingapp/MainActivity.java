@@ -5,14 +5,18 @@ import android.databinding.ViewDataBinding;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.tamic.novate.Novate;
+import com.tamic.novate.Throwable;
+import com.tamic.novate.download.DownLoadCallBack;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.CommonUtil;
 import com.zysoft.tjawshapingapp.common.DeviceUtils;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
 import com.zysoft.tjawshapingapp.common.SPUtils;
+import com.zysoft.tjawshapingapp.common.SoftKeyBoardListener;
 import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
@@ -21,6 +25,8 @@ import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.http.NovateUtil;
 import com.zysoft.tjawshapingapp.module.NetModel;
 import com.zysoft.tjawshapingapp.view.LoginActivity;
+import com.zysoft.tjawshapingapp.view.im.IMActivity;
+import com.zysoft.tjawshapingapp.view.im.TestActivity;
 import com.zysoft.tjawshapingapp.viewmodule.MainVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,18 +70,19 @@ public class MainActivity extends CustomBaseActivity {
         String registrationID = JPushInterface.getRegistrationID(this);
         LogUtils.e(registrationID);
         //
-
+//startActivityBase(IMActivity.class);
     }
 
     private void regeditUserIM() {
         JMessageClient.register(AppConstant.USER_INFO_BEAN.getUserTel(), "666666", new BasicCallback() {
             @Override
             public void gotResult(int i, String s) {
-                    if (i==0){
-                        LogUtils.e("注册成功！"+s);
-                    }else {
-                        LogUtils.e("注册失败！"+s);
-                    }
+                if (i == 0) {
+                    login();
+                    LogUtils.e("注册成功！" + s);
+                } else {
+                    LogUtils.e("注册失败！" + s);
+                }
             }
         });
 
@@ -97,20 +104,36 @@ public class MainActivity extends CustomBaseActivity {
     }
 
     private void login() {
+//        AppConstant.USER_INFO_BEAN.getUserTel()
         JMessageClient.login(AppConstant.USER_INFO_BEAN.getUserTel(), "666666", new BasicCallback() {
             @Override
             public void gotResult(int i, String s) {
-                LogUtils.e(i+":::::"+s);
+                LogUtils.e(i + ":::::" + s);
                 if (i == 0) {
                     UserInfo myInfo = JMessageClient.getMyInfo();
                     myInfo.setNickname(AppConstant.USER_INFO_BEAN.getUserNickName());
-                    File file = CommonUtil.drawableToFile(MainActivity.this, R.mipmap.btn_next, new File("head.png"));
-                    JMessageClient.updateUserAvatar(file, "png", new BasicCallback() {
+                    //获取头像
+                    String userHeadImg = AppConstant.USER_INFO_BEAN.getUserHeadImg();
+                    NovateUtil.getInstance().download(userHeadImg, new DownLoadCallBack() {
                         @Override
-                        public void gotResult(int i, String s) {
-                            LogUtils.e("ceshitouxiang" + i + "L:::" + s);
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onSucess(String key, String path, String name, long fileSize) {
+                            LogUtils.e("下载完成" + key + ":" + path + ":" + name + ":" + fileSize);
+                            //上传
+                            File file = new File(path + name);
+                            JMessageClient.updateUserAvatar(file, "jpg", new BasicCallback() {
+                                @Override
+                                public void gotResult(int i, String s) {
+                                    LogUtils.e("ceshitouxiang" + i + "L:::" + s);
+                                }
+                            });
                         }
                     });
+
                     JMessageClient.updateMyInfo(UserInfo.Field.all, myInfo, new BasicCallback() {
                         @Override
                         public void gotResult(int i, String s) {
@@ -120,6 +143,9 @@ public class MainActivity extends CustomBaseActivity {
                     LogUtils.e(i + ":::" + s);
                     UIUtils.showToast("登录成功");
                     isLogin = true;
+                } else if (i == 801003) {
+                    regeditUserIM();
+//                    UIUtils.showToast("登录失败");
                 } else {
                     UIUtils.showToast("登录失败");
                 }
@@ -131,6 +157,7 @@ public class MainActivity extends CustomBaseActivity {
         //绑定bindJPushClientID
         map.put("clientId", JPushInterface.getRegistrationID(this));
         NetModel.getInstance().getDataFromNet("bindJPushClientID", HttpUrls.bindJPushClientID, map);
+
     }
 
 
@@ -139,6 +166,17 @@ public class MainActivity extends CustomBaseActivity {
         super.onResume();
 
     }
+
+    @Subscribe
+    public void receive(NetResponse netResponse) {
+        switch (netResponse.getTag()) {
+            case "bindJPushClientID":
+                String data = (String) netResponse.getData();
+                LogUtils.e("绑定"+data);
+                break;
+        }
+    }
+
 
     @Override
     protected void onDestroy() {

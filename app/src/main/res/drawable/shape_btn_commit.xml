@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <corners android:radius="10dp" />
+    <corners android:radius="20dp" />
     <!--
   android:startColor="#aa000000"  渐变起始色值
   android:centerColor=""      渐变中间色值
@@ -14,6 +14,6 @@
    -->
     <gradient
         android:angle="0"
-        android:endColor="#ff7db2"
-        android:startColor="#ff758d" />
+        android:endColor="#0086c9"
+        android:startColor="#0086c9" />
 </shape>

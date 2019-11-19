@@ -11,6 +11,7 @@ import com.zysoft.tjawshapingapp.adapter.CustomPagerAdapter;
 import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.databinding.ActivityCouponsListBinding;
 
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public class CouponsListActivity extends CustomBaseActivity {
         list_Title.add("已过期");
 
         adapter = new CustomPagerAdapter(getSupportFragmentManager(), this, fragmentList, list_Title);
+
         binding.viewpager.setAdapter(adapter);
         binding.tablayout.setupWithViewPager(binding.viewpager);
     }

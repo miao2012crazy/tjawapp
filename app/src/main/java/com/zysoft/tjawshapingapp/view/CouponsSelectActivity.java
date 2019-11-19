@@ -15,6 +15,7 @@ import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.CouponsBean;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityCouponsBinding;
@@ -64,6 +65,9 @@ public class CouponsSelectActivity extends CustomBaseActivity {
 
     private void initList() {
         couponsAdapter = new CouponsAdapter(mainList);
+        couponsAdapter.openLoadAnimation();
+        couponsAdapter.setEmptyView(UIUtils.inflate(R.layout.layout_no_data));
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.recyclerList.recyclerList.setLayoutManager(linearLayoutManager);
         binding.recyclerList.recyclerList.setAdapter(couponsAdapter);

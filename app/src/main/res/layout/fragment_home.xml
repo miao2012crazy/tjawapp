@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
+        android:fitsSystemWindows="true"
+        android:paddingTop="25dp"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,7 +22,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:drawableLeft="@mipmap/ic_dw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,11 +67,22 @@
             android:background="#eee"
             android:layout_width="match_parent"
             android:layout_height="1dp" />
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/smartRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnablePreviewInEditMode="true"
+            app:srlPrimaryColor="#00000000">
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <android.support.design.widget.AppBarLayout
+                app:elevation="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#fff">
@@ -99,12 +113,12 @@
                     app:layout_scrollFlags="scroll" />
 
                 <LinearLayout
-
+                    android:layout_marginEnd="7dp"
+                    android:layout_marginStart="7dp"
                     android:layout_width="match_parent"
                     android:layout_height="98dp"
                     android:background="#fff"
                     android:orientation="horizontal"
-                    android:padding="7dp"
                     app:layout_scrollFlags="scroll">
 
                     <ImageView
@@ -112,17 +126,17 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@mipmap/sample_recommend_1"
-                        android:scaleType="fitXY" />
+                        tools:background="@mipmap/sample_recommend_1"
+                        android:scaleType="centerCrop" />
 
                     <ImageView
                         android:id="@+id/iv_recomment_2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
                         android:layout_weight="1"
-                        android:background="@mipmap/sample_recommend_2"
-                        android:scaleType="fitXY" />
+                        tools:background="@mipmap/sample_recommend_2"
+                        android:scaleType="centerCrop" />
 
                 </LinearLayout>
 
@@ -135,7 +149,7 @@
                     <ImageView
                         android:id="@+id/iv_recomment_3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="113dp"
                         android:layout_centerInParent="true"
                         android:layout_marginBottom="14dp"
                         android:layout_marginEnd="7dp"
@@ -146,14 +160,15 @@
 
 
                 <android.support.design.widget.TabLayout
+                    app:tabIndicatorFullWidth="false"
                     android:id="@+id/tablayout"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
                     android:background="#fff"
-                    app:tabIndicatorColor="#ff758c"
+                    app:tabIndicatorColor="#0086c9"
                     app:tabIndicatorHeight="4dp"
                     app:tabMode="scrollable"
-                    app:tabSelectedTextColor="#ff758c"
+                    app:tabSelectedTextColor="#0086c9"
                     app:tabTextColor="#000000" />
 
 
@@ -180,6 +195,11 @@
 
 
         </android.support.design.widget.CoordinatorLayout>
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </LinearLayout>
 
 

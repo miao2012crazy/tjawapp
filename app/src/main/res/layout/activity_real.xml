@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -23,12 +24,42 @@
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
+
         <include
             android:id="@+id/title"
             layout="@layout/layout_title_bar" />
+        <!-- 纵向linnerlayout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="@{item.state==3?View.VISIBLE:View.GONE}">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:text="您的实名认证信息未通过审核："
+                android:textColor="#B90101"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@{item.userReal.userRealReason}"
+                android:textColor="#B90101"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -36,30 +67,55 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical">
+                <!-- 纵向linnerlayout -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="#f4f3f8"
+                    android:backgroundTint="#fff"
+                    android:orientation="vertical"
+                    android:visibility="@{item.state==1?View.VISIBLE:View.GONE}">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/real_state_success" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:text="恭喜您完成实名认证！" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginTop="28dp"
+                    android:layout_marginRight="16dp"
                     android:text="基本个人信息"
                     android:textColor="#7c7c7c"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="@{item.state==1?View.GONE:View.VISIBLE}" />
 
 
                 <EditText
-
                     android:id="@+id/et_recv_name"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
                     android:background="@drawable/shape_coupons"
                     android:drawableLeft="@mipmap/dzshr"
                     android:drawablePadding="10dp"
+                    android:enabled="@{item.state!=1}"
                     android:hint="请输入真实姓名"
                     android:paddingLeft="15dp"
                     android:text="@{item.userReal.userRealName}"
@@ -71,11 +127,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
                     android:background="@drawable/shape_coupons"
                     android:drawableLeft="@mipmap/dzshr"
                     android:drawablePadding="10dp"
+                    android:enabled="@{item.state!=1}"
                     android:hint="请输入身份证号"
                     android:inputType="number"
                     android:paddingLeft="15dp"
@@ -87,11 +144,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginTop="28dp"
+                    android:layout_marginRight="16dp"
                     android:text="上传证件照片"
                     android:textColor="#7c7c7c"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="@{item.state==1?View.GONE:View.VISIBLE}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -107,9 +165,11 @@
 
                         <ImageView
                             android:id="@+id/iv_front"
+
                             android:layout_width="match_parent"
                             android:layout_height="112dp"
                             android:background="@mipmap/ic_real_front"
+                            android:enabled="@{item.state!=1}"
                             app:imageUrl="@{item.userReal.userRealImgFront}" />
 
                         <TextView
@@ -131,9 +191,11 @@
 
                         <ImageView
                             android:id="@+id/iv_bg"
+
                             android:layout_width="match_parent"
                             android:layout_height="112dp"
                             android:background="@mipmap/ic_real_front"
+                            android:enabled="@{item.state!=1}"
                             app:imageUrl="@{item.userReal.userRealImgBg}" />
 
                         <TextView
@@ -162,31 +224,62 @@
                     android:background="@drawable/shape_btn_commit"
                     android:text="提交"
                     android:textColor="#ffffff"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="@{item.state==1?View.GONE:View.VISIBLE}" />
 
                 <TextView
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:gravity="center"
                     android:text="温馨提示：请务必把证件上的信息拍照清晰"
                     android:textColor="#999"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="@{item.state==1?View.GONE:View.VISIBLE}" />
             </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#ffffff"
+                android:orientation="vertical"
                 android:visibility="@{item.state!=2?View.GONE:View.VISIBLE}">
-
-                <TextView
+                <!-- 纵向linnerlayout -->
+                <LinearLayout
                     android:paddingBottom="?attr/qmui_topbar_height"
+
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/real_tip"
-                    android:textColor="#000" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_marginBottom="13dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:src="@mipmap/real_state_2" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="您的信息已提交成功！"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:paddingBottom="?attr/qmui_topbar_height"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/real_tip"
+                        android:textColor="#999"
+                        android:textSize="13sp" />
+
+
+                </LinearLayout>
+
             </RelativeLayout>
 
         </RelativeLayout>

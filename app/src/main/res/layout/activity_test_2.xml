@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+      <!-- 纵向linnerlayout -->
+        <LinearLayout
+              android:background="#f4f3f8"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/chat_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/bg_content"/>
+
+            <include
+                layout="@layout/activity_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+      </LinearLayout>
+</layout>

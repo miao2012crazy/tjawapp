@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import com.bumptech.glide.request.target.ViewTarget;
 import com.danikula.videocache.HttpProxyCacheServer;
@@ -11,6 +13,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.gen.DaoMaster;
 import com.zysoft.tjawshapingapp.gen.DaoSession;
@@ -43,7 +46,18 @@ public class CustomApplaction extends MultiDexApplication{
     private static IWXAPI api;
     private static Context app;
 
-
+    /**
+     * 屏幕宽度
+     */
+    public static int screenWidth;
+    /**
+     * 屏幕高度
+     */
+    public static int screenHeight;
+    /**
+     * 屏幕密度
+     */
+    public static float screenDensity;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -61,9 +75,18 @@ public class CustomApplaction extends MultiDexApplication{
         //将应用的appid注册到微信
         api.registerApp(WXIDConstants.APP_ID);
         app=getApplicationContext();
-
+        initScreenSize();
     }
 
+    /**
+     * 初始化当前设备屏幕宽高
+     */
+    private void initScreenSize() {
+        DisplayMetrics curMetrics = getApplicationContext().getResources().getDisplayMetrics();
+        screenWidth = curMetrics.widthPixels;
+        screenHeight = curMetrics.heightPixels;
+        screenDensity = curMetrics.density;
+    }
     public static IWXAPI getWXApi(){
         return api;
     }

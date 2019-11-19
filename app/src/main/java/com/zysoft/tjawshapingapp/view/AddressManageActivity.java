@@ -1,5 +1,6 @@
 package com.zysoft.tjawshapingapp.view;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
@@ -62,9 +63,34 @@ public class AddressManageActivity extends CustomBaseActivity {
 
     private void initList() {
         addressAdapter = new AddressAdapter(mainList);
+        addressAdapter.openLoadAnimation();
+        addressAdapter.setEmptyView(UIUtils.inflate(R.layout.layout_no_data));
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.recyclerList.recyclerList.setLayoutManager(linearLayoutManager);
         binding.recyclerList.recyclerList.setAdapter(addressAdapter);
+        addressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Bundle extras = getIntent().getExtras();
+                if (extras == null) {
+                    Intent intent = new Intent(AddressManageActivity.this, AddAddressActivity.class);
+                    bundle.clear();
+                    bundle.putSerializable("ADDRESS_BEAN",mainList.get(position));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    return;
+                }
+                String isSelect = extras.getString("isSelect");
+                if (isSelect != null && isSelect.equalsIgnoreCase("1")) {
+                    AppConstant.SELECT_ADDR=mainList.get(position);
+                    setResult(999,getIntent());
+                    finish();
+                }
+
+
+            }
+        });
         addressAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             AddressBean addressBean = mainList.get(position);
 

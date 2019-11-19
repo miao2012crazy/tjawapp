@@ -10,8 +10,8 @@ public class UserWalletBean {
 
 
     /**
-     * wallet : {"id":28,"walletBalance":0,"integralBalance":0,"regDate":"2019-05-26 14:35:28","userTel":"15585513651"}
-     * history : [{"id":1,"type":0,"tradingPrice":500,"tradingDesc":"不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给的订单预付款","regDate":"2019-08-14 23:11:39","userId":10,"userTel":"15585513651"}]
+     * wallet : {"id":42,"walletBalance":0,"integralBalance":0,"regDate":"2019-11-04 18:00:00","userId":1}
+     * history : [{"id":1,"type":0,"tradingPrice":0,"tradingDesc":"预约项目'修形美林-眼部整形美容手术'定金：¥1.0E-4","regDate":"2019-11-14 17:19:20","userId":1,"userTel":"15585513651","isAdd":1}]
      */
 
     private WalletBean wallet;
@@ -35,18 +35,18 @@ public class UserWalletBean {
 
     public static class WalletBean {
         /**
-         * id : 28
+         * id : 42
          * walletBalance : 0
          * integralBalance : 0
-         * regDate : 2019-05-26 14:35:28
-         * userTel : 15585513651
+         * regDate : 2019-11-04 18:00:00
+         * userId : 1
          */
 
         private int id;
-        private int walletBalance;
-        private int integralBalance;
+        private double walletBalance;
+        private double integralBalance;
         private String regDate;
-        private String userTel;
+        private int userId;
 
         public int getId() {
             return id;
@@ -56,19 +56,19 @@ public class UserWalletBean {
             this.id = id;
         }
 
-        public int getWalletBalance() {
+        public double getWalletBalance() {
             return walletBalance;
         }
 
-        public void setWalletBalance(int walletBalance) {
+        public void setWalletBalance(double walletBalance) {
             this.walletBalance = walletBalance;
         }
 
-        public int getIntegralBalance() {
+        public double getIntegralBalance() {
             return integralBalance;
         }
 
-        public void setIntegralBalance(int integralBalance) {
+        public void setIntegralBalance(double integralBalance) {
             this.integralBalance = integralBalance;
         }
 
@@ -80,12 +80,12 @@ public class UserWalletBean {
             this.regDate = regDate;
         }
 
-        public String getUserTel() {
-            return userTel;
+        public int getUserId() {
+            return userId;
         }
 
-        public void setUserTel(String userTel) {
-            this.userTel = userTel;
+        public void setUserId(int userId) {
+            this.userId = userId;
         }
     }
 
@@ -93,20 +93,22 @@ public class UserWalletBean {
         /**
          * id : 1
          * type : 0
-         * tradingPrice : 500
-         * tradingDesc : 不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给钱不给的订单预付款
-         * regDate : 2019-08-14 23:11:39
-         * userId : 10
+         * tradingPrice : 0
+         * tradingDesc : 预约项目'修形美林-眼部整形美容手术'定金：¥1.0E-4
+         * regDate : 2019-11-14 17:19:20
+         * userId : 1
          * userTel : 15585513651
+         * isAdd : 1
          */
 
         private int id;
         private int type;
-        private int tradingPrice;
+        private double tradingPrice;
         private String tradingDesc;
         private String regDate;
         private int userId;
         private String userTel;
+        private int isAdd;
 
         public int getId() {
             return id;
@@ -124,11 +126,11 @@ public class UserWalletBean {
             this.type = type;
         }
 
-        public int getTradingPrice() {
+        public double getTradingPrice() {
             return tradingPrice;
         }
 
-        public void setTradingPrice(int tradingPrice) {
+        public void setTradingPrice(double tradingPrice) {
             this.tradingPrice = tradingPrice;
         }
 
@@ -162,6 +164,14 @@ public class UserWalletBean {
 
         public void setUserTel(String userTel) {
             this.userTel = userTel;
+        }
+
+        public int getIsAdd() {
+            return isAdd;
+        }
+
+        public void setIsAdd(int isAdd) {
+            this.isAdd = isAdd;
         }
     }
 }

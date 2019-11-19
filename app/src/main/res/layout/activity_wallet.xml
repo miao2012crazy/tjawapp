@@ -21,7 +21,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="164dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
@@ -48,7 +48,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -63,7 +63,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:drawablePadding="5dp"
-                            android:drawableRight="@mipmap/ic_right"
+                            android:drawableRight="@mipmap/ic_wallet_right"
                             android:gravity="center_vertical"
                             android:text="可用余额"
                             android:textColor="#fff"
@@ -95,7 +95,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:drawablePadding="5dp"
-                            android:drawableRight="@mipmap/ic_right"
+                            android:drawableRight="@mipmap/ic_wallet_right"
                             android:gravity="center_vertical"
                             android:text="可用积分"
                             android:textColor="#fff"

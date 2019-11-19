@@ -57,6 +57,8 @@ public class TwoFragment extends BaseLazyFragment {
         super.onViewCreated(view, savedInstanceState);
         customMsgListAdapter = new CustomMsgListAdapter(conversationList);
         customMsgListAdapter.openLoadAnimation();
+        customMsgListAdapter.setEmptyView(UIUtils.inflate(R.layout.layout_no_data));
+
         EventBus.getDefault().register(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
         binding.recyclerMsgList.recyclerList.setLayoutManager(linearLayoutManager);
@@ -67,7 +69,6 @@ public class TwoFragment extends BaseLazyFragment {
                 //跳转
                 Conversation conversation = conversationList.get(position);
                 conversation.resetUnreadCount();
-                initData();
                 Intent intent = new Intent(getActivity(), IMDetailActivity.class);
                 Bundle bundle = new Bundle();
                 UserInfo targetInfo = (UserInfo) conversation.getTargetInfo();
@@ -78,6 +79,12 @@ public class TwoFragment extends BaseLazyFragment {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
     }
 
     private void initData() {

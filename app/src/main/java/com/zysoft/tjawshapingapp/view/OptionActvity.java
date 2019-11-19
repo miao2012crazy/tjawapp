@@ -45,8 +45,6 @@ public class OptionActvity extends CustomBaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_option);
         EventBus.getDefault().register(this);
-        QMUIStatusBarHelper.translucent(this);
-        QMUIStatusBarHelper.setStatusBarLightMode(this);
         map.clear();
         initList();
         Bundle extras = getIntent().getExtras();
@@ -79,6 +77,8 @@ public class OptionActvity extends CustomBaseActivity {
     private void initList() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
         projectAdapter = new ProjectAdapter(mainList2);
+        projectAdapter.setEmptyView(UIUtils.inflate(R.layout.layout_no_data));
+        projectAdapter.openLoadAnimation();
         binding.recyclerList.recyclerList.setLayoutManager(linearLayoutManager);
         binding.recyclerList.recyclerList.setAdapter(projectAdapter);
         projectAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

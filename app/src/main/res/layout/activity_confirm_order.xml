@@ -258,7 +258,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
                             android:text="-¥200.00"
-                            android:textColor="#ff758c"
+                            android:textColor="#0086c9"
                             android:textSize="14sp" />
 
 
@@ -286,7 +286,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
                             android:text="¥99.00"
-                            android:textColor="#ff758c"
+                            android:textColor="#0086c9"
                             android:textSize="14sp" />
 
 
@@ -301,6 +301,15 @@
                     android:layout_margin="10dp"
                     android:background="@drawable/shape_confirm_order"
                     android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/tv_wallet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        />
 
                     <ImageView
                         android:id="@+id/tv_wechat"
@@ -375,7 +384,7 @@
                 android:gravity="center"
                 android:paddingRight="10dp"
                 android:text="99.00元"
-                android:textColor="#ff758c"
+                android:textColor="#0086c9"
                 android:textSize="15sp" />
 
 

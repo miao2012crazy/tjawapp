@@ -18,6 +18,7 @@
             android:layout_height="1dp"
             android:background="#10000000"/>
         <cn.jiguang.imui.messages.MessageList
+            android:background="#fff"
             android:id="@+id/msg_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -25,7 +26,7 @@
             app:avatarHeight="40dp"
             app:avatarWidth="40dp"
             app:bubbleMaxWidth="0.70"
-            app:dateTextSize="12sp"
+            app:dateTextSize="10sp"
             app:receiveBubblePaddingBottom="4dp"
             app:receiveBubblePaddingLeft="20dp"
             app:receiveBubblePaddingRight="10dp"
@@ -36,22 +37,21 @@
             app:sendBubblePaddingRight="20dp"
             app:sendTextColor="#7587A8"
             app:sendTextSize="14sp" />
-
-        <cn.jiguang.imui.chatinput.ChatInputView
-            app:inputMarginBottom="5dp"
-            app:inputMarginTop="5dp"
-            android:paddingBottom="10dp"
-            android:id="@+id/chat_input"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            app:inputTextSize="12sp"
-            app:cameraBtnIcon="@drawable/aurora_menuitem_camera"
-            app:inputCursorDrawable="@drawable/aurora_edittext_cursor_bg"
-            app:inputEditTextBg="@drawable/aurora_edittext_bg"
-            app:photoBtnIcon="@drawable/aurora_menuitem_photo"
-            app:sendBtnIcon="@drawable/aurora_menuitem_send"
-            app:voiceBtnIcon="@drawable/aurora_menuitem_mic" />
+            <include layout="@layout/activity_test"
+                android:id="@+id/chat_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+<!--        <cn.jiguang.imui.chatinput.ChatInputView-->
+<!--            android:id="@+id/chat_input"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            app:cameraBtnIcon="@drawable/aurora_menuitem_camera"-->
+<!--            app:inputCursorDrawable="@drawable/aurora_edittext_cursor_bg"-->
+<!--            app:inputEditTextBg="@drawable/aurora_edittext_bg"-->
+<!--            app:photoBtnIcon="@drawable/aurora_menuitem_photo"-->
+<!--            app:sendBtnIcon="@drawable/aurora_menuitem_send"-->
+<!--            app:voiceBtnIcon="@drawable/aurora_menuitem_mic" />-->
 
     </LinearLayout>
 

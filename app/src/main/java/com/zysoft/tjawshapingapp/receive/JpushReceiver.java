@@ -48,17 +48,11 @@ public class JpushReceiver extends BroadcastReceiver {
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "接受到推送下来的通知");
-            Log.d(TAG,"通知，EXTRA_NOTIFICATION_TITLE="+bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE));
-            Log.d(TAG,"通知，EXTRA_MESSAGE="+bundle.getString(JPushInterface.EXTRA_MESSAGE));
-            Log.d(TAG,"通知，EXTRA_ALERT="+bundle.getString(JPushInterface.EXTRA_ALERT));
-            Log.d(TAG,"通知，EXTRA_EXTRA="+bundle.getString(JPushInterface.EXTRA_EXTRA));
 
-        } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            Log.d(TAG, "用户点击打开了通知");
-
-            Log.d(TAG,"通知，EXTRA_NOTIFICATION_TITLE="+bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE));
-            Log.d(TAG,"通知，EXTRA_MESSAGE="+bundle.getString(JPushInterface.EXTRA_MESSAGE));
-            Log.d(TAG,"通知，EXTRA_ALERT="+bundle.getString(JPushInterface.EXTRA_ALERT));
+//            Log.d(TAG,"通知，EXTRA_NOTIFICATION_TITLE="+bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE));
+//            Log.d(TAG,"通知，EXTRA_MESSAGE="+bundle.getString(JPushInterface.EXTRA_MESSAGE));
+//            Log.d(TAG,"通知，EXTRA_ALERT="+bundle.getString(JPushInterface.EXTRA_ALERT));
+//            Log.d(TAG,"通知，EXTRA_EXTRA="+bundle.getString(JPushInterface.EXTRA_EXTRA));
             String string = bundle.getString(JPushInterface.EXTRA_EXTRA);
 
             Map<String, Object> stringObjectMap = GsonUtil.GsonToMaps(string);
@@ -68,8 +62,17 @@ public class JpushReceiver extends BroadcastReceiver {
             DataBeanDao dataBeanDao = CustomApplaction.getSession().getDataBeanDao();
             dataBeanDao.insert(jPushBean.getData());
             //直接跳转到消息列表
+
+
+        } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
+            Log.d(TAG, "用户点击打开了通知");
+
+//            Log.d(TAG,"通知，EXTRA_NOTIFICATION_TITLE="+bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE));
+//            Log.d(TAG,"通知，EXTRA_MESSAGE="+bundle.getString(JPushInterface.EXTRA_MESSAGE));
+//            Log.d(TAG,"通知，EXTRA_ALERT="+bundle.getString(JPushInterface.EXTRA_ALERT));
+
             Intent intent1 = new Intent(context, NoticeActivity.class);
-            intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent1);
 
         } else {

@@ -6,11 +6,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.CouponsBean;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
+import com.zysoft.tjawshapingapp.bean.OrderResultBean;
 import com.zysoft.tjawshapingapp.bean.ProjectDetailBean;
+import com.zysoft.tjawshapingapp.bean.ResultBean;
 import com.zysoft.tjawshapingapp.common.CommonUtil;
 import com.zysoft.tjawshapingapp.common.GlideApp;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
@@ -59,7 +62,7 @@ public class ConfirmOrderActivity extends CustomBaseActivity {
         NetModel.getInstance().getAllData("COUPONS", HttpUrls.GETUSERCOUPONS, map);
         initPrice(projectInfo.getProjectEarnestMoney(), 0, binding.amountView.getAmount());
         initClick();
-        initPay(true, false, false);
+        initPay(true, false, false, false);
     }
 
     private void initClick() {
@@ -68,8 +71,7 @@ public class ConfirmOrderActivity extends CustomBaseActivity {
             @Override
             public void onClick(View v) {
                 position = 0;
-                initPay(true, false, false);
-
+                initPay(true, false, false, false);
             }
         });
 
@@ -78,29 +80,29 @@ public class ConfirmOrderActivity extends CustomBaseActivity {
             @Override
             public void onClick(View v) {
                 position = 1;
-                initPay(false, true, false);
+                initPay(false, true, false, false);
 
             }
         });
 
 
-        binding.tvYl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                position = 2;
-
-                initPay(false, false, true);
-
-            }
+        binding.tvYl.setOnClickListener(v -> {
+            position = 2;
+            initPay(false, false, true, false);
         });
 
+        binding.tvWallet.setOnClickListener(v -> {
+            position = 3;
+            initPay(false, false, false, true);
 
+        });
     }
 
-    private void initPay(boolean isWechat, boolean isAlipay, boolean isYl) {
+    private void initPay(boolean isWechat, boolean isAlipay, boolean isYl, boolean isWallet) {
         binding.tvWechat.setBackgroundResource(isWechat ? R.mipmap.ic_wechat_check : R.mipmap.ic_wechat_normal);
         binding.tvAlipay.setBackgroundResource(isAlipay ? R.mipmap.ic_ali_check : R.mipmap.ic_ali_normal);
         binding.tvYl.setBackgroundResource(isYl ? R.mipmap.ic_yl_check : R.mipmap.ic_yl_normal);
+        binding.tvWallet.setBackgroundResource(isWallet ? R.mipmap.ic_wallet_check : R.mipmap.ic_wallet_normal);
 
     }
 
@@ -153,7 +155,7 @@ public class ConfirmOrderActivity extends CustomBaseActivity {
 //                        */
                 map.clear();
                 map.put("projectId", projectInfo.getId());
-                map.put("exceptTime", CommonUtil.ms2date("yyyy-MM-dd HH:mm:ss", Long.parseLong(time)));
+                map.put("exceptTime", time);
                 map.put("couponsId", AppConstant.Coupons == null ? "" : AppConstant.Coupons.getId());
                 map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
                 map.put("type", position);
@@ -183,20 +185,16 @@ public class ConfirmOrderActivity extends CustomBaseActivity {
             case "CREATE_ORDER":
                 //创建订单成功 吊起微信支付 appid=wx87d3cc6a3943c5a9&partnerid=1507805611&prepayid=wx22230113723921f2e39958473523105817&package=Sign=WXPay&noncestr=2301137008&timestamp=1558537273&sign=38F0EF19CFFB3391CB5BBBAC16DA7056
                 String data = (String) netResponse.getData();
-                String[] split = data.split("&");
+                OrderResultBean orderResultBean = GsonUtil.GsonToBean(data, OrderResultBean.class);
                 WXPayUtils.WXPayBuilder builder = new WXPayUtils.WXPayBuilder();
-                builder.setAppId(split[0].split("=")[1])
-                        .setPartnerId(split[1].split("=")[1])
-                        .setPrepayId(split[2].split("=")[1])
+                builder.setAppId(orderResultBean.getAppid())
+                        .setPartnerId(orderResultBean.getPartnerid())
+                        .setPrepayId(orderResultBean.getPrepayid())
                         .setPackageValue("Sign=WXPay")
-                        .setNonceStr(split[4].split("=")[1])
-                        .setTimeStamp(split[5].split("=")[1])
-                        .setSign(split[6].split("=")[1])
-                        .build().toWXPayNotSign(ConfirmOrderActivity.this, split[0].split("=")[1]);
-
-//                    LogUtils.e(String.valueOf(netResponse.getData()));
-
-
+                        .setNonceStr(orderResultBean.getNoncestr())
+                        .setTimeStamp(String.valueOf(orderResultBean.getTimestamp()))
+                        .setSign(orderResultBean.getSign())
+                        .build().toWXPayNotSign(ConfirmOrderActivity.this, orderResultBean.getAppid());
                 break;
         }
     }

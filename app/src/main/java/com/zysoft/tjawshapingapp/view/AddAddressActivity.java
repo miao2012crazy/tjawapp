@@ -67,7 +67,6 @@ public class AddAddressActivity extends CustomBaseActivity {
             map.put("addressClassA", etAddrA);
             map.put("addressClassB", etAddrB);
             map.put("isDefault", "0");
-            map.put("detailAddr", etAddrA + etAddrB);
             map.put("type", "0");
             if (address_bean!=null){
                 map.put("addressId", address_bean.getId());
@@ -89,8 +88,8 @@ public class AddAddressActivity extends CustomBaseActivity {
         if (address_bean != null) {
             binding.etRecvName.setText(address_bean.getRecvName());
             binding.etRecvTel.setText(address_bean.getRecvTel());
-            binding.etAddrA.setText(address_bean.getAddressA());
-            binding.etAddrB.setText(address_bean.getAddressB());
+            binding.etAddrA.setText(address_bean.getAddressClassA());
+            binding.etAddrB.setText(address_bean.getAddressDetail());
         }
 
 

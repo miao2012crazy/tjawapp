@@ -25,6 +25,7 @@ public  class DataBean {
     private String pushIcon;
     private String regDate;
     private String title;
+    //type 类型： 0下单成功 1付款成功 2订单状态变化 3官方通知 4 新活动 5新项目 6新产品 7 充值成功
     private String type;
 
 

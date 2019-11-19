@@ -14,6 +14,7 @@ import com.zysoft.tjawshapingapp.common.SPUtils;
 import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.databinding.ActivitySettingBinding;
+import com.zysoft.tjawshapingapp.view.feedback.FeedBackActivity;
 
 /**
  * Created by mr.miao on 2019/5/26.
@@ -36,7 +37,13 @@ public class SettingActivity extends CustomBaseActivity{
         });
         binding.title.qmTopBar.setTitle("设置");
         binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
+        binding.tvUserInfo.setOnClickListener(v -> {
+            //个人信息
+            startActivityBase(UserInfoActivity.class);
+        });
 
+        binding.tvUpdatePsd.setOnClickListener(v -> startActivityBase(UpdatePsdActivity.class));
+        binding.tvFeedBack.setOnClickListener(v -> startActivityBase(FeedBackActivity.class));
 
     }
 }

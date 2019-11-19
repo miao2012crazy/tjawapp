@@ -3,6 +3,7 @@ package com.zysoft.tjawshapingapp.view;
 import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,7 +54,7 @@ public class ProjectDetailActivity extends CustomBaseActivity {
     private boolean isSelect = false;
     private int mAmount;
     private TextView tv_select_time;
-    private long time=0;
+    private long time = 0;
     private ImageAdapter imageAdapter;
 
     @Override
@@ -61,10 +62,7 @@ public class ProjectDetailActivity extends CustomBaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
         EventBus.getDefault().register(this);
-
-        QMUIStatusBarHelper.translucent(this);
-        QMUIStatusBarHelper.setStatusBarLightMode(this);
-
+        setToolBar();
         initImgList();
         String project_id = getIntent().getExtras().getString("PROJECT_ID");
         map.clear();
@@ -118,10 +116,9 @@ public class ProjectDetailActivity extends CustomBaseActivity {
     }
 
 
-
     private void initImgList() {
         imageAdapter = new ImageAdapter(mainList);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext()){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext()) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -177,7 +174,7 @@ public class ProjectDetailActivity extends CustomBaseActivity {
         TextView tv_tag = view.findViewById(R.id.tv_tag);
         TextView tv_project_name = view.findViewById(R.id.tv_project_name);
         mAmountView.setGoods_storage(999);
-        GlideApp.with(this).load(projectInfo.getProductIcon()).transform(new GlideRoundTransform( 4)).into(imageView);
+        GlideApp.with(this).load(projectInfo.getProductIcon()).transform(new GlideRoundTransform(4)).into(imageView);
         tv_or_price.setText("¥" + projectInfo.getProjectOrginPrice());
         tv_member_price.setText("¥" + projectInfo.getProjectMemberPrice());
         tv_prepare_price.setText("¥" + projectInfo.getProjectEarnestMoney());
@@ -199,7 +196,7 @@ public class ProjectDetailActivity extends CustomBaseActivity {
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (time==0){
+                if (time == 0) {
                     UIUtils.showToast("请选择时间！");
                     return;
                 }
@@ -210,8 +207,8 @@ public class ProjectDetailActivity extends CustomBaseActivity {
                 Intent intent = new Intent(ProjectDetailActivity.this, ConfirmOrderActivity.class);
                 bundle.clear();
                 bundle.putString("time", String.valueOf(time));
-                bundle.putString("count", mAmount+"");
-                bundle.putSerializable("project",projectDetailBean.getProjectInfo());
+                bundle.putString("count", mAmount + "");
+                bundle.putSerializable("project", projectDetailBean.getProjectInfo());
                 intent.putExtras(bundle);
                 startActivity(intent);
                 dialog.dismiss();
@@ -257,6 +254,66 @@ public class ProjectDetailActivity extends CustomBaseActivity {
                 .build();
 
         pvTime.show();
+    }
+
+
+    /**
+     * 初始化setToolBar
+     */
+    private void setToolBar() {
+        setSupportActionBar(binding.toolbaretail);
+        binding.toolbaretail.setTitleTextColor(Color.BLACK);
+        binding.toolbarLayout.setTitleEnabled(false);
+        binding.toolbarLayout.setExpandedTitleGravity(Gravity.CENTER);//设置展开后标题的位置
+        binding.toolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);//设置收缩后标题的位置
+//        binding.toolbarLayout.setExpandedTitleColor(Color.BLACK);//设置展开后标题的颜色
+//        binding.toolbarLayout.setCollapsedTitleTextColor(Color.BLACK);//设置收缩后标题的颜色
+        binding.appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            //verticalOffset  当前偏移量 appBarLayout.getTotalScrollRange() 最大高度 便宜值
+            int Offset = Math.abs(verticalOffset); //目的是将负数转换为绝对正数；
+            //标题栏的渐变
+            binding.toolbaretail.setBackgroundColor(changeAlpha(getResources().getColor(R.color.white)
+                    , Math.abs(verticalOffset * 1.0f) / appBarLayout.getTotalScrollRange()));
+
+            /**
+             * 当前最大高度便宜值除以2 在减去已偏移值 获取浮动 先显示在隐藏
+             */
+            if (Offset < appBarLayout.getTotalScrollRange() / 2) {
+                binding.toolbaretail.setTitle("");
+                binding.titleName.setText("");
+                binding.titleName.setTextColor(Color.parseColor("#ffffff"));
+                binding.toolbaretail.setAlpha((appBarLayout.getTotalScrollRange() / 2 - Offset * 1.0f) / (appBarLayout.getTotalScrollRange() / 2));
+//                binding.toolbaretail.setNavigationIcon(R.mipmap.ic_return);
+                binding.tvReturn.setBackground(UIUtils.getDrawable(R.mipmap.ic_return));
+                binding.titleRightTv.setBackground(UIUtils.getDrawable(R.mipmap.icon_share));
+
+                /**
+                 * 从最低浮动开始渐显 当前 Offset就是  appBarLayout.getTotalScrollRange() / 2
+                 * 所以 Offset - appBarLayout.getTotalScrollRange() / 2
+                 */
+            } else if (Offset > appBarLayout.getTotalScrollRange() / 2) {
+                float floate = (Offset - appBarLayout.getTotalScrollRange() / 2) * 1.0f / (appBarLayout.getTotalScrollRange() / 2);
+                binding.toolbaretail.setAlpha(floate);
+                binding.toolbaretail.setTitle("");
+                binding.titleName.setText("商品详情");
+//                binding.toolbaretail.setNavigationIcon(R.mipmap.ic_return);
+                binding.tvReturn.setBackground(UIUtils.getDrawable(R.mipmap.ic_return));
+                binding.titleRightTv.setBackground(UIUtils.getDrawable(R.mipmap.icon_share));
+                binding.titleName.setTextColor(Color.parseColor("#333333"));
+                binding.toolbaretail.setAlpha(floate);
+                binding.titleRightTv.setTextColor(Color.parseColor("#333333"));
+            }
+        });
+        binding.tvReturn.setOnClickListener(v -> finish());
+    }
+
+
+    /**
+     * 根据百分比改变颜色透明度
+     */
+    public int changeAlpha(int color, float fraction) {
+        int alpha = (int) (Color.alpha(color) * fraction);
+        return Color.argb(alpha, 255, 255, 255);
     }
 
 }

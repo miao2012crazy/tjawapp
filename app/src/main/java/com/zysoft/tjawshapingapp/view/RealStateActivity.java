@@ -103,12 +103,12 @@ public class RealStateActivity extends CustomBaseActivity {
             File file = new File(tag);
             String[] split = file.getName().split("\\.");
 
-            String tagbg = String.valueOf(binding.ivFront.getTag());
+            String tagbg = String.valueOf(binding.ivBg.getTag());
             File filebg = new File(tagbg);
             String[] splitbg = filebg.getName().split("\\.");
 
             builder1.addFormDataPart("userfront", file.getName(), RequestBody.create(MediaType.parse("image/" + split[split.length - 1]), file));
-            builder1.addFormDataPart("userbg", filebg.getName(), RequestBody.create(MediaType.parse("image/" + splitbg[splitbg.length - 1]), file));
+            builder1.addFormDataPart("userbg", filebg.getName(), RequestBody.create(MediaType.parse("image/" + splitbg[splitbg.length - 1]), filebg));
 //            }
 
             RequestBody build = builder1.build();
@@ -178,7 +178,7 @@ public class RealStateActivity extends CustomBaseActivity {
                     .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
                     .sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
                     .setOutputCameraPath("/CustomPath")// 自定义拍照保存路径,可不填
-                    .enableCrop(false)// 是否裁剪 true or false
+                    .enableCrop(true)// 是否裁剪 true or false
                     .compress(true)// 是否压缩 true or false
                     .withAspectRatio(16, 9)// int 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
                     .hideBottomControls(true)// 是否显示uCrop工具栏，默认不显示 true or false

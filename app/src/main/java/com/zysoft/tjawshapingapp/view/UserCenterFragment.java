@@ -177,6 +177,10 @@ public class UserCenterFragment extends CustomBaseFragment {
                 case 12:
 
                     break;
+                case 15:
+                    Intent intent15 = new Intent(getActivity(), AboutUsActivity.class);
+                    startActivity(intent15);
+                    break;
             }
         });
         binding.rlApplyDl.setOnClickListener(v -> {
@@ -197,7 +201,7 @@ public class UserCenterFragment extends CustomBaseFragment {
             binding.llUser.setVisibility(View.GONE);
         }
         binding.tvLogin.setOnClickListener(view -> startActivity(new Intent(getActivity(), LoginActivity.class)));
-
+        binding.ivDesc.setText(userInfoBean.getUserSign());
     }
 
     @Subscribe

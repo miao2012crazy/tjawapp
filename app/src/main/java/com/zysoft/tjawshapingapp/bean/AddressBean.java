@@ -8,17 +8,15 @@ import java.io.Serializable;
 
 public class AddressBean implements  Serializable {
 
-
     private int id;
     private String recvTel;
     private String recvName;
-    private String addressA;
-    private String addressB;
-    private String detailAddr;
+    private String addressClassA;
+    private String addressDetail;
     private int isDefault;
-    private String userId;
     private int isUsable;
     private String regDate;
+    private int userId;
 
     public int getId() {
         return id;
@@ -44,28 +42,20 @@ public class AddressBean implements  Serializable {
         this.recvName = recvName;
     }
 
-    public String getAddressA() {
-        return addressA;
+    public String getAddressClassA() {
+        return addressClassA;
     }
 
-    public void setAddressA(String addressA) {
-        this.addressA = addressA;
+    public void setAddressClassA(String addressClassA) {
+        this.addressClassA = addressClassA;
     }
 
-    public String getAddressB() {
-        return addressB;
+    public String getAddressDetail() {
+        return addressDetail;
     }
 
-    public void setAddressB(String addressB) {
-        this.addressB = addressB;
-    }
-
-    public String getDetailAddr() {
-        return detailAddr;
-    }
-
-    public void setDetailAddr(String detailAddr) {
-        this.detailAddr = detailAddr;
+    public void setAddressDetail(String addressDetail) {
+        this.addressDetail = addressDetail;
     }
 
     public int getIsDefault() {
@@ -74,14 +64,6 @@ public class AddressBean implements  Serializable {
 
     public void setIsDefault(int isDefault) {
         this.isDefault = isDefault;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public int getIsUsable() {
@@ -100,4 +82,11 @@ public class AddressBean implements  Serializable {
         this.regDate = regDate;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 }

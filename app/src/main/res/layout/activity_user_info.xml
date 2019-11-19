@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <!-- 纵向linnerlayout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:paddingTop="25dp">
+
+        <include
+            android:id="@+id/title"
+            layout="@layout/layout_title_bar" />
+
+        <!-- 纵向linnerlayout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:orientation="vertical">
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:background="#fff">
+
+                <RelativeLayout
+
+                    android:layout_width="91dp"
+                    android:layout_height="91dp"
+                    android:layout_centerInParent="true">
+
+                    <com.zysoft.tjawshapingapp.ui.CircleImageView
+                        android:id="@+id/iv_header"
+                        android:layout_width="91dp"
+                        android:layout_height="91dp" />
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:src="@mipmap/ic_change_head" />
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+            <RadioGroup
+                android:id="@+id/rg_group"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_nan"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_cb_sex"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="男"
+                    android:textColor="@color/selector_text_color_cb"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_nv"
+                    android:layout_width="0dp"
+
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_cb_sex_2"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="女"
+                    android:textColor="@color/selector_text_color_cb" />
+
+
+            </RadioGroup>
+
+
+            <LinearLayout
+                android:id="@+id/ll_user_nick_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:background="#fff"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/et_recv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/shape_user_info"
+                    android:drawableLeft="@mipmap/dzshr"
+                    android:drawablePadding="10dp"
+                    android:hint="请输入昵称"
+                    android:paddingLeft="15dp"
+                    android:textColor="#000"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_recv_tel"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/shape_user_info"
+                    android:drawableLeft="@mipmap/dztel"
+                    android:drawablePadding="10dp"
+                    android:enabled="false"
+                    android:hint="联系电话"
+                    android:paddingLeft="15dp"
+                    android:textColor="#7c7c7c"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_sign"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/shape_user_info"
+                    android:drawablePadding="10dp"
+                    android:gravity="top"
+                    android:padding="10dp"
+                    android:hint="请输入签名30字以内"
+                    android:paddingLeft="15dp"
+                    android:maxLength="30"
+                    android:textColor="#7c7c7c"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</layout>

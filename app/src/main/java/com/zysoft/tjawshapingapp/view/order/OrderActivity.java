@@ -38,8 +38,6 @@ public class OrderActivity extends CustomBaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_order);
-        QMUIStatusBarHelper.translucent(this);
-        QMUIStatusBarHelper.setStatusBarLightMode(this);
         binding.title.qmTopBar.setTitle("我的订单");
         binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
 

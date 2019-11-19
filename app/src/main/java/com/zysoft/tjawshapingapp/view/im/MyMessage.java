@@ -1,97 +1,54 @@
 package com.zysoft.tjawshapingapp.view.im;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.commons.models.IUser;
-import cn.jpush.im.android.api.model.Message;
+
 
 public class MyMessage implements IMessage {
+
     private long id;
     private String text;
     private String timeString;
-    private MessageType type;
+    private int type;
     private IUser user;
     private String mediaFilePath;
     private long duration;
     private String progress;
-    private Message message;
-    private int position;
-    private long msgID;
-    private MessageStatus messageStatus;
+    private MessageStatus mMsgStatus = MessageStatus.CREATED;
 
-    public MyMessage(String text, MessageType type,MessageStatus messageStatus) {
+
+    public MyMessage(String text, int type) {
         this.text = text;
         this.type = type;
         this.id = UUID.randomUUID().getLeastSignificantBits();
-        this.messageStatus=messageStatus;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Override
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     @Override
     public String getMsgId() {
-        return msgID+"";
+        return String.valueOf(id);
+    }
+
+    public long getId() {
+        return this.id;
     }
 
     @Override
     public IUser getFromUser() {
+        if (user == null) {
+            return new DefaultUser("0", "user1", null);
+        }
         return user;
     }
 
-    @Override
-    public String getTimeString() {
-        return timeString;
-    }
-
-    public void setTimeString(String timeString) {
-        this.timeString = timeString;
-    }
-
-    @Override
-    public MessageType getType() {
-        return type;
-    }
-
-    public void setType(MessageType type) {
-        this.type = type;
-    }
-
-    public IUser getUser() {
-        return user;
-    }
-
-    public void setUser(IUser user) {
+    public void setUserInfo(IUser user) {
         this.user = user;
     }
 
-    @Override
-    public String getMediaFilePath() {
-        return mediaFilePath;
-    }
-
-    public void setMediaFilePath(String mediaFilePath) {
-        this.mediaFilePath = mediaFilePath;
-    }
-
-    @Override
-    public long getDuration() {
-        return duration;
+    public void setMediaFilePath(String path) {
+        this.mediaFilePath = path;
     }
 
     public void setDuration(long duration) {
@@ -99,44 +56,80 @@ public class MyMessage implements IMessage {
     }
 
     @Override
-    public String getProgress() {
-        return progress;
+    public long getDuration() {
+        return duration;
     }
 
     public void setProgress(String progress) {
         this.progress = progress;
     }
 
-    public Message getMessage() {
-        return message;
+    @Override
+    public String getProgress() {
+        return progress;
     }
 
-    public void setMessage(Message message) {
-        this.message = message;
+    @Override
+    public HashMap<String, String> getExtras() {
+        return null;
     }
 
-    public int getPosition() {
-        return position;
+    public void setTimeString(String timeString) {
+        this.timeString = timeString;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    @Override
+    public String getTimeString() {
+        return timeString;
     }
 
-    public long getMsgID() {
-        return msgID;
+    public void setType(int type) {
+        if (type >= 0 && type <= 12) {
+            throw new IllegalArgumentException("Message type should not take the value between 0 and 12");
+        }
+        this.type = type;
     }
 
-    public void setMsgID(long msgID) {
-        this.msgID = msgID;
+    @Override
+    public int getType() {
+        return type;
+    }
+
+    /**
+     * Set Message status. After sending Message, change the status so that the progress bar will dismiss.
+     * @param messageStatus {@link MessageStatus}
+     */
+    public void setMessageStatus(MessageStatus messageStatus) {
+        this.mMsgStatus = messageStatus;
     }
 
     @Override
     public MessageStatus getMessageStatus() {
-        return messageStatus;
+        return this.mMsgStatus;
     }
 
-    public void setMessageStatus(MessageStatus messageStatus) {
-        this.messageStatus = messageStatus;
+    @Override
+    public String getText() {
+        return text;
+    }
+
+    @Override
+    public String getMediaFilePath() {
+        return mediaFilePath;
+    }
+
+    @Override
+    public String toString() {
+        return "MyMessage{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", timeString='" + timeString + '\'' +
+                ", type=" + type +
+                ", user=" + user +
+                ", mediaFilePath='" + mediaFilePath + '\'' +
+                ", duration=" + duration +
+                ", progress='" + progress + '\'' +
+                ", mMsgStatus=" + mMsgStatus +
+                '}';
     }
 }

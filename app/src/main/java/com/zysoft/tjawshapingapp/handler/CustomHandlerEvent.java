@@ -10,6 +10,7 @@ import com.zysoft.tjawshapingapp.bean.OrderBean;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 
 import org.greenrobot.eventbus.EventBus;
+import org.w3c.dom.Text;
 
 /**
  * Created by mr.miao on 2019/5/18.
@@ -26,22 +27,48 @@ public class CustomHandlerEvent extends HandlerEvent {
 //    }
 
 
+    public void updateAddr(AddressBean addressBean) {
 
-    public void updateAddr(AddressBean addressBean){
-
-        EventBus.getDefault().post(new NetResponse("UPDATE_ADDR",addressBean));
-
-    }
-   public void deleteAddr(AddressBean addressBean){
-
-        EventBus.getDefault().post(new NetResponse("DELETE_ADDR",addressBean));
+        EventBus.getDefault().post(new NetResponse("UPDATE_ADDR", addressBean));
 
     }
 
-  public void setDefault(AddressBean addressBean){
+    public void deleteAddr(AddressBean addressBean) {
 
-        EventBus.getDefault().post(new NetResponse("SET_DEFAULT",addressBean));
+        EventBus.getDefault().post(new NetResponse("DELETE_ADDR", addressBean));
 
+    }
+
+    public void setDefault(AddressBean addressBean) {
+
+        EventBus.getDefault().post(new NetResponse("SET_DEFAULT", addressBean));
+
+    }
+
+    @BindingAdapter("setTitleName")
+    public static void setTitleName(TextView textView, int state) {
+
+        textView.setText(state == 0 ? "商品金额" : "项目金额");
+
+    }
+
+
+    @BindingAdapter("setPayWay")
+    public static void setPayWay(TextView textView, int state) {
+        switch (state) {
+            case 0:
+                textView.setText("微信支付");
+                break;
+            case 1:
+                textView.setText("支付宝支付");
+                break;
+            case 2:
+                textView.setText("银联支付");
+                break;
+            default:
+                textView.setText("积分支付");
+                break;
+        }
     }
 
 

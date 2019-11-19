@@ -22,4 +22,6 @@ public class HttpConstant {
     public static final String GET_HB_LOOP="GET_HB_LOOP";
     public static final String GET_BUSINESS_LOOP="GET_BUSINESS_LOOP";
     public static final String GET_AD="GET_AD";
+    public static final String STATE_RELOGIN="STATE_RELOGIN";
+
 }

@@ -14,9 +14,14 @@ public class DefaultUser implements IUser {
         this.avatar = avatar;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "DefaultUser{" +
+                "id='" + id + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", avatar='" + avatar + '\'' +
+                '}';
+    }
 
     @Override
     public String getId() {

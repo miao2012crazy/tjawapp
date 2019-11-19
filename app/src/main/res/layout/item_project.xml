@@ -12,7 +12,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="121dp"
+        android:layout_height="115dp"
         android:background="#fff"
         android:orientation="vertical">
 
@@ -27,9 +27,11 @@
             android:scaleType="fitXY"
             android:id="@+id/iv_project"
             android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_margin="13dp"
-            android:layout_marginBottom="13dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             app:loadImgRound="@{item.productIcon}" />
 
         <LinearLayout
@@ -46,12 +48,22 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lines="3"
+                android:lines="1"
+                android:maxLines="1"
                 android:text="@{String.valueOf(item.projectTag)+String.valueOf(item.projectName)}"
                 android:textColor="#000000"
+                android:textSize="17sp"
+                tools:text="123123123" />
+            <TextView
+                android:id="@+id/tv_desc"
+                android:layout_marginLeft="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="2"
+                android:text="@{String.valueOf(item.projectDesc)}"
+                android:textColor="#666"
                 android:textSize="13sp"
                 tools:text="123123123" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -65,7 +77,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_toEndOf="@+id/textView"
                     android:text="@{String.valueOf(item.projectOrginPrice)}"
-                    android:textColor="#ff758c"
+                    android:textColor="#0086c9"
                     android:textSize="17sp" />
 
                 <TextView
@@ -74,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="¥ "
-                    android:textColor="#ff758c"
+                    android:textColor="#0086c9"
                     android:textSize="10sp" />
 
                 <TextView

@@ -100,7 +100,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="45dp"
                 android:text="忘记密码"
-                android:textColor="#ff758d"
+                android:textColor="#0086c9"
                 android:textSize="14sp" />
 
 

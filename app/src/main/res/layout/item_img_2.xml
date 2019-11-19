@@ -9,7 +9,9 @@
 
         <ImageView
             android:id="@+id/image_msg"
-            android:layout_width="300dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"

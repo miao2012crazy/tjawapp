@@ -17,15 +17,17 @@
 
 
         <android.support.design.widget.TabLayout
+            app:tabIndicatorFullWidth="false"
+
             android:id="@+id/tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:background="#fff"
-            app:tabIndicatorColor="#ff758c"
+            app:tabIndicatorColor="#0086c9"
             app:tabIndicatorHeight="4dp"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="#ff758c"
+            app:tabSelectedTextColor="#0086c9"
             app:tabTextColor="#000000" />
 
         <android.support.v4.view.ViewPager

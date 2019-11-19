@@ -25,11 +25,15 @@ public class OrderAdapter extends BaseQuickAdapter<OrderBean,BaseViewHolder>{
 
     @Override
     protected void convert(BaseViewHolder helper, OrderBean item) {
-        helper.setText(R.id.tv_project_name,item.getProjectName())
-                .setText(R.id.tv_count,String.valueOf(item.getProjectNum()))
+        helper.setText(R.id.tv_project_name,item.getIsProduct()==1?item.getProjectName():item.getProjectName()+"--"+item.getProjectDesc())
+                .setText(R.id.tv_count, item.getProjectNum() +"件")
                 .setText(R.id.tv_time,item.getExpectTime())
-                .setText(R.id.tv_conpoun,"¥"+item.getOrderPayPrice())
+                .setVisible(R.id.ll_time,item.getIsProduct()==1)
+                .setText(R.id.tv_conpoun,String.valueOf(item.getOrderPayPrice()))
+                .setText(R.id.tv_state_name,item.getOrderStateName())
+                .setText(R.id.tv_yfk,item.getIsProduct()==1?"预付款(余款到店付)":"金额")
         .addOnClickListener(R.id.btn_cancel);
+
         ImageView view = helper.getView(R.id.iv_icon);
         if (!item.getProjectIcon().equals(view.getTag())){
             view.setTag(null);

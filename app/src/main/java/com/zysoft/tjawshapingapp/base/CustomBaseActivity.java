@@ -1,5 +1,7 @@
 package com.zysoft.tjawshapingapp.base;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,6 +43,15 @@ public abstract class CustomBaseActivity extends AppCompatActivity {
         Intent intent = new Intent(this, clazz);
         startActivity(intent);
     }
+
+
+
+    protected void startActivityBase(Class clazz,Bundle bundle1) {
+        Intent intent = new Intent(this, clazz);
+        intent.putExtras(bundle1);
+        startActivity(intent);
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,5 +113,23 @@ public abstract class CustomBaseActivity extends AppCompatActivity {
 
 
     }
-
+    /**
+     * 复制内容到剪切板
+     *
+     * @param copyStr
+     * @return
+     */
+    protected boolean copy(String copyStr) {
+        try {
+            //获取剪贴板管理器
+            ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            // 创建普通字符型ClipData
+            ClipData mClipData = ClipData.newPlainText("Label", copyStr);
+            // 将ClipData内容放到系统剪贴板里。
+            cm.setPrimaryClip(mClipData);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

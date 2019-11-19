@@ -24,13 +24,13 @@ public class NovateUtil {
         }
         //连接时间 可以忽略
         Map<String, String> headers = new HashMap<>();
+        headers.put("Connection", "close");
 //        headers.put("Cache-Control", "max-age=1000*60");
         try {
             String adresseMAC = DeviceUtils.getUniqueID();
             headers.put("uuid", adresseMAC);
             if (AppConstant.USER_INFO_BEAN == null) {
                 headers.put("userTel", "");
-
             } else {
                 headers.put("userTel", AppConstant.USER_INFO_BEAN.getUserTel());
             }
@@ -44,6 +44,7 @@ public class NovateUtil {
 
     public static Novate initBuilder() {
         Map<String, String> headers = new HashMap<>();
+        headers.put("Connection", "close");
 //        headers.put("Cache-Control", "max-age=1000*60");
         try {
             String adresseMAC = DeviceUtils.getUniqueID();

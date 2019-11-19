@@ -8,9 +8,5 @@
         android:layout_height="match_parent">
         <include layout="@layout/layout_list"
             android:id="@+id/recycler_list_order"/>
-
-
     </LinearLayout>
-
-
 </layout>

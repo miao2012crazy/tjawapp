@@ -27,6 +27,7 @@ import com.zysoft.tjawshapingapp.view.ProjectDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,9 +75,11 @@ public class OrderOneFragment extends BaseLazyFragment {
 
     private void initList() {
         orderAdapter = new OrderAdapter(mainList);
+        orderAdapter.setEmptyView(UIUtils.inflate(R.layout.layout_no_data));
+        orderAdapter.openLoadAnimation();
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
         bind.recyclerListOrder.recyclerList.setLayoutManager(linearLayoutManager);
-        orderAdapter.openLoadAnimation();
         bind.recyclerListOrder.recyclerList.setAdapter(orderAdapter);
 
         orderAdapter.setOnItemClickListener((adapter, view, position) -> {
@@ -92,7 +95,7 @@ public class OrderOneFragment extends BaseLazyFragment {
                     //取消订单
                     map.clear();
                     map.put("orderId", mainList.get(position).getOrderId());
-                    NetModel.getInstance().getDataFromNet("CANCEL_ORDER", HttpUrls.CANCEL_ORDER, map);
+                    NetModel.getInstance().getDataFromNet("CANCEL_ORDER"+type, HttpUrls.CANCEL_ORDER, map);
                     break;
             }
         });
@@ -101,7 +104,7 @@ public class OrderOneFragment extends BaseLazyFragment {
 
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void revceiveData(NetResponse netResponse) {
         if (netResponse.getTag().equals("ORDER_DATA"+type)){
             List<OrderBean> orderBeans = GsonUtil.GsonToList((String) netResponse.getData(), OrderBean.class);
@@ -110,15 +113,9 @@ public class OrderOneFragment extends BaseLazyFragment {
             orderAdapter.notifyDataSetChanged();
             return;
         }
-        switch (netResponse.getTag()){
-            case "CANCEL_ORDER":
-                UIUtils.showToast(String.valueOf(netResponse.getData()));
-//                orderAdapter.notifyDataSetChanged();
-                break;
+        if (netResponse.getTag().equals("CANCEL_ORDER"+type)){
+            showTipe(1,String.valueOf(netResponse.getData()));
         }
-
-
-
     }
 
     @Override

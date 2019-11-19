@@ -104,11 +104,15 @@ public class SettingPsdActivity extends CustomBaseActivity {
             map.clear();
             map.put("userTel", AppConstant.USER_PHONE);
             map.put("userPsd", userPsd1);
+
+            Bundle extras = getIntent().getExtras();
             if (AppConstant.IS_REGEDIT) {
+                if (extras != null) {
+                    map.put("userOpenId", extras.getString("openId"));
+                }
                 NetModel.getInstance().getDataFromNet("REGEDIT", HttpUrls.REGEDIT, map);
             } else {
                 NetModel.getInstance().getDataFromNet("REGEDIT", HttpUrls.UPDATEPSD, map);
-
             }
 
 

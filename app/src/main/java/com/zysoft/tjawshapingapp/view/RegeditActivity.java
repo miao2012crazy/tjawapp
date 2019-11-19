@@ -27,6 +27,7 @@ public class RegeditActivity extends CustomBaseActivity {
     private HashMap<String, Object> map = new HashMap<>();
 
     private String mCode = "";
+    private String openId="";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +37,10 @@ public class RegeditActivity extends CustomBaseActivity {
         binding.tvTel.setText(AppConstant.USER_PHONE);
         binding.btnRegedit.setEnabled(false);
         binding.btnRegedit.setBackgroundResource(R.mipmap.btn_next_true);
-
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            openId = extras.getString("openId");
+        }
 
         binding.verificationcodeview.setOnCodeFinishListener(new VerificationCodeView.OnCodeFinishListener() {
             @Override
@@ -74,7 +78,10 @@ public class RegeditActivity extends CustomBaseActivity {
         switch (netResponse.getTag()){
             case "CHECK_CODE":
                 //成功！
-                startActivityBase(SettingPsdActivity.class);
+                bundle.clear();
+                bundle.putString("openId", openId);
+                //用户不存在跳转到注册
+                startActivityBase(SettingPsdActivity.class,bundle);
                 finish();
 
                 break;

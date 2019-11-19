@@ -26,6 +26,7 @@ public class ProjectAdapter extends BaseQuickAdapter<HomeDataBean.ProjectListBea
     protected void convert(BaseViewHolder helper, HomeDataBean.ProjectListBean item) {
         helper.setText(R.id.tv_tag_name,item.getProjectTag()+item.getProjectName())
                 .setText(R.id.tv_price,String.valueOf(item.getProjectOrginPrice()))
+                .setText(R.id.tv_desc,String.valueOf(item.getProjectDesc()))
         .setText(R.id.textView2,String.valueOf(item.getProjectSellNum()));
 
         ImageView iv = helper.getView(R.id.iv_project);

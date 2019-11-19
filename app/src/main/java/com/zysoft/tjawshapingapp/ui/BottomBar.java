@@ -60,8 +60,8 @@ public class BottomBar extends View {
     private int titleColorAfter = Color.parseColor("#ff5d5e");
 
     private int titleSizeInDp = 10;
-    private int iconWidth = 20;
-    private int iconHeight = 20;
+    private int iconWidth = 22;
+    private int iconHeight = 22;
     private int titleIconMargin = 5;
 
     public BottomBar setContainer(int containerId) {
@@ -75,11 +75,21 @@ public class BottomBar extends View {
         return this;
     }
 
+    /**
+     * 设置文字大小
+     * @param titleSizeInDp
+     * @return
+     */
     public BottomBar setTitleSize(int titleSizeInDp) {
         this.titleSizeInDp = titleSizeInDp;
         return this;
     }
 
+    /**
+     * 设置icon宽高
+     * @param iconWidth
+     * @return
+     */
     public BottomBar setIconWidth(int iconWidth) {
         this.iconWidth = iconWidth;
         return this;

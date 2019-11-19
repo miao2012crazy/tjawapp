@@ -14,8 +14,17 @@ public class UserInfoBean {
     private int realState;
     private int userLevel;
     private String userSign;
+    private int userSex;
 
-    public UserInfoBean(int userId, String userNickName, String userHeadImg, String userTel, String openId, String wxtoken, int realState, int userLevel,String userSign) {
+    public int getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(int userSex) {
+        this.userSex = userSex;
+    }
+
+    public UserInfoBean(int userId, String userNickName, String userHeadImg, String userTel, String openId, String wxtoken, int realState, int userLevel, String userSign, int userSex) {
         this.userId = userId;
         this.userNickName = userNickName;
         this.userHeadImg = userHeadImg;
@@ -25,6 +34,7 @@ public class UserInfoBean {
         this.realState = realState;
         this.userLevel = userLevel;
         this.userSign = userSign;
+        this.userSex = userSex;
     }
 
     public int getUserId() {

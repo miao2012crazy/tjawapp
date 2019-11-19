@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 
 /**
  * 自定义组件：购买数量，带减少增加按钮
@@ -93,6 +94,12 @@ public class AmountView extends LinearLayout implements View.OnClickListener, Te
         etAmount.clearFocus();
 
         if (mListener != null) {
+            if (amount==1){
+                btnDecrease.setBackground(UIUtils.getDrawable(R.mipmap.del_enable));
+            }else {
+                btnDecrease.setBackground(UIUtils.getDrawable(R.mipmap.del_normal));
+
+            }
             mListener.onAmountChange(this, amount);
         }
     }
@@ -127,12 +134,17 @@ public class AmountView extends LinearLayout implements View.OnClickListener, Te
     }
 
     public void setAmount(String amount){
-       etAmount.setText(amount);
+        if (Integer.parseInt(amount)==1){
+            btnDecrease.setBackground(UIUtils.getDrawable(R.mipmap.del_enable));
+        }else {
+            btnDecrease.setBackground(UIUtils.getDrawable(R.mipmap.del_normal));
+
+        }
+        etAmount.setText(amount);
     }
 
 
     public interface OnAmountChangeListener {
         void onAmountChange(View view, int amount);
     }
-
 }

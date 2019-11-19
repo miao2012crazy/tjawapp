@@ -14,6 +14,8 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.stx.xhb.xbanner.XBanner;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.CustomLazyPagerAdapter;
@@ -30,12 +32,16 @@ import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.FragmentHomeBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
+import com.zysoft.tjawshapingapp.view.order.OrderDetailActivity;
+import com.zysoft.tjawshapingapp.view.webView.WebViewActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.jessyan.autosize.utils.LogUtils;
 
 /**
  * Created by mr.miao on 2019/3/31.
@@ -63,8 +69,6 @@ public class HomeFragment extends CustomBaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
         bind = (FragmentHomeBinding) binding;
-        QMUIStatusBarHelper.translucent(getActivity());
-        QMUIStatusBarHelper.setStatusBarLightMode(getActivity());
         return binding.getRoot();
     }
 
@@ -73,8 +77,6 @@ public class HomeFragment extends CustomBaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
-//        QMUIStatusBarHelper.translucent(getActivity());
-//        QMUIStatusBarHelper.setStatusBarLightMode(getActivity());
         initOptionTab();
 
         bind.ivRecomment1.setOnClickListener(v -> {
@@ -102,6 +104,20 @@ public class HomeFragment extends CustomBaseFragment {
             }
         });
         NetModel.getInstance().getAllData("HOME_DATA", HttpUrls.GET_HOME_DATA, map);
+
+        bind.smartRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                EventBus.getDefault().post(new NetResponse("REFRESH",""));
+                NetModel.getInstance().getAllData("HOME_DATA", HttpUrls.GET_HOME_DATA, map);
+                refreshLayout.finishRefresh(2);
+            }
+        });
+        bind.ivRecomment3.setOnClickListener(v->{
+            startActivityCom(ApplyDLActivity.class);
+
+
+        });
 
     }
 
@@ -141,6 +157,9 @@ public class HomeFragment extends CustomBaseFragment {
 
     private void initTablayout(List<HomeDataBean.OptionBean> option) {
         bind.tablayout.removeAllTabs();
+        fragmentList.clear();
+        list_Title.clear();
+        LogUtils.e("asdasdasd"+option.size());
         for (HomeDataBean.OptionBean item : option) {
             bind.tablayout.addTab(bind.tablayout.newTab().setText(item.getOptionName()));
             OptionFragment optionFragment = new OptionFragment();
@@ -175,18 +194,12 @@ public class HomeFragment extends CustomBaseFragment {
 
     private void initRecommendImage(List<HomeDataBean.RecommendBean> recommend, HomeDataBean.AppDLBean appDL) {
         if (recommend.size() == 1) {
-            GlideApp.with(this).load(recommend.get(0).getProductIcon()).centerCrop().transform(new GlideRoundTransform( 4)).into(bind.ivRecomment1);
+            GlideApp.with(this).load(recommend.get(0).getProductIcon()).centerCrop().transform(new GlideRoundTransform( 6)).into(bind.ivRecomment1);
         } else if (recommend.size() >= 2) {
-            GlideApp.with(this).load(recommend.get(0).getProductIcon()).transform(new GlideRoundTransform( 4)).into(bind.ivRecomment1);
+            GlideApp.with(this).load(recommend.get(0).getProductIcon()).transform(new GlideRoundTransform( 6)).into(bind.ivRecomment1);
             GlideApp.with(this).load(recommend.get(1).getProductIcon()).into(bind.ivRecomment2);
         }
         GlideApp.with(this).load(appDL.getProjectImg()).transform(new GlideRoundTransform( 4)).into(bind.ivRecomment3);
-
-
-
-
-
-
     }
 
     private void initRecyclerTabs(List<HomeDataBean.OptionBean> option) {
@@ -218,13 +231,33 @@ public class HomeFragment extends CustomBaseFragment {
         titles.add("");
         bind.banner.removeAllViews();
         bind.banner.setData(images, titles);
-        // XBanner适配数据
-        bind.banner.setmAdapter(new XBanner.XBannerAdapter() {
-            @Override
-            public void loadBanner(XBanner banner, View view, int position) {
-                GlideApp.with(HomeFragment.this).load(images.get(position)).error(R.mipmap.sample_add_dl).into((ImageView) view);
+        bind.banner.setOnItemClickListener((banner, position) -> {
+            HomeDataBean.LoopBean loopBean = loop.get(position);
+            switch (loopBean.getIsProduct()){
+                case 0:
+                    //0活动
+                    bundle.clear();
+                    bundle.putString("title", "官方活动");
+                    bundle.putString("url", loopBean.getLoopLink());
+                    startActivityBase(WebViewActivity.class, bundle);
+                    break;
+                case 1:
+                    //1 商品
+                    bundle.clear();
+                    bundle.putString("PRODUCT_ID", loopBean.getProductId());
+                    startActivityBase(ProductDetailActivity.class, bundle);
+                    break;
+                case 2:
+                    // 2 项目
+                    bundle.clear();
+                    bundle.putString("PROJECT_ID", loopBean.getProductId());
+                    startActivityBase(ProjectDetailActivity.class, bundle);
+
+                    break;
             }
         });
+        // XBanner适配数据
+        bind.banner.setmAdapter((banner, view, position) -> GlideApp.with(HomeFragment.this).load(images.get(position)).error(R.mipmap.sample_add_dl).into((ImageView) view));
     }
 
 
