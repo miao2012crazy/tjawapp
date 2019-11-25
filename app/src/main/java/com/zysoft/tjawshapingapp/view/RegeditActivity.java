@@ -55,7 +55,7 @@ public class RegeditActivity extends CustomBaseActivity {
                 mCode = content;
                 //TODO: 例如底部【下一步】按钮可点击
                 binding.btnRegedit.setEnabled(true);
-                binding.btnRegedit.setBackgroundResource(R.mipmap.btn_next);
+                binding.btnRegedit.setBackgroundResource(R.mipmap.btn_ok);
             }
 
         });

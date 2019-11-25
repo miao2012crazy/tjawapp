@@ -20,6 +20,7 @@ import com.zysoft.tjawshapingapp.bean.CenterToolBean;
 import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.GlideApp;
 import com.zysoft.tjawshapingapp.common.GlideCircleTransform;
+import com.zysoft.tjawshapingapp.common.GlideRoundTransform;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
 import com.zysoft.tjawshapingapp.common.SPUtils;
 import com.zysoft.tjawshapingapp.common.UIUtils;
@@ -62,24 +63,24 @@ public class UserCenterFragment extends CustomBaseFragment {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
         mainList.clear();
-        CenterToolBean centerToolBean1 = new CenterToolBean(CenterToolBean.center_1, "消息", R.mipmap.ic_xx, 1);
-        CenterToolBean centerToolBean2 = new CenterToolBean(CenterToolBean.center_1, "订单", R.mipmap.ic_dd, 2);
-        CenterToolBean centerToolBean3 = new CenterToolBean(CenterToolBean.center_1, "钱包", R.mipmap.ic_qb, 3);
-        CenterToolBean centerToolBean4 = new CenterToolBean(CenterToolBean.center_1, "代理", R.mipmap.ic_dl, 4);
+        CenterToolBean centerToolBean1 = new CenterToolBean(CenterToolBean.center_2, "消息", R.mipmap.ic_xx, 1);
+        CenterToolBean centerToolBean2 = new CenterToolBean(CenterToolBean.center_2, "订单", R.mipmap.ic_dd, 2);
+        CenterToolBean centerToolBean3 = new CenterToolBean(CenterToolBean.center_2, "钱包", R.mipmap.ic_qb, 3);
+        CenterToolBean centerToolBean4 = new CenterToolBean(CenterToolBean.center_2, "代理", R.mipmap.ic_dl, 4);
         mainList.add(centerToolBean1);
         mainList.add(centerToolBean2);
         mainList.add(centerToolBean3);
         mainList.add(centerToolBean4);
 
         CenterAdapter centerAdapter = new CenterAdapter(mainList);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),4);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 4);
         binding.recyclerListCenter1.setLayoutManager(gridLayoutManager);
         binding.recyclerListCenter1.setAdapter(centerAdapter);
 
         centerAdapter.setOnItemClickListener((adapter, view13, position) -> {
             CenterToolBean centerToolBean = mainList.get(position);
 
-            switch (centerToolBean.getId()){
+            switch (centerToolBean.getId()) {
                 case 1:
                     Intent intent = new Intent(getActivity(), NoticeActivity.class);
                     startActivity(intent);
@@ -102,7 +103,7 @@ public class UserCenterFragment extends CustomBaseFragment {
         mainList2.add(new CenterToolBean(CenterToolBean.center_1, "待收货", R.mipmap.ic_dsh, 7));
         mainList2.add(new CenterToolBean(CenterToolBean.center_1, "待评价", R.mipmap.ic_dpj, 8));
         Center2Adapter centerAdapter2 = new Center2Adapter(mainList2);
-        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(getActivity(),4);
+        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(getActivity(), 4);
         binding.recyclerListCenterOrder.setLayoutManager(gridLayoutManager2);
         binding.recyclerListCenterOrder.setAdapter(centerAdapter2);
 
@@ -133,13 +134,13 @@ public class UserCenterFragment extends CustomBaseFragment {
         mainList3.add(centerToolBean15);
         mainList3.add(centerToolBean16);
         Center3Adapter centerAdapter3 = new Center3Adapter(mainList3);
-        GridLayoutManager gridLayoutManager3 = new GridLayoutManager(getActivity(),4);
+        GridLayoutManager gridLayoutManager3 = new GridLayoutManager(getActivity(), 4);
 
         binding.recyclerListCenterTool.setLayoutManager(gridLayoutManager3);
         binding.recyclerListCenterTool.setAdapter(centerAdapter3);
         centerAdapter3.setOnItemClickListener((adapter, view1, position) -> {
             CenterToolBean centerToolBean = mainList3.get(position);
-            switch (centerToolBean.getId()){
+            switch (centerToolBean.getId()) {
                 case 13:
                     Intent intent = new Intent(getActivity(), CouponsListActivity.class);
                     startActivity(intent);
@@ -153,7 +154,7 @@ public class UserCenterFragment extends CustomBaseFragment {
                     Intent intent3 = new Intent(getActivity(), AddressManageActivity.class);
                     startActivity(intent3);
                     break;
-                case 10 :
+                case 10:
                     Intent intent4 = new Intent(getActivity(), RealStateActivity.class);
                     startActivity(intent4);
                     break;
@@ -162,7 +163,7 @@ public class UserCenterFragment extends CustomBaseFragment {
                     startActivity(intent5);
                     break;
                 case 14:
-                    Conversation conversation =  Conversation.createSingleConversation("miao2012crazy@163.com");
+                    Conversation conversation = Conversation.createSingleConversation("miao2012crazy@163.com");
                     conversation.resetUnreadCount();
                     Intent intent6 = new Intent(getActivity(), IMDetailActivity.class);
                     bundle.clear();
@@ -190,18 +191,57 @@ public class UserCenterFragment extends CustomBaseFragment {
             intent1.putExtras(bundle);
             startActivity(intent1);
         });
+
+        binding.icQrCode.setOnClickListener(v -> {
+            startActivityCom(UserQrCodeActivity.class);
+        });
+
     }
 
     private void initUserInfo(UserInfoBean userInfoBean) {
         if (userInfoBean != null) {
             binding.tvNickName.setText(userInfoBean.getUserNickName());
-            GlideApp.with(getActivity()).load(userInfoBean.getUserHeadImg()).centerCrop().transform(new GlideCircleTransform()).into(binding.ivHead);
+            GlideApp.with(binding.ivHead.getContext()).load(userInfoBean.getUserHeadImg()).centerCrop().transform(new GlideCircleTransform()).into(binding.ivHead);
         } else {
             binding.tvLogin.setVisibility(View.VISIBLE);
             binding.llUser.setVisibility(View.GONE);
+            return;
         }
         binding.tvLogin.setOnClickListener(view -> startActivity(new Intent(getActivity(), LoginActivity.class)));
-        binding.ivDesc.setText(userInfoBean.getUserSign());
+        int realState = userInfoBean.getRealState();
+        String realStateDesc = "";
+        switch (realState) {
+            case 0:
+                realStateDesc = "未认证";
+                break;
+            case 1:
+                realStateDesc = "已实名认证";
+                break;
+            case 2:
+                realStateDesc = "审核中";
+                break;
+        }
+        binding.ivDesc.setText(realStateDesc);
+        int userLevel = userInfoBean.getUserLevel();
+        int userlevelDrawable = 0;
+        switch (userLevel) {
+            case 0:
+                userlevelDrawable = R.mipmap.ic_level_0;
+                break;
+            case 1:
+                userlevelDrawable = R.mipmap.ic_level_1;
+
+                break;
+            case 2:
+                userlevelDrawable = R.mipmap.ic_level_2;
+
+                break;
+            case 3:
+                userlevelDrawable = R.mipmap.ic_level_3;
+
+                break;
+        }
+        GlideApp.with(binding.ivLevels.getContext()).load(userlevelDrawable).into(binding.ivLevels);
     }
 
     @Subscribe

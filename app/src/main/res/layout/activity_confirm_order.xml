@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <LinearLayout
@@ -347,6 +348,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="30dp"
                     android:layout_marginTop="10dp"
+                    android:textColor="#bdbdbd"
                     android:gravity="center"
                     android:text="为防止订单失效，建议您在30分钟内完成付款" />
             </LinearLayout>
@@ -383,8 +385,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:paddingRight="10dp"
-                android:text="99.00元"
-                android:textColor="#0086c9"
+                tools:text="99.00元"
+                android:textColor="#ff0000"
                 android:textSize="15sp" />
 
 
@@ -394,7 +396,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/shape_btn_commit"
+                android:background="@mipmap/ic_pay"
                 android:text="确认支付"
                 android:textColor="#fff" />
 

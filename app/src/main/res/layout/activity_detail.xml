@@ -454,7 +454,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#fe71aa"
+                android:background="@mipmap/ic_zxdj"
                 android:text="咨询店家"
                 android:textColor="#fff"
                 android:textSize="18sp" />
@@ -464,7 +464,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#fc5e79"
+                android:background="@mipmap/ic_msyd"
                 android:text="马上预定"
                 android:textColor="#fff"
                 android:textSize="18sp" />

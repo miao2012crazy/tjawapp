@@ -76,7 +76,7 @@ public class InputPsdActivity extends CustomBaseActivity {
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().trim().equals("")) {
                     binding.btnCommit.setEnabled(true);
-                    binding.btnCommit.setBackgroundResource(R.mipmap.btn_next);
+                    binding.btnCommit.setBackgroundResource(R.mipmap.btn_ok);
                 } else {
                     binding.btnCommit.setEnabled(false);
                     binding.btnCommit.setBackgroundResource(R.mipmap.btn_next_true);

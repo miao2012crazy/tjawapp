@@ -10,6 +10,7 @@ import com.zysoft.tjawshapingapp.R;
 public class CenterToolBean implements MultiItemEntity {
     public static final int center_0=0;
     public static final int center_1=1;
+    public static final int center_2=2;
 
     private int itemType;
     private String tag_name;

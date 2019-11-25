@@ -50,6 +50,8 @@ public class HttpUrls {
     public static String COMMIT_FEED_BACK="commitFeedBack";
     public static String RECHARGE="createRechargeOrder";
     public static String APPLY_MEMBER="createApplyOrder";
+    public static String GET_QR_CODE="getQrCode";
+
 
     public static String getBaseUrl() {
         if (AppConstant.isDebug) {

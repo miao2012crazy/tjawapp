@@ -22,6 +22,7 @@ public class CenterAdapter extends BaseMultiItemQuickAdapter<CenterToolBean, Bas
         super(mainList);
         addItemType(CenterToolBean.center_0, R.layout.item_center_2);
         addItemType(CenterToolBean.center_1, R.layout.item_center_2);
+        addItemType(CenterToolBean.center_2, R.layout.item_center_4);
     }
 
     @Override

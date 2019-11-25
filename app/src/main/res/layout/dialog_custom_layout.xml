@@ -57,11 +57,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/shape_tag"
+                    android:background="@mipmap/ic_hyj"
                     android:gravity="center_vertical"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:text="123"
                     android:textColor="#FFF"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -148,7 +147,7 @@
         <TextView
             android:layout_gravity="bottom"
             android:gravity="center_vertical"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_margin="10dp"
             android:layout_height="match_parent"

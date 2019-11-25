@@ -32,7 +32,7 @@
             android:layout_height="30dp"
             android:gravity="center"
             tools:text="123123123"
-            android:textColor="#000"
+            android:textColor="#fff"
             android:textSize="12sp" />
 
     </LinearLayout>

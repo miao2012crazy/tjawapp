@@ -105,7 +105,7 @@
                 android:layout_marginBottom="25dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:background="@mipmap/ic_btn_bg"
+                android:background="@mipmap/btn_add"
                 android:text="提交"
                 android:textColor="#fff" />
         </LinearLayout>

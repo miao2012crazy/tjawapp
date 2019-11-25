@@ -94,6 +94,7 @@
         <activity android:name=".view.feedback.FeedBackActivity" />
         <activity android:name=".view.RechargeActivity" />
         <activity android:name=".view.ApplyDLActivity" />
+        <activity android:name=".view.UserQrCodeActivity" />
         <activity android:name=".view.im.IMActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
