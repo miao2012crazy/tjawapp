@@ -32,7 +32,9 @@ public class OrderAdapter extends BaseQuickAdapter<OrderBean,BaseViewHolder>{
                 .setText(R.id.tv_conpoun,String.valueOf(item.getOrderPayPrice()))
                 .setText(R.id.tv_state_name,item.getOrderStateName())
                 .setText(R.id.tv_yfk,item.getIsProduct()==1?"预付款(余款到店付)":"金额")
-        .addOnClickListener(R.id.btn_cancel);
+        .addOnClickListener(R.id.btn_cancel)
+        .addOnClickListener(R.id.btn_pay)
+        .addOnClickListener(R.id.btn_pj);
 
         ImageView view = helper.getView(R.id.iv_icon);
         if (!item.getProjectIcon().equals(view.getTag())){
@@ -50,10 +52,12 @@ public class OrderAdapter extends BaseQuickAdapter<OrderBean,BaseViewHolder>{
         Button btn_shipment = helper.getView(R.id.btn_shipment);
         Button btnConfirm = helper.getView(R.id.btnConfirm);
 
-        btnCancel.setVisibility(item.getOrderState()==0?View.VISIBLE:View.GONE);
+        btnCancel.setVisibility(item.getOrderState()==0||item.getOrderState()==1||item.getOrderState()==9?View.VISIBLE:View.GONE);
         btn_pay.setVisibility(item.getOrderState()==0?View.VISIBLE:View.GONE);
-        btn_pj.setVisibility(item.getOrderState()==3?View.VISIBLE:View.GONE);
-        btn_shipment.setVisibility((item.getOrderState()==6||item.getOrderState()==7)?View.VISIBLE:View.GONE);
+        btn_pj.setVisibility(item.getOrderState()==8&&item.getIsPl()==0?View.VISIBLE:View.GONE);
+
+
+                btn_shipment.setVisibility((item.getOrderState()==6||item.getOrderState()==7)?View.VISIBLE:View.GONE);
         btnConfirm.setVisibility(item.getOrderState()==7?View.VISIBLE:View.GONE);
 
     }

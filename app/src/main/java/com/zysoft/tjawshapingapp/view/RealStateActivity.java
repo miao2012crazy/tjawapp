@@ -135,7 +135,7 @@ public class RealStateActivity extends CustomBaseActivity {
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    UIUtils.showToast("请求失败");
+                    showTipe(3,"网络连接失败");
                 }
             });
         });
@@ -154,6 +154,9 @@ public class RealStateActivity extends CustomBaseActivity {
                 String data = (String) netResponse.getData();
                 LogUtils.e(data);
                 RealBean realBean = GsonUtil.GsonToBean(data, RealBean.class);
+                if (realBean.getState()==0){
+                    return;
+                }
                 binding.setItem(realBean);
                 break;
         }

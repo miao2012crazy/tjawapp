@@ -7,30 +7,202 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
-        android:paddingTop="25dp"
         android:fitsSystemWindows="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="25dp">
+
         <include
-             android:id="@+id/title"
-             layout="@layout/layout_title_bar" />
+            android:id="@+id/title"
+            layout="@layout/layout_title_bar" />
 
-        <TextView
-            android:id="@+id/tv_apply_first"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="申请会员" />
+        <!-- 纵向linnerlayout -->
+        <LinearLayout
 
-        <TextView
-            android:id="@+id/tv_apply_two"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="申请一级代理" />
+            android:layout_height="285dp"
+            android:layout_margin="10dp"
+            android:background="@mipmap/ic_apply_bg"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_apply_three"
+            <!-- 纵向linnerlayout -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="11dp"
+                    android:text="选择方案"
+                    android:textColor="#ff557a"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="专属特权+特惠尝鲜"
+                    android:textColor="#ff557a"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/rg_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="13dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginBottom="13dp"
+                android:background="@drawable/shape_confirm_order"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rb_vip"
+                    style="@style/rb_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="13dp"
+                    android:text="方案一：2980元  VIP"
+                    android:textColor="#ff557a"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_hhr"
+                    style="@style/rb_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="13dp"
+                    android:text="方案二：19800元  合伙人"
+                    android:textColor="#ff557a"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_ds"
+                    style="@style/rb_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="13dp"
+                    android:text="方案三：39800元  董事"
+                    android:textColor="#ff557a"
+                    android:textSize="15sp" />
+
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="申请二级代理" />
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:padding="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_confirm_order"
+                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/tv_wechat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical" />
+
+                <ImageView
+                    android:layout_marginTop="13dp"
+                    android:id="@+id/tv_alipay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical" />
+
+                <ImageView
+                    android:layout_marginTop="13dp"
+                    android:id="@+id/tv_yl"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <!-- 纵向linnerlayout -->
+
+            <!-- 纵向linnerlayout -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="11dp"
+                    android:gravity="center"
+                    android:text="应支付 "
+                    android:textColor="#ff0000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="11dp"
+                    android:gravity="center"
+                    android:text="39800.00"
+                    android:textColor="#ff0000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="11dp"
+
+                    android:gravity="center"
+                    android:text="元"
+                    android:textColor="#ff0000"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_pay"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@mipmap/ic_pay_2"
+                android:gravity="center"
+                android:text="去支付"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

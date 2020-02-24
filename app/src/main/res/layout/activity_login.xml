@@ -10,18 +10,18 @@
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="34dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@mipmap/btn_return" />
+<!--        <Button-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="34dp"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:background="@mipmap/btn_return" />-->
 
         <TextView
             android:id="@+id/tv_bind_tel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="80dp"
             android:gravity="center"
             android:text="输入手机号"
             android:textColor="#222"
@@ -64,6 +64,7 @@
                 android:textSize="10sp" />
 
             <TextView
+                android:id="@+id/tv_user_regedit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="《用户注册协议》"

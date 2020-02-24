@@ -18,9 +18,6 @@ import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.databinding.ActivityOrderBinding;
-import com.zysoft.tjawshapingapp.ui.NoPreloadViewPager;
-import com.zysoft.tjawshapingapp.view.OneFragment;
-import com.zysoft.tjawshapingapp.view.TwoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,10 +56,10 @@ public class OrderActivity extends CustomBaseActivity {
         List<BaseLazyFragment> fragmentList = new ArrayList<>();
         List<String> list_Title = new ArrayList<>();
         OrderOneFragment orderOneFragment0 = new OrderOneFragment();
-        OrderOneFragment orderOneFragment1 = new OrderOneFragment();
-        OrderOneFragment orderOneFragment2 = new OrderOneFragment();
-        OrderOneFragment orderOneFragment3 = new OrderOneFragment();
-        OrderOneFragment orderOneFragment4 = new OrderOneFragment();
+        OrderTwoFragment orderOneFragment1 = new OrderTwoFragment();
+        OrderThreeFragment orderOneFragment2 = new OrderThreeFragment();
+        OrderFourFragment orderOneFragment3 = new OrderFourFragment();
+        OrderFiveFragment orderOneFragment4 = new OrderFiveFragment();
         Bundle bundle = new Bundle();
         Bundle bundle1 = new Bundle();
         Bundle bundle2 = new Bundle();
@@ -83,6 +80,7 @@ public class OrderActivity extends CustomBaseActivity {
         list_Title.add("待付款");
         list_Title.add("待收货");
         list_Title.add("待评价");
+        binding.viewpager.setOffscreenPageLimit(5);
         binding.viewpager.setAdapter(new CustomLazyPagerAdapter(getSupportFragmentManager(), this, fragmentList, list_Title));
         binding.tablayout.setupWithViewPager(binding.viewpager);
         binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -104,7 +102,7 @@ public class OrderActivity extends CustomBaseActivity {
         });
     }
 
-    private void setArgments(OrderOneFragment orderOneFragment, Bundle bundle, String type) {
+    private void setArgments(BaseLazyFragment orderOneFragment, Bundle bundle, String type) {
         bundle.putString("type", type);
         orderOneFragment.setArguments(bundle);
 

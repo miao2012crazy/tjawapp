@@ -19,6 +19,7 @@ import com.zysoft.tjawshapingapp.MainActivity;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
+import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.CommonUtil;
 import com.zysoft.tjawshapingapp.common.GlideApp;
 import com.zysoft.tjawshapingapp.common.SoftKeyBoardListener;
@@ -29,8 +30,6 @@ import com.zysoft.tjawshapingapp.databinding.ActivityImDetailBinding;
 import com.zysoft.tjawshapingapp.view.im.ChatEmotionFragment;
 import com.zysoft.tjawshapingapp.view.im.ChatFunctionFragment;
 import com.zysoft.tjawshapingapp.view.im.DefaultUser;
-import com.zysoft.tjawshapingapp.view.im.FullImageActivity;
-import com.zysoft.tjawshapingapp.view.im.IMActivity;
 import com.zysoft.tjawshapingapp.view.im.MyMessage;
 import com.zysoft.tjawshapingapp.view.im.adapter.ChatAdapter;
 import com.zysoft.tjawshapingapp.view.im.adapter.CommonFragmentPagerAdapter;
@@ -65,6 +64,7 @@ import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.messages.MsgListAdapter;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetAvatarBitmapCallback;
+import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.content.CustomContent;
 import cn.jpush.im.android.api.content.EventNotificationContent;
 import cn.jpush.im.android.api.content.ImageContent;
@@ -112,55 +112,44 @@ public class IMDetailActivity extends CustomBaseActivity {
     private ChatFunctionFragment chatFunctionFragment;
     private CommonFragmentPagerAdapter bottomAdapter;
     private EmotionInputDetector mDetector;
+    private boolean isMyInit=false;
+    private boolean isUserInit=false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bind = DataBindingUtil.setContentView(IMDetailActivity.this, R.layout.activity_im_detail);
         EventBus.getDefault().register(this);
+        String recvNickName = getIntent().getExtras().getString("recvNickName");
         recvUserName = getIntent().getExtras().getString("recvUserName");
         String recvUserAppkey = getIntent().getExtras().getString("recvUserAppkey");
         singleConversation = Conversation.createSingleConversation(recvUserName, recvUserAppkey);
+        initUserInfo(recvUserName);
 
-        //自身
-        sendInfo = JMessageClient.getMyInfo();
-        File avatarFile = sendInfo.getAvatarFile();
-        if (avatarFile == null) {
-            sendInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
-                @Override
-                public void gotResult(int i, String s, Bitmap bitmap) {
-                    sendInfo = JMessageClient.getMyInfo();
-                    sendUser = new DefaultUser(String.valueOf(sendInfo.getUserID()), sendInfo.getDisplayName(), sendInfo.getAvatarFile().getPath());
 
-                }
-            });
-        }
-        sendUser = new DefaultUser(String.valueOf(sendInfo.getUserID()), sendInfo.getDisplayName(), avatarFile.getPath());
-
-        //目标用户
-        targetInfo = (UserInfo) singleConversation.getTargetInfo();
-        File avatarFile1 = targetInfo.getAvatarFile();
-        if (avatarFile1 == null) {
-            sendInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
-                @Override
-                public void gotResult(int i, String s, Bitmap bitmap) {
-                    targetInfo = JMessageClient.getMyInfo();
-                    targetUser = new DefaultUser(String.valueOf(targetInfo.getUserID()), targetInfo.getDisplayName(), targetInfo.getAvatarFile().getPath());
-
-                }
-            });
-        }
-        targetUser = new DefaultUser(String.valueOf(targetInfo.getUserID()), targetInfo.getDisplayName(), avatarFile1.getPath());
+//        targetUser = new DefaultUser(String.valueOf(targetInfo.getUserID()), targetInfo.getDisplayName(), avatarFile1!=null?avatarFile.getPath():"");
 
         //构建消息列表adapter
-        adapter = new MsgListAdapter<>(AppConstant.USER_INFO_BEAN.getUserTel(), new MsgListAdapter.HoldersConfig(), new ImageLoader() {
+        UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
+        if (userInfoBean==null){
+            return;
+        }
+        adapter = new MsgListAdapter<>(userInfoBean.getUserTel(), new MsgListAdapter.HoldersConfig(), new ImageLoader() {
             @Override
             public void loadAvatarImage(ImageView avatarImageView, String string) {
+                LogUtils.e("用户头像"+string);
+                    if (TextUtils.isEmpty(string)) {
+                    GlideApp.with(UIUtils.getContext())
+                            .load(R.drawable.ic_img_error)
+                            .centerCrop()
+                            .into(avatarImageView);
+                } else {
+                    GlideApp.with(UIUtils.getContext())
+                            .load(string)
+                            .centerCrop()
+                            .into(avatarImageView);
+                }
 
-                GlideApp.with(UIUtils.getContext())
-                        .load(string)
-                        .centerCrop()
-                        .into(avatarImageView);
             }
 
             @Override
@@ -178,13 +167,13 @@ public class IMDetailActivity extends CustomBaseActivity {
             }
         });
         adapter.setOnMsgClickListener(message -> {
-           if (message.getType() == IMessage.MessageType.RECEIVE_IMAGE.ordinal()
+            if (message.getType() == IMessage.MessageType.RECEIVE_IMAGE.ordinal()
                     || message.getType() == IMessage.MessageType.SEND_IMAGE.ordinal()) {
-                UIUtils.showToast("点击了图片");
+//                UIUtils.showToast("点击了图片");
             } else {
-                Toast.makeText(getApplicationContext(),
-                        getApplicationContext().getString(R.string.message_click_hint),
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),
+//                        getApplicationContext().getString(R.string.message_click_hint),
+//                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -210,20 +199,68 @@ public class IMDetailActivity extends CustomBaseActivity {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
-        initMsg();
         initChatView();
 
-        bind.title.qmTopBar.setTitle(recvUserName);
+        bind.title.qmTopBar.setTitle(recvNickName);
         bind.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
-        SoftKeyBoardListener.setListener(this,new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
+        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
             public void keyBoardShow(int height) {
-                Toast.makeText(IMDetailActivity.this, "键盘显示 高度" + height, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(IMDetailActivity.this, "键盘显示 高度" + height, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void keyBoardHide(int height) {
-                Toast.makeText(IMDetailActivity.this, "键盘隐藏 高度" + height, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(IMDetailActivity.this, "键盘隐藏 高度" + height, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 初始化用户信息
+     *
+     * @param recvUserName
+     */
+    private void initUserInfo(String recvUserName) {
+        sendInfo = JMessageClient.getMyInfo();
+        if (sendInfo.getAvatarFile()==null){
+            sendInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
+                @Override
+                public void gotResult(int i, String s, Bitmap bitmap) {
+                    //获取用户头像bitmap
+                    sendInfo = JMessageClient.getMyInfo();
+                    sendUser = new DefaultUser(String.valueOf(sendInfo.getUserID()), sendInfo.getDisplayName(), sendInfo.getAvatarFile().getPath());
+                    isMyInit=true;
+                    initMsg();
+                }
+            });
+        }else {
+            sendUser = new DefaultUser(String.valueOf(sendInfo.getUserID()), sendInfo.getDisplayName(), sendInfo.getAvatarFile().getPath());
+            isMyInit=true;
+
+            initMsg();
+
+        }
+
+
+        JMessageClient.getUserInfo(recvUserName, new GetUserInfoCallback() {
+            @Override
+            public void gotResult(int i, String s, UserInfo userInfo) {
+                targetInfo = userInfo;
+                targetInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
+                    @Override
+                    public void gotResult(int i, String s, Bitmap bitmap) {
+                        if (bitmap==null){
+                            targetUser = new DefaultUser(String.valueOf(targetInfo.getUserID()), targetInfo.getDisplayName(), "http://awapp.beauty521.com/static/head/default_head.png");
+                        }else {
+                            //获取用户头像bitmap
+                            targetUser = new DefaultUser(String.valueOf(targetInfo.getUserID()), targetInfo.getDisplayName(), targetInfo.getAvatarFile().getPath());
+                        }
+                        LogUtils.e(i+"：："+s+"bitmap"+bitmap);
+                        isUserInit=true;
+                        initMsg();
+                    }
+                });
             }
         });
     }
@@ -383,6 +420,12 @@ public class IMDetailActivity extends CustomBaseActivity {
 
 
     private void initMsg() {
+        //初始化用户头像
+        if (!isMyInit||!isUserInit){
+            return;
+        }
+
+
         messageList = singleConversation.getAllMessage();
         MyMessage myMessage = null;
         for (Message msg : messageList) {

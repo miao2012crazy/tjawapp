@@ -26,4 +26,5 @@
 
     <color name="chat_accept_bg">#EBEFF0</color>
     <color name="chat_accept_text">#000000</color>
+    <color name="color_app">#0086c9</color>
 </resources>

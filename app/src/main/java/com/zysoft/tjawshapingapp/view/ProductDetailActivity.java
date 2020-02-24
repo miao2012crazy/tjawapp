@@ -124,7 +124,8 @@ public class ProductDetailActivity extends CustomBaseActivity {
                 imageAdapter.notifyDataSetChanged();
                 break;
             case "ADD_CART":
-                UIUtils.showToast((String) netResponse.getData());
+                showTipe(3,(String) netResponse.getData());
+
                 break;
         }
     }

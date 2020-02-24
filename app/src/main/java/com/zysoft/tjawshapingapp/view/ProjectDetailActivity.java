@@ -3,10 +3,13 @@ package com.zysoft.tjawshapingapp.view;
 import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +19,39 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.listener.CustomListener;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.stx.xhb.xbanner.XBanner;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.ImageAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
+import com.zysoft.tjawshapingapp.bean.CouponsBean;
 import com.zysoft.tjawshapingapp.bean.ProjectDetailBean;
+import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.CommonUtil;
 import com.zysoft.tjawshapingapp.common.DisplayUtil;
 import com.zysoft.tjawshapingapp.common.GlideApp;
 import com.zysoft.tjawshapingapp.common.GlideRoundTransform;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.LogUtils;
 import com.zysoft.tjawshapingapp.common.UIUtils;
+import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityDetailBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
 import com.zysoft.tjawshapingapp.ui.AmountView;
+import com.zysoft.tjawshapingapp.ui.textfont.AppTextView;
+import com.zysoft.tjawshapingapp.wxapi.WxShareUtils;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -40,6 +59,9 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import cn.jpush.im.android.api.model.Conversation;
+import cn.jpush.im.android.api.model.UserInfo;
 
 /**
  * Created by mr.miao on 2019/5/18.
@@ -56,31 +78,41 @@ public class ProjectDetailActivity extends CustomBaseActivity {
     private TextView tv_select_time;
     private long time = 0;
     private ImageAdapter imageAdapter;
+    private ProjectDetailBean.ProjectInfoBean projectInfo;
+    private String project_id;
+    private TimePickerDialog mDialogAll;
+    private UserInfoBean userBean;
+    private QMUIDialog.MessageDialogBuilder messageDialogBuilder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
         EventBus.getDefault().register(this);
+        showTipe(2, "正在加载中...");
         setToolBar();
         initImgList();
-        String project_id = getIntent().getExtras().getString("PROJECT_ID");
+        project_id = getIntent().getExtras().getString("PROJECT_ID");
         map.clear();
         map.put("projectId", project_id);
         NetModel.getInstance().getAllData("GETPROJECTDETAIL", HttpUrls.GET_PROJECT_DETAIL, map);
+
         binding.tvSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showBottomDialog(projectDetailBean.getProjectInfo());
+                showBottomDialog(projectInfo);
             }
         });
         binding.btnCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isSelect) {
-                    showBottomDialog(projectDetailBean.getProjectInfo());
-
+                UserInfoBean userInfoBean = AppConstant.getUserInfoBean();
+                if (userInfoBean == null) {
+                    return;
                 }
+//                if (!isSelect) {
+                showBottomDialog(projectInfo);
+//                }
 //                else {
 //                    Intent intent = new Intent(ProjectDetailActivity.this, ConfirmOrderActivity.class);
 //                    Bundle bundle = new Bundle();
@@ -93,26 +125,224 @@ public class ProjectDetailActivity extends CustomBaseActivity {
 //                }
             }
         });
+        binding.btnImKf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                connetKF();
+            }
+        });
+
+//        binding.titleRightTv.setOnClickListener(v -> {
+//            GlideApp.with(this).asBitmap().load(projectInfo.getProductIcon()).into(new SimpleTarget<Bitmap>() {
+//                @Override
+//                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//                    //分享网页
+//                    WxShareUtils.shareWeb({ProjectDetailActivity.this, "我在爱薇国际APP上看中了一个项目，分享给你看一看", projectInfo.getProjectName(), resource, projectInfo.getId());
+//
+//            });
+//            })
+        binding.titleRightTv.setOnClickListener(v -> {
+            GlideApp.with(this).asBitmap().load(projectInfo.getProductIcon()).into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    //分享网页
+                    WxShareUtils.shareWeb(ProjectDetailActivity.this, "我在爱薇国际APP上看中了一个项目，分享给你看一看", projectInfo.getProjectName(), resource, String.valueOf(projectInfo.getId()));
+                }
+            });
+        });
+
+
+        binding.layoutPl.expandableLayout0.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
+            @Override
+            public void onExpansionUpdate(float expansionFraction, int state) {
+                Log.d("ExpandableLayout0", "State: " + state);
+            }
+        });
+
+
+        binding.tvOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.layoutPl.expandableLayout0.isExpanded()) {
+                    binding.layoutPl.tvMsgContent.setMaxLines(2);
+                    binding.layoutPl.expandableLayout0.collapse();
+                    binding.tvOpen.setText("查看全文");
+
+                } else {
+                    binding.layoutPl.tvMsgContent.setMaxLines(4);
+                    binding.tvOpen.setText("收起");
+
+                    binding.layoutPl.expandableLayout0.expand();
+                }
+            }
+        });
+
+        binding.llPl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bundle.clear();
+                bundle.putString("project_id", project_id);
+                startActivityBase(PLDetailActivity.class, bundle);
+            }
+        });
+        initTimerDialog();
+
+        binding.tvApplyMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserInfoBean userInfoBean = AppConstant.getUserInfoBean();
+                if (userInfoBean == null) {
+                    return;
+                }
+                //校验用户等级
+                map.clear();
+                map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+                NetModel.getInstance().getDataFromNet("GET_USER", HttpUrls.GET_USER, map);
+
+
+            }
+        });
+        binding.tvCouponsCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (AppConstant.USER_INFO_BEAN == null) {
+                    startActivityBase(LoginActivity.class);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
     }
 
+    private void initTimerDialog() {
+        long tenYears = 30 * 1000 * 60 * 60 * 24L;
+        mDialogAll = new TimePickerDialog.Builder()
+                .setCallBack(new OnDateSetListener() {
+                    @Override
+                    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                        time = millseconds;
+                        String s = CommonUtil.ms2date("MM-dd HH:mm", millseconds);
+                        tv_select_time.setText(s);
+                    }
+                })
+
+                .setCancelStringId("取消")
+                .setSureStringId("确认")
+                .setTitleStringId("选择时间")
+                .setYearText("年")
+                .setMonthText("月")
+                .setDayText("日")
+                .setHourText("时")
+                .setMinuteText("分")
+                .setCyclic(false)
+                .setMinMillseconds(System.currentTimeMillis())
+                .setMaxMillseconds(System.currentTimeMillis() + tenYears)
+                .setCurrentMillseconds(System.currentTimeMillis())
+                .setThemeColor(getResources().getColor(R.color.timepicker_dialog_bg))
+                .setType(Type.ALL)
+                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
+                .setWheelItemTextSelectorColor(getResources().getColor(R.color.color_app))
+                .setWheelItemTextSize(12)
+                .build();
+    }
 
     @Subscribe
     public void receive(NetResponse netResponse) {
         switch (netResponse.getTag()) {
             case "GETPROJECTDETAIL":
                 projectDetailBean = GsonUtil.GsonToBean((String) netResponse.getData(), ProjectDetailBean.class);
+                projectInfo = projectDetailBean.getProjectInfo();
                 initBanner(projectDetailBean.getLoop());
                 binding.setItem(projectDetailBean.getProjectInfo());
                 double projectEarnestMoney = projectDetailBean.getProjectInfo().getProjectEarnestMoney();
                 double projectOrginPrice = projectDetailBean.getProjectInfo().getProjectOrginPrice();
                 binding.tvPreparePay.setText("预付款" + projectDetailBean.getProjectInfo().getProjectEarnestMoney() + "元，到院再付尾款" + (projectOrginPrice - projectEarnestMoney) + "元");
                 mainList.clear();
-                mainList.addAll(projectDetailBean.getImgDetail());
-                imageAdapter.notifyDataSetChanged();
-                break;
+                List<ProjectDetailBean.ImgDetailBean> imgDetail = projectDetailBean.getImgDetail();
+                mainList.addAll(imgDetail);
+                if (imgDetail.size() == 0) {
+                    binding.recyclerList.setVisibility(View.GONE);
+                }
 
+                imageAdapter.notifyDataSetChanged();
+
+                //评价总数
+                binding.tvPlCount.setText(projectDetailBean.getUserPLCount() == 0 ? "暂无评价" : projectDetailBean.getUserPLCount() + "个评价");
+                if (projectDetailBean.getUserPLCount() == 0) {
+                    binding.layoutPl.layoutPl.setVisibility(View.GONE);
+                    binding.tvOpen.setVisibility(View.GONE);
+                } else {
+                    //评论信息
+                    binding.layoutPl.setItem(projectDetailBean.getUserPL());
+                }
+                closeDialog();
+                if (AppConstant.USER_INFO_BEAN == null) {
+                    binding.tvCouponsCount.setText("登录后查看");
+                    return;
+                }
+                map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+                map.put("projectId", projectInfo.getId());
+                NetModel.getInstance().getAllData("COUPONS_PROJECT", HttpUrls.GETUSERCOUPONS, map);
+                break;
+            case "GET_USER":
+                String data = (String) netResponse.getData();
+                userBean = GsonUtil.GsonToBean(data, UserInfoBean.class);
+                if (userBean.getUserLevel() != 0) {
+                    showTipWhisBtn("提示", "您已经是会员，可以享受会员价格，付款时仍然原价支付，项目完成后由医院返还50%。").show();
+                } else {
+                    showAddDL();
+                }
+                break;
+            case "COUPONS_PROJECT":
+                List<CouponsBean> couponsBeans = GsonUtil.GsonToList((String) netResponse.getData(), CouponsBean.class);
+                if (couponsBeans.size() != 0) {
+                    binding.tvCouponsCount.setText("共" + couponsBeans.size() + " 张");
+                } else {
+                    binding.tvCouponsCount.setText("暂无优惠券");
+                }
+                break;
         }
+    }
+
+
+    public void showAddDL() {
+        if (messageDialogBuilder != null) {
+            messageDialogBuilder.show();
+        } else {
+            messageDialogBuilder = new QMUIDialog.MessageDialogBuilder(ProjectDetailActivity.this)
+                    .setTitle("提示")
+                    .setMessage("加盟爱薇会员后即可开通!")
+                    .addAction("联系客服", (dialog, index) -> {
+                        dialog.dismiss();
+                        connetKF();
+                    })
+                    .addAction("容我想想", (dialog, index) -> {
+                        dialog.dismiss();
+                    });
+            messageDialogBuilder.show();
+        }
+
+
+    }
+
+
+    private void connetKF() {
+        if (AppConstant.APP_CONFIG_BEAN == null) {
+            return;
+        }
+        Conversation conversation = Conversation.createSingleConversation(AppConstant.APP_CONFIG_BEAN.getKf());
+        Intent intent6 = new Intent(ProjectDetailActivity.this, IMDetailActivity.class);
+        bundle.clear();
+        UserInfo targetInfo = (UserInfo) conversation.getTargetInfo();
+        bundle.putString("recvUserName", targetInfo.getUserName());
+        bundle.putString("recvNickName", targetInfo.getNickname());
+        bundle.putString("recvUserAppkey", targetInfo.getAppKey());
+        intent6.putExtras(bundle);
+        startActivity(intent6);
     }
 
 
@@ -129,6 +359,11 @@ public class ProjectDetailActivity extends CustomBaseActivity {
     }
 
     private void initBanner(List<ProjectDetailBean.LoopBean> loop) {
+        if (loop.size() == 0) {
+            binding.banner.setVisibility(View.GONE);
+        } else {
+            binding.banner.setVisibility(View.VISIBLE);
+        }
         images.clear();
         titles.clear();
         for (ProjectDetailBean.LoopBean loopbean : loop) {
@@ -166,21 +401,18 @@ public class ProjectDetailActivity extends CustomBaseActivity {
 
         AmountView mAmountView = view.findViewById(R.id.amountView);
         ImageView imageView = view.findViewById(R.id.iv_icon);
-        TextView tv_or_price = view.findViewById(R.id.tv_or_price);
-        TextView tv_member_price = view.findViewById(R.id.tv_member_price);
-        TextView tv_prepare_price = view.findViewById(R.id.tv_prepare_price);
+        AppTextView tv_or_price = view.findViewById(R.id.tv_or_price);
+        AppTextView tv_member_price = view.findViewById(R.id.tv_member_price);
+        AppTextView tv_prepare_price = view.findViewById(R.id.tv_prepare_price);
         Button btn_confirm = view.findViewById(R.id.btn_confirm);
         tv_select_time = view.findViewById(R.id.tv_select_time);
-        TextView tv_tag = view.findViewById(R.id.tv_tag);
         TextView tv_project_name = view.findViewById(R.id.tv_project_name);
         mAmountView.setGoods_storage(999);
         GlideApp.with(this).load(projectInfo.getProductIcon()).transform(new GlideRoundTransform(4)).into(imageView);
         tv_or_price.setText("¥" + projectInfo.getProjectOrginPrice());
-        tv_member_price.setText("¥" + projectInfo.getProjectMemberPrice());
+        tv_member_price.setText("¥" + (projectInfo.getProjectOrginPrice() * 0.5));
         tv_prepare_price.setText("¥" + projectInfo.getProjectEarnestMoney());
-        tv_tag.setText("会员价");
         tv_project_name.setText(projectInfo.getProjectName());
-        mAmountView.setOnAmountChangeListener((view1, amount) -> UIUtils.showToast(amount + ""));
 
         Window window = dialog.getWindow();
         //设置弹出位置
@@ -193,26 +425,24 @@ public class ProjectDetailActivity extends CustomBaseActivity {
         dialog.setOnDismissListener(dialogInterface -> {
 
         });
-        btn_confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (time == 0) {
-                    UIUtils.showToast("请选择时间！");
-                    return;
-                }
-                isSelect = true;
-                mAmount = mAmountView.getAmount();
-                binding.tvSelect.setText("已选：" + mAmountView.getAmount() + "件服务");
-                //跳转
-                Intent intent = new Intent(ProjectDetailActivity.this, ConfirmOrderActivity.class);
-                bundle.clear();
-                bundle.putString("time", String.valueOf(time));
-                bundle.putString("count", mAmount + "");
-                bundle.putSerializable("project", projectDetailBean.getProjectInfo());
-                intent.putExtras(bundle);
-                startActivity(intent);
-                dialog.dismiss();
+        btn_confirm.setOnClickListener(v -> {
+            if (time == 0) {
+                showTipe(3, "请选择时间！");
+
+                return;
             }
+            isSelect = true;
+            mAmount = mAmountView.getAmount();
+            binding.tvSelect.setText("已选：" + mAmountView.getAmount() + "件服务");
+            //跳转
+            Intent intent = new Intent(ProjectDetailActivity.this, ConfirmOrderActivity.class);
+            bundle.clear();
+            bundle.putString("time", String.valueOf(time));
+            bundle.putString("count", mAmount + "");
+            bundle.putSerializable("project", projectDetailBean.getProjectInfo());
+            intent.putExtras(bundle);
+            startActivity(intent);
+            dialog.dismiss();
         });
         tv_select_time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,35 +455,8 @@ public class ProjectDetailActivity extends CustomBaseActivity {
     }
 
     private void selectTIme() {
-        TimePickerView pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {
-                time = date.getTime();
-                String s = CommonUtil.ms2date("MM-dd HH:mm", date.getTime());
-                tv_select_time.setText(s);
-            }
-        })
-                .setType(new boolean[]{false, true, true, true, true, false})// 默认全部显示
-                .setCancelText("取消")//取消按钮文字
-                .setSubmitText("确定")//确认按钮文字
-//                .setContentSize(18)//滚轮文字大小
-//                .setTitleSize(20)//标题文字大小
-//                //.setTitleText("Title")//标题文字
-                .setOutSideCancelable(true)//点击屏幕，点在控件外部范围时，是否取消显示
-                .isCyclic(false)//是否循环滚动
-//                //.setTitleColor(Color.BLACK)//标题文字颜色
-//                .setSubmitColor(Color.BLUE)//确定按钮文字颜色
-//                .setCancelColor(Color.BLUE)//取消按钮文字颜色
-//                //.setTitleBgColor(0xFF666666)//标题背景颜色 Night mode
-//                .setBgColor(0xFF333333)//滚轮背景颜色 Night mode
-////                .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
-////                .setRangDate(startDate,endDate)//起始终止年月日设定
-//                //.setLabel("年","月","日","时","分","秒")//默认设置为年月日时分秒
-                .isCenterLabel(true) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
-                .isDialog(true)//是否显示为对话框样式
-                .build();
 
-        pvTime.show();
+        mDialogAll.show(getSupportFragmentManager(), "month_day_hour_minute");
     }
 
 
@@ -284,7 +487,7 @@ public class ProjectDetailActivity extends CustomBaseActivity {
                 binding.titleName.setTextColor(Color.parseColor("#ffffff"));
                 binding.toolbaretail.setAlpha((appBarLayout.getTotalScrollRange() / 2 - Offset * 1.0f) / (appBarLayout.getTotalScrollRange() / 2));
 //                binding.toolbaretail.setNavigationIcon(R.mipmap.ic_return);
-                binding.tvReturn.setBackground(UIUtils.getDrawable(R.mipmap.ic_return));
+                binding.tvReturn.setBackground(UIUtils.getDrawable(R.mipmap.ic_return_2));
                 binding.titleRightTv.setBackground(UIUtils.getDrawable(R.mipmap.icon_share));
 
                 /**
@@ -297,7 +500,7 @@ public class ProjectDetailActivity extends CustomBaseActivity {
                 binding.toolbaretail.setTitle("");
                 binding.titleName.setText("商品详情");
 //                binding.toolbaretail.setNavigationIcon(R.mipmap.ic_return);
-                binding.tvReturn.setBackground(UIUtils.getDrawable(R.mipmap.ic_return));
+                binding.tvReturn.setBackground(UIUtils.getDrawable(R.mipmap.ic_return_2));
                 binding.titleRightTv.setBackground(UIUtils.getDrawable(R.mipmap.icon_share));
                 binding.titleName.setTextColor(Color.parseColor("#333333"));
                 binding.toolbaretail.setAlpha(floate);

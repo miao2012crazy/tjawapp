@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.qmuiteam.qmui.widget.QMUITopBar
+        android:id="@+id/qm_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/qmui_topbar_height"
+        app:qmui_topbar_bg_color="#fff"
+        app:qmui_topbar_left_back_drawable_id="@mipmap/ic_return_white"
+        app:qmui_topbar_title_color="#000000"
+        app:qmui_topbar_title_gravity="center"
+        app:qmui_topbar_title_text_size="16sp" />
+</layout>

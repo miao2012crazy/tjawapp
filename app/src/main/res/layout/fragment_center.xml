@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <LinearLayout
@@ -50,6 +51,7 @@
 
 
                             <LinearLayout
+                                android:id="@+id/ll_login"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="60dp"
@@ -68,7 +70,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:gravity="center_vertical"
-                                        android:text="123123123"
+                                        tools:text="123123123"
                                         android:textColor="#fff"
                                         android:textSize="14sp" />
 
@@ -87,8 +89,9 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="0dp"
                                     android:layout_weight="1"
-                                    android:drawableStart="@mipmap/ic_level_0"
-                                    android:drawableEnd="@mipmap/ic_right"
+                                    android:drawablePadding="10dp"
+                                    android:drawableStart="@mipmap/ic_rz"
+                                    android:drawableEnd="@mipmap/ic_right_white"
                                     android:gravity="center_vertical"
                                     android:text="未认证"
                                     android:textColor="#fff"
@@ -97,24 +100,15 @@
                             </LinearLayout>
 
                             <ImageView
+                                android:visibility="gone"
                                 android:id="@+id/ic_qr_code"
-                                android:layout_marginEnd="20dp"
                                 android:layout_gravity="center_vertical|end"
                                 android:src="@mipmap/ic_qr_code"
-                                android:layout_width="44dp"
-                                android:layout_height="44dp"/>
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
 
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tv_login"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="立即登录"
-                            android:textColor="#FFF"
-                            android:textSize="20sp"
-                            android:visibility="gone" />
                     </RelativeLayout>
 
 
@@ -164,7 +158,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        android:drawableRight="@mipmap/ic_right"
                         android:gravity="center_vertical"
                         android:paddingEnd="10dp"
                         android:paddingLeft="10dp"
@@ -189,16 +182,24 @@
                         android:id="@+id/rl_apply_dl"
                         android:background="#f4f3f8"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="113dp">
                         <ImageView
+                            android:id="@+id/iv_gg"
                             android:layout_margin="8dp"
                             android:scaleType="fitXY"
-                            android:src="@mipmap/sample_add_dl"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="113dp" />
                     </RelativeLayout>
 
-
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:gravity="center_vertical"
+                        android:paddingEnd="10dp"
+                        android:paddingLeft="10dp"
+                        android:text="热门服务"
+                        android:textColor="#000"
+                        android:textSize="20sp" />
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycler_project"
                         android:layout_width="match_parent"

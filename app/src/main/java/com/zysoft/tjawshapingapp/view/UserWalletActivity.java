@@ -13,6 +13,7 @@ import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.UserWalletBean;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
 import com.zysoft.tjawshapingapp.common.UIUtils;
+import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityWalletBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
@@ -34,7 +35,7 @@ public class UserWalletActivity extends CustomBaseActivity {
 
 
     private ActivityWalletBinding binding;
-    private List<UserWalletBean.HistoryBean> mainList=new ArrayList<>();
+    private List<UserWalletBean.HistoryBean> mainList = new ArrayList<>();
     private UserWalletAdapter userWalletAdapter;
 
     @Override
@@ -43,22 +44,23 @@ public class UserWalletActivity extends CustomBaseActivity {
         ViewDataBinding viewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_wallet);
         binding = (ActivityWalletBinding) viewDataBinding;
         EventBus.getDefault().register(this);
+        binding.ivReturn.setOnClickListener(v -> finish());
+
         userWalletAdapter = new UserWalletAdapter(mainList);
         userWalletAdapter.setEmptyView(UIUtils.inflate(R.layout.layout_no_data));
         userWalletAdapter.openLoadAnimation();
-
         binding.recyclerListWallet.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerListWallet.setAdapter(userWalletAdapter);
 
         binding.llBalance.setOnClickListener(v -> {
             bundle.clear();
-            bundle.putString("type","0");
-            startActivituCom(this,DescActivity.class,bundle);
+            bundle.putString("type", "0");
+            startActivituCom(this, DescActivity.class, bundle);
         });
         binding.llIntegral.setOnClickListener(v -> {
             bundle.clear();
-            bundle.putString("type","1");
-            startActivituCom(this,DescActivity.class,bundle);
+            bundle.putString("type", "1");
+            startActivituCom(this, DescActivity.class, bundle);
         });
         binding.btnRecharge.setOnClickListener(v -> {
             startActivityBase(RechargeActivity.class);
@@ -87,6 +89,7 @@ public class UserWalletActivity extends CustomBaseActivity {
         super.onResume();
         //获取订单详情
         map.clear();
+        map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
         NetModel.getInstance().getAllData("GET_USERWALLET", HttpUrls.GET_USER_WALLET, map);
     }
 

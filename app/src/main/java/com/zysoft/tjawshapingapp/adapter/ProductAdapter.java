@@ -41,4 +41,9 @@ public class ProductAdapter extends BaseQuickAdapter<ProductHomeBean.ProductList
             iv.setTag(item.getProductIcon());
         }
     }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 }

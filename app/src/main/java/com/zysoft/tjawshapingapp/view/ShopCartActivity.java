@@ -46,8 +46,6 @@ public class ShopCartActivity extends CustomBaseActivity {
     private boolean isDel = false;
 
     private int index = 0;
-    private boolean isRefresh = false;
-    private boolean isLoadMore = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,7 +92,7 @@ public class ShopCartActivity extends CustomBaseActivity {
             public void onClick(View v) {
                 AppConstant.isShowDialog = true;
                 if (select_bean.size() == 0) {
-                    UIUtils.showToast("未选择商品！");
+                    showTipe(0,"请选择商品");
                     return;
                 }
                 AppConstant.SELECT_CART_LIST=select_bean;
@@ -167,12 +165,11 @@ public class ShopCartActivity extends CustomBaseActivity {
 
 
         bind.smartRefresh.setOnRefreshListener(refreshLayout -> {
-            isRefresh = true;
+            list.clear();
             index = 0;
             getData(index);
         });
         bind.smartRefresh.setOnLoadMoreListener(refreshLayout -> {
-            isLoadMore = true;
             index = index + 1;
             getData(index);
         });
@@ -215,20 +212,15 @@ public class ShopCartActivity extends CustomBaseActivity {
             case "GET_CART":
                 String data = (String) netResponse.getData();
                 List<UserCartBean> userCartBeans = GsonUtil.GsonToList(data, UserCartBean.class);
-                if (isRefresh) {
-                    list.clear();
-                    bind.smartRefresh.finishRefresh(true);
-                    bind.smartRefresh.setNoMoreData(false);
-
-                    isRefresh = false;
+                if (bind.smartRefresh.isRefreshing()) {
+                    bind.smartRefresh.finishRefresh(2);
                 }
-                if (isLoadMore) {
+                if (bind.smartRefresh.isLoading()) {
                     if (userCartBeans.size() == 0) {
                         bind.smartRefresh.finishLoadMoreWithNoMoreData();
                     } else {
                         bind.smartRefresh.finishLoadMore(true);
                     }
-                    isLoadMore = false;
                 }
                 list.addAll(userCartBeans);
                 if (userCartAdapter != null) {
@@ -260,7 +252,6 @@ public class ShopCartActivity extends CustomBaseActivity {
 //                break;
             case "DEL_CART":
                 select_bean.clear();
-                isRefresh = true;
                 index = 0;
                 getData(index);
                 break;

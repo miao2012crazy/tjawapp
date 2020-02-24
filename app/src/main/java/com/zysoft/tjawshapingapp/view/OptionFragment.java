@@ -16,13 +16,17 @@ import com.zysoft.tjawshapingapp.adapter.ProjectAdapter;
 import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
 import com.zysoft.tjawshapingapp.bean.HomeDataBean;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.LogUtils;
 import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.FragmentOrderBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
+import com.zysoft.tjawshapingapp.http.NovateUtil;
 import com.zysoft.tjawshapingapp.module.NetModel;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +38,13 @@ import java.util.List;
 public class OptionFragment extends BaseLazyFragment {
 
 
-    private String type="-1";
+    private String type = "-1";
     private FragmentOrderBinding bind;
 
-    private List<HomeDataBean.ProjectListBean> mainList=new ArrayList<>();
+    private List<HomeDataBean.ProjectListBean> mainList = new ArrayList<>();
     private ProjectAdapter projectAdapter;
-    private boolean isRefresh;
+    private int index = 0;
+    private boolean isVisible;
 
     @Nullable
     @Override
@@ -52,37 +57,56 @@ public class OptionFragment extends BaseLazyFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        EventBus.getDefault().register(this);
+
         QMUIStatusBarHelper.translucent(getActivity());
         QMUIStatusBarHelper.setStatusBarLightMode(getActivity());
+        bind.smartRefresh.setEnableRefresh(false);
+        bind.smartRefresh.setEnableLoadMore(false);
+        initList();
 
     }
 
     @Override
     public void onFirstUserVisible() {
         super.onFirstUserVisible();
-
-        initList();
+        isVisible = true;
+        if (!EventBus.getDefault().isRegistered(this)) {
+            LogUtils.e("绑定true" + type);
+            EventBus.getDefault().register(this);
+        }
         type = getArguments().getString("type");
         map.put("option", type);
-        map.put("pageIndex","0");
-        NetModel.getInstance().getDataFromNet("OPTION_DATA"+type, HttpUrls.GET_OPTION_DATA,map);
+        index = 0;
+        map.put("pageIndex", index);
+        NetModel.getInstance().getDataFromNet("OPTION_DATA" + type, HttpUrls.GET_OPTION_DATA, map);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void revceiveData(NetResponse netResponse) {
-        if (netResponse.getTag().equals("OPTION_DATA"+type)){
+        if (netResponse.getTag().equals("OPTION_DATA" + type)) {
             List<HomeDataBean.ProjectListBean> projectListBeans = GsonUtil.GsonToList((String) netResponse.getData(), HomeDataBean.ProjectListBean.class);
             initProject(projectListBeans);
         }
-        if (netResponse.getTag().equals("REFRESH")){
-            isRefresh =true;
-//            mainList.clear();
-//            map.put("option", type);
-//            map.put("pageIndex","0");
-//            NetModel.getInstance().getDataFromNet("OPTION_DATA"+type, HttpUrls.GET_OPTION_DATA,map);
+        if (netResponse.getTag().equals("REFRESH")) {
+            if (isVisible) {
+                LogUtils.e("清楚数据" + type);
+                mainList.clear();
+                map.put("option", type);
+                index = 0;
+                map.put("pageIndex", index);
+                NetModel.getInstance().getDataFromNet("OPTION_DATA" + type, HttpUrls.GET_OPTION_DATA, map);
+            }
         }
 
+        if (netResponse.getTag().equals("LOAD_MORE")) {
+            if (isVisible) {
+                index = index + 1;
+                map.put("option", type);
+                map.put("pageIndex", index);
+                NetModel.getInstance().getDataFromNet("OPTION_DATA" + type, HttpUrls.GET_OPTION_DATA, map);
+
+            }
+        }
     }
 
     private void initList() {
@@ -107,30 +131,49 @@ public class OptionFragment extends BaseLazyFragment {
 
 
     private void initProject(List<HomeDataBean.ProjectListBean> projectList) {
-        if (isRefresh){
-            mainList.clear();
-            isRefresh=false;
-        }
+        int startPosition = mainList.size();
         mainList.addAll(projectList);
-        projectAdapter.notifyDataSetChanged();
+        LogUtils.e("刷新加载" + startPosition + "：：" + projectList.size());
+        if (index==0){
+            projectAdapter.notifyDataSetChanged();
+        }else {
+            projectAdapter.notifyItemRangeChanged(startPosition, projectList.size());
+        }
 
-//        bind.recyclerListOrder.smartRefresh.setEnableAutoLoadMore(false);
-//        bind.recyclerListOrder.smartRefresh.setEnableRefresh(false);
+        LogUtils.e("清楚数据+添加数据" + type);
+        if (projectList.size() == 0) {
+            EventBus.getDefault().post(new NetResponse("NO_MORE_DATA", ""));
+        } else {
+            EventBus.getDefault().post(new NetResponse("LOAD_MORE_SUCCESS", ""));
+        }
     }
-
 
 
     @Override
     public void onUserInvisible() {
         super.onUserInvisible();
+        isVisible = false;
 
+    }
+
+    @Override
+    public void onUserVisible() {
+        super.onUserVisible();
+        isVisible = true;
+        if (!EventBus.getDefault().isRegistered(this)) {
+            LogUtils.e("绑定true" + type);
+
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        EventBus.getDefault().unregister(this);
-
+        if (EventBus.getDefault().isRegistered(this)) {
+            LogUtils.e("绑定false" + type);
+            EventBus.getDefault().unregister(this);
+        }
     }
 
 }

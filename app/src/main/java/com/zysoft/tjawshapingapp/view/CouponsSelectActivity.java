@@ -14,6 +14,7 @@ import com.zysoft.tjawshapingapp.adapter.CouponsAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.CouponsBean;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
+import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
 import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
@@ -48,7 +49,11 @@ public class CouponsSelectActivity extends CustomBaseActivity {
         if (TextUtils.isEmpty(coupons)) {
 
         } else {
-            map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+            UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
+            if (userInfoBean==null){
+                return;
+            }
+            map.put("userId", userInfoBean.getUserId());
             map.put("projectId", coupons);
             NetModel.getInstance().getAllData("getCoupons", HttpUrls.GETUSERCOUPONS, map);
         }

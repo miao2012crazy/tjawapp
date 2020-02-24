@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
@@ -32,6 +33,7 @@ public class BaseLazyFragment extends Fragment {
     protected CustomHandlerEvent handlerEvent =new CustomHandlerEvent(UIUtils.getContext());
     private QMUITipDialog.Builder builder;
     private QMUITipDialog qmuiTipDialog;
+    private QMUIDialog.MessageDialogBuilder messageDialogBuilder;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -151,34 +153,90 @@ public class BaseLazyFragment extends Fragment {
         }
     }
 
-
     protected void showTipe(int type, String tipStr) {
+
         switch (type) {
             case 0:
+                if (qmuiTipDialog != null && qmuiTipDialog.isShowing()) {
+                    return;
+                }
                 qmuiTipDialog = builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL).setTipWord(tipStr).create();
                 qmuiTipDialog.show();
-
+                new Handler().postDelayed(() -> {
+                    if (qmuiTipDialog.isShowing()) {
+                        qmuiTipDialog.dismiss();
+//                        EventBus.getDefault().post(new NetResponse("TIP_DISMISS", ""));
+                    }
+                }, 2000);
                 break;
             case 1:
+                if (qmuiTipDialog != null && qmuiTipDialog.isShowing()) {
+                    return;
+                }
                 qmuiTipDialog = builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS).setTipWord(tipStr).create();
                 qmuiTipDialog.show();
+                new Handler().postDelayed(() -> {
+                    if (qmuiTipDialog.isShowing()) {
+                        qmuiTipDialog.dismiss();
+//                        EventBus.getDefault().post(new NetResponse("TIP_DISMISS", ""));
+                    }
+                }, 2000);
                 break;
             case 2:
+                if (qmuiTipDialog != null && qmuiTipDialog.isShowing()) {
+                    return;
+                }
                 qmuiTipDialog = builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING).setTipWord(tipStr).create();
                 qmuiTipDialog.show();
                 break;
+            case 3:
+                if (qmuiTipDialog != null && qmuiTipDialog.isShowing()) {
+                    return;
+                }
+                qmuiTipDialog = builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_NOTHING).setTipWord(tipStr).create();
+                qmuiTipDialog.show();
 
+                new Handler().postDelayed(() -> {
+                    if (qmuiTipDialog!=null&&qmuiTipDialog.isShowing()) {
+                        qmuiTipDialog.dismiss();
+//                        EventBus.getDefault().post(new NetResponse("TIP_DISMISS", ""));
+                    }
+                }, 2000);
+                break;
         }
-        new Handler().postDelayed(() -> {
-            if (qmuiTipDialog.isShowing()) {
-                qmuiTipDialog.dismiss();
-                EventBus.getDefault().post(new NetResponse("TIP_DISMISS", ""));
-            }
-        }, 1500);
 
 
     }
 
+    /**
+     * 提示tip弹窗
+     *
+     * @param title
+     * @param content
+     * @return
+     */
+    protected QMUIDialog.MessageDialogBuilder showTipWhisBtn(String title, String content) {
+
+        if (messageDialogBuilder == null) {
+            messageDialogBuilder = new QMUIDialog.MessageDialogBuilder(getActivity());
+            messageDialogBuilder
+                    .setTitle(title == null ? "提示" : title)
+                    .setMessage(content)
+                    .addAction("确定", (dialog, index) -> dialog.dismiss());
+        } else {
+            messageDialogBuilder
+                    .setTitle(title == null ? "提示" : title)
+                    .setMessage(content);
+        }
+        return messageDialogBuilder;
+    }
+
+    protected void closeDialog() {
+        if (qmuiTipDialog!=null&&qmuiTipDialog.isShowing()) {
+            qmuiTipDialog.dismiss();
+//                EventBus.getDefault().post(new NetResponse("TIP_DISMISS", ""));
+        }
+    }
     protected void startActivityBase(Class clazz,Bundle bundle1) {
         Intent intent = new Intent(getActivity(), clazz);
         intent.putExtras(bundle1);

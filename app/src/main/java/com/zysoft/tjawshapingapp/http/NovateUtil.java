@@ -18,6 +18,9 @@ public class NovateUtil {
     private static Novate novate;
     private static Novate.Builder builder;
 
+
+
+
     public static Novate getInstance() {
         if (novate != null) {
             return novate;
@@ -27,8 +30,8 @@ public class NovateUtil {
         headers.put("Connection", "close");
 //        headers.put("Cache-Control", "max-age=1000*60");
         try {
-            String adresseMAC = DeviceUtils.getUniqueID();
-            headers.put("uuid", adresseMAC);
+//            String adresseMAC = DeviceUtils.getUniqueID();
+//            headers.put("uuid", adresseMAC);
             if (AppConstant.USER_INFO_BEAN == null) {
                 headers.put("userTel", "");
             } else {

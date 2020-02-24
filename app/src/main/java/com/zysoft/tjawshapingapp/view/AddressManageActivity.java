@@ -17,6 +17,7 @@ import com.zysoft.tjawshapingapp.adapter.AddressAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.AddressBean;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
+import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
 import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
@@ -47,7 +48,12 @@ public class AddressManageActivity extends CustomBaseActivity {
         ViewDataBinding viewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_address);
         binding = (ActivityAddressBinding) viewDataBinding;
         EventBus.getDefault().register(this);
-        map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+        UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
+        if (userInfoBean==null){
+            return;
+        }
+        map.put("userId", userInfoBean.getUserId());
+
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +99,10 @@ public class AddressManageActivity extends CustomBaseActivity {
         });
         addressAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             AddressBean addressBean = mainList.get(position);
-
+            UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
+            if (userInfoBean==null){
+                return;
+            }
             switch (view.getId()){
                 case R.id.tv_update:
 
@@ -114,7 +123,7 @@ public class AddressManageActivity extends CustomBaseActivity {
                                 @Override
                                 public void onClick(QMUIDialog dialog, int index) {
                                     map.clear();
-                                    map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+                                    map.put("userId", userInfoBean.getUserId());
                                     map.put("addressId", addressBean.getId());
                                     map.put("type", "2");
                                     NetModel.getInstance().getDataFromNet("DELETE_ADDR_SUCCESS", HttpUrls.ADD_ADDR, map);
@@ -125,7 +134,7 @@ public class AddressManageActivity extends CustomBaseActivity {
                     break;
                 case R.id.cb_check:
                     map.clear();
-                    map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+                    map.put("userId", userInfoBean.getUserId());
                     map.put("isDefault", addressBean.getIsDefault() == 0 ? "1" : "0");
                     map.put("type", "1");
                     map.put("addressId", addressBean.getId());
@@ -187,13 +196,12 @@ public class AddressManageActivity extends CustomBaseActivity {
 //                break;
             case "DELETE_ADDR_SUCCESS":
                 NetModel.getInstance().getDataFromNet("ADDRESS", HttpUrls.GET_ADDRESS, map);
-
-                UIUtils.showToast("删除成功！");
+                showTipe(3,"删除成功！");
                 break;
             case "SET_DEFAULT_SUCCESS":
                 NetModel.getInstance().getDataFromNet("ADDRESS", HttpUrls.GET_ADDRESS, map);
+                showTipe(3,"修改成功！");
 
-                UIUtils.showToast("修改成功！");
                 break;
 
         }

@@ -1,6 +1,7 @@
 package com.zysoft.tjawshapingapp.common;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,8 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.zysoft.tjawshapingapp.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -453,4 +456,17 @@ public class CommonUtil {
         return drawable;
     }
 
+    public static int getVersionCode(Context context) {
+        PackageInfo packageInfo = getPackageInfo(context);
+        return packageInfo != null ? packageInfo.versionCode : -1;
+    }
+
+    private static PackageInfo getPackageInfo(Context context) {
+        try {
+            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

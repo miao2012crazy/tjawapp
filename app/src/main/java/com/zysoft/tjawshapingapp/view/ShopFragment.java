@@ -108,7 +108,8 @@ public class ShopFragment extends CustomBaseFragment {
         bind.smartRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                bind.smartRefresh.setEnableLoadMore(true);
+                refreshLayout.setNoMoreData(false);
+
                 projectListBeans.clear();
                 index=0;
                 isRefresh=true;
@@ -174,7 +175,7 @@ public class ShopFragment extends CustomBaseFragment {
                 productAdapter.notifyDataSetChanged();
                 break;
             case "check":
-                UIUtils.showToast(String.valueOf(netResponse.getData()));
+//                UIUtils.showToast(String.valueOf(netResponse.getData()));
                 break;
         }
     }
@@ -253,7 +254,8 @@ public class ShopFragment extends CustomBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        bind.smartRefresh.setEnableLoadMore(true);
+        bind.smartRefresh.setNoMoreData(false);
+
         projectListBeans.clear();
         index=0;
         isRefresh=true;

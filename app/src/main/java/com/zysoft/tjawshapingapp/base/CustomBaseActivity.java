@@ -45,8 +45,7 @@ public abstract class CustomBaseActivity extends AppCompatActivity {
     }
 
 
-
-    protected void startActivityBase(Class clazz,Bundle bundle1) {
+    protected void startActivityBase(Class clazz, Bundle bundle1) {
         Intent intent = new Intent(this, clazz);
         intent.putExtras(bundle1);
         startActivity(intent);
@@ -63,9 +62,9 @@ public abstract class CustomBaseActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * 提示tip弹窗
+     *
      * @param title
      * @param content
      * @return
@@ -86,33 +85,94 @@ public abstract class CustomBaseActivity extends AppCompatActivity {
         return messageDialogBuilder;
     }
 
+/**
+     * 提示tip弹窗
+     *
+     * @param title
+     * @param content
+     * @return
+     */
+    protected QMUIDialog.MessageDialogBuilder showTipWhisBtn(String title, String content,boolean iscancel) {
+
+        if (messageDialogBuilder == null) {
+            messageDialogBuilder = new QMUIDialog.MessageDialogBuilder(this);
+            messageDialogBuilder
+                    .setTitle(title == null ? "提示" : title)
+                    .setMessage(content)
+                    .setCanceledOnTouchOutside(false)
+                    .addAction("确定", (dialog, index) -> dialog.dismiss());
+        } else {
+            messageDialogBuilder
+                    .setTitle(title == null ? "提示" : title)
+                    .setMessage(content);
+        }
+        return messageDialogBuilder;
+    }
+
 
     protected void showTipe(int type, String tipStr) {
+
         switch (type) {
             case 0:
+                if (qmuiTipDialog != null && qmuiTipDialog.isShowing()) {
+                    return;
+                }
                 qmuiTipDialog = builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL).setTipWord(tipStr).create();
                 qmuiTipDialog.show();
-
+                new Handler().postDelayed(() -> {
+                    if (qmuiTipDialog.isShowing()) {
+                        qmuiTipDialog.dismiss();
+//                        EventBus.getDefault().post(new NetResponse("TIP_DISMISS", ""));
+                    }
+                }, 2000);
                 break;
             case 1:
+                if (qmuiTipDialog != null && qmuiTipDialog.isShowing()) {
+                    return;
+                }
                 qmuiTipDialog = builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS).setTipWord(tipStr).create();
                 qmuiTipDialog.show();
+                new Handler().postDelayed(() -> {
+                    if (qmuiTipDialog.isShowing()) {
+                        qmuiTipDialog.dismiss();
+//                        EventBus.getDefault().post(new NetResponse("TIP_DISMISS", ""));
+                    }
+                }, 2000);
                 break;
             case 2:
+                if (qmuiTipDialog != null && qmuiTipDialog.isShowing()) {
+                    return;
+                }
                 qmuiTipDialog = builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING).setTipWord(tipStr).create();
                 qmuiTipDialog.show();
                 break;
+            case 3:
+                if (qmuiTipDialog != null && qmuiTipDialog.isShowing()) {
+                    return;
+                }
+                qmuiTipDialog = builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_NOTHING).setTipWord(tipStr).create();
+                qmuiTipDialog.show();
 
+                new Handler().postDelayed(() -> {
+                    if (qmuiTipDialog!=null&&qmuiTipDialog.isShowing()) {
+                        qmuiTipDialog.dismiss();
+//                        EventBus.getDefault().post(new NetResponse("TIP_DISMISS", ""));
+                    }
+                }, 2000);
+                break;
         }
-        new Handler().postDelayed(() -> {
-            if (qmuiTipDialog.isShowing()) {
-                qmuiTipDialog.dismiss();
-                EventBus.getDefault().post(new NetResponse("TIP_DISMISS", ""));
-            }
-        }, 1500);
 
 
     }
+
+    protected void closeDialog() {
+        if (qmuiTipDialog!=null&&qmuiTipDialog.isShowing()) {
+            qmuiTipDialog.dismiss();
+//                EventBus.getDefault().post(new NetResponse("TIP_DISMISS", ""));
+        }
+    }
+
+
     /**
      * 复制内容到剪切板
      *

@@ -46,9 +46,9 @@ public class LogUtils {
         }
     }
 
-    public static void w(String tag, String msg) {
+    public static void w( String msg) {
         if (AppConstant.isAllowLog) {
-            Log.w(tag, getMsgFormat(msg));
+            Log.w(APP_TAG, getMsgFormat(msg));
         }
     }
 

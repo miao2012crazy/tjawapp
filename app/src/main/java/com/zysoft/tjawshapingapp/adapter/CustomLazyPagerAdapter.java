@@ -23,6 +23,7 @@ public class CustomLazyPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public BaseLazyFragment getItem(int position) {
+
         return fragmentList.get(position);
     }
 

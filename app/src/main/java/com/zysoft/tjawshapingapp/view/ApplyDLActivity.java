@@ -5,11 +5,15 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.RadioGroup;
 
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.alipay.AliPay;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.OrderResultBean;
+import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityApplyDlBinding;
@@ -30,6 +34,8 @@ public class ApplyDLActivity extends CustomBaseActivity {
 
 
     private ActivityApplyDlBinding binding;
+    private int position = 0;
+    private int level = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,36 +43,63 @@ public class ApplyDLActivity extends CustomBaseActivity {
         ViewDataBinding viewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_apply_dl);
         binding = (ActivityApplyDlBinding) viewDataBinding;
         EventBus.getDefault().register(this);
-        binding.tvApplyFirst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //申请会员
-                commitOrder(1);
+        binding.title.qmTopBar.setTitle("加入爱薇");
+        binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
+
+        binding.rgGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.rb_vip:
+                    //申请会员
+                    level = 1;
+                    binding.tvPrice.setText("2980");
+                    break;
+                case R.id.rb_hhr:
+                    //
+                    binding.tvPrice.setText("19800");
+
+                    level = 2;
+
+                    break;
+                case R.id.rb_ds:
+                    //
+                    binding.tvPrice.setText("39800");
+                    level = 3;
+
+                    break;
             }
         });
-
-        binding.tvApplyTwo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //申请一级代理
-                commitOrder(2);
-
-            }
+        binding.tvWechat.setOnClickListener(v -> {
+            position = 0;
+            initPay(true, false, false, false);
         });
 
 
-        binding.tvApplyThree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //申请二级代理
-                commitOrder(3);
+        binding.tvAlipay.setOnClickListener(v -> {
+            position = 1;
+            initPay(false, true, false, false);
 
-            }
         });
 
+
+        binding.tvYl.setOnClickListener(v -> {
+            position = 2;
+            initPay(false, false, true, false);
+        });
+        binding.tvPay.setOnClickListener(v -> {
+            commitOrder(level);
+        });
+        initPay(true, false, false, false);
 
     }
 
+
+    private void initPay(boolean isWechat, boolean isAlipay, boolean isYl, boolean isWallet) {
+        binding.tvWechat.setBackgroundResource(isWechat ? R.mipmap.ic_wechat_check : R.mipmap.ic_wechat_normal);
+        binding.tvAlipay.setBackgroundResource(isAlipay ? R.mipmap.ic_ali_check : R.mipmap.ic_ali_normal);
+        binding.tvYl.setBackgroundResource(isYl ? R.mipmap.ic_yl_check : R.mipmap.ic_yl_normal);
+//        binding.tvWallet.setBackgroundResource(isWallet ? R.mipmap.ic_wallet_check : R.mipmap.ic_wallet_normal);
+
+    }
 
     @Subscribe
     public void receive(NetResponse netResponse) {
@@ -74,16 +107,16 @@ public class ApplyDLActivity extends CustomBaseActivity {
             case "APPLY_MEMBER":
                 String data = (String) netResponse.getData();
                 OrderResultBean orderResultBean = GsonUtil.GsonToBean(data, OrderResultBean.class);
-                recharge(orderResultBean,0);
+                recharge(orderResultBean, position);
                 break;
         }
     }
 
 
     private void recharge(OrderResultBean orderResultBean, int position) {
-        switch (position){
+        switch (position) {
             case 0:
-                AppConstant.PAY_TYPE=2;
+                AppConstant.PAY_TYPE = 2;
                 //微信
                 WXPayUtils.WXPayBuilder builder = new WXPayUtils.WXPayBuilder();
                 builder.setAppId(orderResultBean.getAppid())
@@ -97,20 +130,22 @@ public class ApplyDLActivity extends CustomBaseActivity {
                 break;
             case 1:
                 //支付宝
-
-
-
+                AliPay.Builder builder1 = new AliPay.Builder(this);
+                //支付宝
+                builder1.setPayCallBackListener((status, resultStatus, progress) -> {
+                    if (status!=9000){
+                        showTipe(3,"已取消支付！");
+                        return;
+                    }
+                });
+                //支付
+                builder1.pay2(orderResultBean.getAlipayBody());
                 break;
             case 2:
                 //银联
 
 
-
-
-
-
                 break;
-
 
 
         }
@@ -118,13 +153,22 @@ public class ApplyDLActivity extends CustomBaseActivity {
     }
 
     /**
-     * @param level 1 会员 2一级代理 3二级代理
+     * @param level1 1 会员 2一级代理 3二级代理
      */
-    private void commitOrder(int level) {
+    private void commitOrder(int level1) {
+        if (level1 == 0) {
+            showTipe(0, "请选择方案");
+            return;
+        }
+
         map.clear();
-        map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
-        map.put("level", level);
-        map.put("payWay", 0);
+        UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
+        if (userInfoBean==null){
+            return;
+        }
+        map.put("userId", userInfoBean.getUserId());
+        map.put("level", level1);
+        map.put("payWay", position);
         NetModel.getInstance().getDataFromNet("APPLY_MEMBER", HttpUrls.APPLY_MEMBER, map);
     }
 

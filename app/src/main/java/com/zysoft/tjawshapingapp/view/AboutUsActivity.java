@@ -30,8 +30,5 @@ public class AboutUsActivity extends CustomBaseActivity {
         binding = (ActivityAboutUsBinding) viewDataBinding;
         binding.title.qmTopBar.setTitle("关于爱薇");
         binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
-
-
-
     }
 }

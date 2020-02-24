@@ -13,6 +13,7 @@ import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.AddressBean;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
+import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
@@ -61,14 +62,18 @@ public class AddAddressActivity extends CustomBaseActivity {
             }
             map.clear();
 
-            map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+            UserInfoBean userInfoBean = AppConstant.getUserInfoBean();
+            if (userInfoBean == null) {
+                return;
+            }
+            map.put("userId", userInfoBean.getUserId());
             map.put("recvName", etRecvName);
             map.put("recvTel", etRecvTel);
             map.put("addressClassA", etAddrA);
             map.put("addressClassB", etAddrB);
             map.put("isDefault", "0");
             map.put("type", "0");
-            if (address_bean!=null){
+            if (address_bean != null) {
                 map.put("addressId", address_bean.getId());
                 map.put("type", "1");
             }
@@ -78,7 +83,6 @@ public class AddAddressActivity extends CustomBaseActivity {
 
         binding.title.qmTopBar.setTitle("新增地址");
         binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
-
 
 
         Bundle extras = getIntent().getExtras();
@@ -91,8 +95,6 @@ public class AddAddressActivity extends CustomBaseActivity {
             binding.etAddrA.setText(address_bean.getAddressClassA());
             binding.etAddrB.setText(address_bean.getAddressDetail());
         }
-
-
     }
 
 
@@ -100,20 +102,7 @@ public class AddAddressActivity extends CustomBaseActivity {
     public void receiveData(NetResponse netResponse) {
         switch (netResponse.getTag()) {
             case "ADD_ADDR":
-//                QMUITipDialog qmuiTipDialog = builder.setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS).setTipWord("添加成功").create();
-//                qmuiTipDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                    @Override
-//                    public void onDismiss(DialogInterface dialog) {
-//                        finish();
-//                    }
-//                });
-//
-//                qmuiTipDialog.show();
-                if (address_bean!=null){
-                    UIUtils.showToast("修改成功！");
-                }else {
-                    UIUtils.showToast("添加成功！");
-                }
+                showTipe(3, address_bean != null ? "修改成功！" : "添加成功！");
                 finish();
                 break;
         }

@@ -51,16 +51,27 @@ public class HttpUrls {
     public static String RECHARGE="createRechargeOrder";
     public static String APPLY_MEMBER="createApplyOrder";
     public static String GET_QR_CODE="getQrCode";
+    public static String GET_OPTION="getAllOption";
+    public static String GET_RECOMMOND_PROJECT="getRecommondProject";
+    public static String SEARCH_PROJECT="searchProject";
+    public static String GET_USER_TEAM_BASIC_INFO="getUserTeamBasicInfo";
+    public static final String GET_USER_CUSTOMER = "getUserCustomer";
+    public static String GET_USER_TEAM="getUserTeam";
+    public static String REPAY="rePayOrder";
+    public static String GET_PROJECT_PL="getProjectPl";
+    public static String GET_PROJECT_BASIC="getProjectDetailBasic";
+    public static String GET_APPOTHER_CONFIG="getAppOtherConfig";
+    public static String UPDATE_VERSION="getAppVersionNew";
 
 
     public static String getBaseUrl() {
         if (AppConstant.isDebug) {
 
-            return "http://192.168.1.100:8098/";
+            return "http://192.168.1.132:8098/";
 
         } else {
 
-            return "http://awapp.beauty521.com/tjawserverapp/";
+            return "https://awapp.beauty521.com/";
 
         }
     }

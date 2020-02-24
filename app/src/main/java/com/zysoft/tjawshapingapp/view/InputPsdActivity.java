@@ -1,5 +1,6 @@
 package com.zysoft.tjawshapingapp.view;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,11 +20,18 @@ import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityInputPsdBinding;
+import com.zysoft.tjawshapingapp.http.HttpConstant;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
+import com.zysoft.tjawshapingapp.http.NovateUtil;
 import com.zysoft.tjawshapingapp.module.NetModel;
+import com.zysoft.tjawshapingapp.view.imglook.ImgLookActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+
+import me.jessyan.autosize.utils.LogUtils;
 
 /**
  * Created by mr.miao on 2019/5/16.
@@ -84,29 +92,23 @@ public class InputPsdActivity extends CustomBaseActivity {
             }
         });
 
-        binding.btnCommit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String str = binding.etUserPsd.getText().toString().trim();
-                if (TextUtils.isEmpty(str)) {
-                    UIUtils.showToast("请输入密码！");
-                    return;
-                }
-                map.clear();
-                map.put("userTel", AppConstant.USER_PHONE);
-                map.put("userPsd", str);
-                NetModel.getInstance().getDataFromNet("LOGIN", HttpUrls.LOGIN, map);
+        binding.btnCommit.setOnClickListener(view -> {
+            String str = binding.etUserPsd.getText().toString().trim();
+            if (TextUtils.isEmpty(str)) {
+                showTipe(0,"请输入密码");
+                return;
             }
+            map.clear();
+            map.put("userTel", AppConstant.USER_PHONE);
+            map.put("userPsd", str);
+            NetModel.getInstance().getDataFromNet("LOGIN", HttpUrls.LOGIN, map);
         });
-        binding.tvForgetPsd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //发送短信验证码
-                map.clear();
-                map.put("userTel", AppConstant.USER_PHONE);
-                NetModel.getInstance().getDataFromNet("GET_VERIFY_CODE", HttpUrls.GET_CODE, map);
+        binding.tvForgetPsd.setOnClickListener(view -> {
+            //发送短信验证码
+            map.clear();
+            map.put("userTel", AppConstant.USER_PHONE);
+            NetModel.getInstance().getDataFromNet("GET_VERIFY_CODE", HttpUrls.GET_CODE, map);
 
-            }
         });
     }
 
@@ -122,6 +124,7 @@ public class InputPsdActivity extends CustomBaseActivity {
 //                Intent intent = new Intent();
 //                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                startActivityBase(MainActivity.class);
+                NovateUtil.initBuilder();
                 EventBus.getDefault().post(new NetResponse("LOGIN_SUCCESS","登录成功！"));
                 finish();
                 break;
@@ -130,6 +133,12 @@ public class InputPsdActivity extends CustomBaseActivity {
                 AppConstant.MsgId = (String) netResponse.getData();
                 startActivityBase(RegeditActivity.class);
                 finish();
+                break;
+            case HttpConstant.STATE_ERROR:
+//                showTipe(3, String.valueOf(netResponse.getData()));
+                UIUtils.showToast(String.valueOf(netResponse.getData()));
+                break;
+
 
         }
     }

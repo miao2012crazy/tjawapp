@@ -11,6 +11,9 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.ProjectAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
@@ -39,12 +42,16 @@ public class OptionActvity extends CustomBaseActivity {
     private ActivityOptionBinding binding;
     private List<HomeDataBean.ProjectListBean> mainList2 = new ArrayList<>();
     private ProjectAdapter projectAdapter;
+    private int index = 0;
+    private String option_id1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_option);
         EventBus.getDefault().register(this);
+        binding.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
+
         map.clear();
         initList();
         Bundle extras = getIntent().getExtras();
@@ -52,25 +59,25 @@ public class OptionActvity extends CustomBaseActivity {
             return;
         }
 
-        String option_id1 = extras.getString("OPTION_ID");
+        option_id1 = extras.getString("OPTION_ID");
         if (TextUtils.isEmpty(option_id1)) {
             HomeDataBean.OptionBean option_id = (HomeDataBean.OptionBean) getIntent().getExtras().getSerializable("OPTION_ID");
-
             binding.qmTopBar.setTitle(option_id.getOptionName());
-
-            binding.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
-//            initTitle(binding.title.tvReturn, null);
-            map.put("option", option_id.getId());
-            map.put("pageIndex", "0");
-            NetModel.getInstance().getDataFromNet("OPTION_DATA", HttpUrls.GET_OPTION_DATA, map);
-        }else {
+            option_id1 = String.valueOf(option_id.getId());
+        } else {
             String option_name = extras.getString("OPTION_NAME");
             binding.qmTopBar.setTitle(option_name);
-            binding.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
-            map.put("option", option_id1);
-            map.put("pageIndex", "0");
-            NetModel.getInstance().getDataFromNet("OPTION_DATA", HttpUrls.GET_OPTION_DATA, map);
         }
+
+
+
+        getData(index);
+    }
+
+    private void getData(int index) {
+        map.put("option", option_id1);
+        map.put("pageIndex", index);
+        NetModel.getInstance().getDataFromNet("OPTION_DATA", HttpUrls.GET_OPTION_DATA, map);
 
     }
 
@@ -92,6 +99,22 @@ public class OptionActvity extends CustomBaseActivity {
                 startActivity(intent);
             }
         });
+        binding.smartRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                mainList2.clear();
+                refreshLayout.setNoMoreData(false);
+                index = 0;
+                getData(index);
+            }
+        });
+        binding.smartRefresh.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                index = index+1;
+                getData(index);
+            }
+        });
     }
 
 
@@ -101,7 +124,6 @@ public class OptionActvity extends CustomBaseActivity {
             case "OPTION_DATA":
                 String data = (String) netResponse.getData();
                 List<HomeDataBean.ProjectListBean> projectListBean = GsonUtil.GsonToList(data, HomeDataBean.ProjectListBean.class);
-
                 initProject(projectListBean);
                 break;
 
@@ -110,9 +132,19 @@ public class OptionActvity extends CustomBaseActivity {
 
 
     private void initProject(List<HomeDataBean.ProjectListBean> projectList) {
-        mainList2.clear();
         mainList2.addAll(projectList);
-        projectAdapter.notifyDataSetChanged();
+        projectAdapter.notifyItemRangeChanged(mainList2.size(),projectList.size());
+        if (binding.smartRefresh.isRefreshing()){
+            binding.smartRefresh.finishRefresh(2);
+        }
+         if (binding.smartRefresh.isLoading()){
+             if (projectList.size()==0){
+                 binding.smartRefresh.finishLoadMoreWithNoMoreData();
+             }else {
+                 binding.smartRefresh.finishLoadMore();
+             }
+        }
+
     }
 
 

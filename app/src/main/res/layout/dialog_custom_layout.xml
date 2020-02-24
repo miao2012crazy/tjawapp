@@ -26,7 +26,8 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
+            <com.zysoft.tjawshapingapp.ui.textfont.AppTextView
+
                 android:id="@+id/tv_or_price"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -43,7 +44,8 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.zysoft.tjawshapingapp.ui.textfont.AppTextView
+
                     android:id="@+id/tv_member_price"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -80,7 +82,7 @@
                     android:textColor="#888888"
                     android:textSize="14sp" />
 
-                <TextView
+                <com.zysoft.tjawshapingapp.ui.textfont.AppTextView
                     android:id="@+id/tv_prepare_price"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

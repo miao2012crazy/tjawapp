@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f4f3f8"
+        android:background="#fff"
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
@@ -16,8 +16,8 @@
             android:id="@+id/title"
             layout="@layout/layout_title_bar" />
 
-
         <android.support.v4.widget.NestedScrollView
+            android:background="#f4f3f8"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -163,7 +163,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="商品金额"
+                            android:text="项目金额"
                             android:textColor="#888888"
                             android:textSize="14sp" />
 
@@ -258,7 +258,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:text="-¥200.00"
+                            tools:text="-¥200.00"
                             android:textColor="#0086c9"
                             android:textSize="14sp" />
 
@@ -281,12 +281,12 @@
                             android:textColor="#888888"
                             android:textSize="14sp" />
 
-                        <TextView
+                        <com.zysoft.tjawshapingapp.ui.textfont.AppTextView
                             android:id="@+id/tv_pay_price"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:text="¥99.00"
+                            tools:text="¥99.00"
                             android:textColor="#0086c9"
                             android:textSize="14sp" />
 
@@ -308,6 +308,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
+                        android:visibility="gone"
                         android:focusable="true"
                         android:gravity="center_vertical"
                         />
@@ -332,6 +333,7 @@
 
                     <ImageView
                         android:id="@+id/tv_yl"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
@@ -379,7 +381,7 @@
                 android:textColor="#000"
                 android:textSize="15sp" />
 
-            <TextView
+            <com.zysoft.tjawshapingapp.ui.textfont.AppTextView
                 android:id="@+id/tv_pay"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

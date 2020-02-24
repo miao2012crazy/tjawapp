@@ -1,5 +1,6 @@
 package com.zysoft.tjawshapingapp.adapter;
 
+import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,10 +15,14 @@ import com.zysoft.tjawshapingapp.common.GlideApp;
 import com.zysoft.tjawshapingapp.common.GlideRoundTransform;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
 import com.zysoft.tjawshapingapp.common.UIUtils;
+import com.zysoft.tjawshapingapp.view.im.DefaultUser;
 
 import java.io.File;
 import java.util.List;
 
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.GetAvatarBitmapCallback;
+import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.enums.ContentType;
 import cn.jpush.im.android.api.model.Conversation;
@@ -37,35 +42,38 @@ public class CustomMsgListAdapter extends BaseQuickAdapter<Conversation, BaseVie
     @Override
     protected void convert(BaseViewHolder helper, Conversation item) {
         //最新消息
-
-        LogUtils.e("msgItem:::" + item.getAvatarFile());
-
-//        String text;
-//        try {
-//             text = ((TextContent) latestMessage.getContent()).getText();
-//        }catch (Exception ex){
-//            text=item.getLatestText();
-//        }
-
+        ImageView view1 = helper.getView(R.id.iv_img);
+        LogUtils.e("msgItem:::" + item);
         //会话者信息
         UserInfo targetInfo = (UserInfo) item.getTargetInfo();
-        String nickname = targetInfo.getNickname();
+        LogUtils.e("msgItem:::targetInfo" + targetInfo);
+        JMessageClient.getUserInfo(targetInfo.getUserName(), new GetUserInfoCallback() {
+            @Override
+            public void gotResult(int i, String s, UserInfo userInfo) {
+                helper.setText(R.id.tv_name, userInfo.getNickname());
+
+                userInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
+                    @Override
+                    public void gotResult(int i, String s, Bitmap bitmap) {
+                        LogUtils.e("下载用户头像："+bitmap);
+                        view1.setTag(null);
+                        GlideApp.with(view1)
+                                .load(bitmap)
+                                .error(R.mipmap.default_head)
+                                .centerCrop()
+                                .transform(new GlideRoundTransform(4))
+                                .into(view1);
+                        view1.setTag(view1.getTag() != bitmap);
+                    }
+                });
+            }
+        });
         Message latestMessage = item.getLatestMessage();
+        if (latestMessage == null) {
+            return;
+        }
         ContentType contentType = latestMessage.getContentType();
         String s = latestMessage.getContent().toJson();
-        File avatarFile = targetInfo.getAvatarFile();
-        ImageView view1 = helper.getView(R.id.iv_img);
-
-        if (avatarFile != null&&view1.getTag()!=avatarFile.getPath()) {
-            view1.setTag(null);
-            GlideApp.with(view1)
-                    .load(avatarFile)
-                    .centerCrop()
-                    .transform(new GlideRoundTransform(4))
-                    .into(view1);
-            view1.setTag(view1.getTag()!=avatarFile.getPath());
-        }
-
 
         switch (contentType) {
             case text:
@@ -92,19 +100,6 @@ public class CustomMsgListAdapter extends BaseQuickAdapter<Conversation, BaseVie
                 helper.setText(R.id.tv_msg, "[语音消息]");
                 break;
         }
-        helper.setText(R.id.tv_name, nickname);
-        RequestOptions requestOptions = new RequestOptions().centerCrop();
-
-
-//        if (!targetInfo.getAvatarFile().equals(view1.getTag())){
-//            view1.setTag(null);
-//            Glide.with(view1.getContext())
-//                    .load(targetInfo.getAvatarFile())
-//                    .apply(requestOptions)
-//                    .into(view1);
-//            view1.setTag(targetInfo.getAvatarFile());
-//        }
-
 
         int unReadMsgCnt = item.getUnReadMsgCnt();
         TextView view = helper.getView(R.id.tv_no_see);

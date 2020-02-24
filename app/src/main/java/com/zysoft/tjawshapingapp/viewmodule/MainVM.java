@@ -35,10 +35,10 @@ public class MainVM {
                         "视频",
                         R.mipmap.ic_video_default,
                         R.mipmap.ic_video_check)
-                .addItem(ShopFragment.class,
-                        "商城",
-                        R.mipmap.ic_mall_default,
-                        R.mipmap.ic_mall_check)
+//                .addItem(ShopFragment.class,
+//                        "商城",
+//                        R.mipmap.ic_mall_default,
+//                        R.mipmap.ic_mall_check)
                 .addItem(IMFragment.class,
                         "消息",
                         R.mipmap.ic_notice_default,

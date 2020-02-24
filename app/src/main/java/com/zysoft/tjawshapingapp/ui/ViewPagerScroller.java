@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
-import com.zysoft.tjawshapingapp.view.CustomVideoFragment;
 
 import java.lang.reflect.Field;
 

@@ -17,6 +17,7 @@ import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.AddressBean;
 import com.zysoft.tjawshapingapp.bean.OrderResultBean;
 import com.zysoft.tjawshapingapp.bean.UserCartBean;
+import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.GlideApp;
 import com.zysoft.tjawshapingapp.common.GlideRoundTransform;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
@@ -126,13 +127,14 @@ public class ConfirmOrderCartActivity extends CustomBaseActivity {
         initClick();
         initPay(true, false, false);
 //        initView();
-        if (AppConstant.USER_INFO_BEAN==null){
+        UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
+        if (userInfoBean ==null){
             EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_RELOGIN,""));
             return;
         }
 
         map.clear();
-        map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+        map.put("userId", userInfoBean.getUserId());
         NetModel.getInstance().getDataFromNet("GET_USER_DEFAULT", HttpUrls.GET_USER_DEFAULT, map);
 //        netModel.getDataFromNet("GET_USER_INTEGRAL", HttpUrls.GET_USER_INTEGRAL_USE, map);
 
@@ -241,12 +243,12 @@ public class ConfirmOrderCartActivity extends CustomBaseActivity {
                 count = count + item.getProductNum();
                 count = count + "#";
             }
-            if (AppConstant.USER_INFO_BEAN==null){
-                EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_RELOGIN,""));
+            UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
+            if (userInfoBean==null){
                 return;
             }
             map.put("productId", productId);
-            map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+            map.put("userId",userInfoBean.getUserId());
             map.put("type", position);
             if (recvtype == 1) {
                 map.put("addressId", addressBean.getId());

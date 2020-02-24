@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!-- 纵向linnerlayout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:paddingTop="25dp"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title"
+            layout="@layout/layout_title_bar" />
+        <!-- 引入list -->
+        <include
+            android:id="@+id/recycler_img"
+            layout="@layout/layout_list" />
+
+    </LinearLayout>
+
+</layout>

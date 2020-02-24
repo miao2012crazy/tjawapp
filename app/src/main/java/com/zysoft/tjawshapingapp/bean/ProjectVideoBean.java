@@ -8,24 +8,25 @@ import java.io.Serializable;
 
 public class ProjectVideoBean implements Serializable {
 
-
-
     private int id;
+    //type==2 项目id
+    //1 商品id
+    // 0 活动
     private int projectId;
     private int stateUsable;
+    //视频名称
     private String videoName;
+    //视频说明
     private String videoDesc;
+    //视频路径
     private String videoPath;
+    //上传日期
     private String regDate;
+    //视频 第一针图片
     private String videoImg;
-
-    public String getVideoImg() {
-        return videoImg;
-    }
-
-    public void setVideoImg(String videoImg) {
-        this.videoImg = videoImg;
-    }
+    // 类型 0 活动 1 商品 2 项目
+    private int type;
+    private String link;
 
     public int getId() {
         return id;
@@ -81,5 +82,29 @@ public class ProjectVideoBean implements Serializable {
 
     public void setRegDate(String regDate) {
         this.regDate = regDate;
+    }
+
+    public String getVideoImg() {
+        return videoImg;
+    }
+
+    public void setVideoImg(String videoImg) {
+        this.videoImg = videoImg;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 }

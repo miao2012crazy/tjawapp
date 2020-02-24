@@ -19,7 +19,6 @@ public class ProjectDetailBean {
     private ProjectInfoBean projectInfo;
     private List<LoopBean> loop;
     private List<ImgDetailBean> imgDetail;
-
     public ProjectInfoBean getProjectInfo() {
         return projectInfo;
     }
@@ -372,4 +371,223 @@ public class ProjectDetailBean {
         }
 
     }
+
+
+
+    /**
+     * projectInfo : {"id":23,"stateUsable":0,"projectName":"眼部","projectDesc":"测试爱吃测试爱吃测试爱吃测试爱吃测试爱吃测试爱吃","productIcon":"http://awapp.beauty521.com/static/project/1574052718264.png","projectVideo":"","projectOrginPrice":1200,"projectMemberPrice":1200,"projectFirstPrice":1200,"projectSecondPrice":1200,"projectEarnestMoney":500,"regDate":"2019-11-18 12:51:58","isRecomment":1,"projectOption":7,"projectOptionName":"眼部","projectSellNum":0,"projectTag":"【小打小闹】"}
+     * loop : []
+     * imgDetail : []
+     * userPLCount : 1
+     * userPL : {"userPl":{"id":6,"userId":1,"userNickName":"💮💮夜良人🔥🔥","userTel":"15585513651","userHeadImg":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTK9j3nfutDyVZgXL6US5lekF6KxdIjlXmKZgTviciaw3WyVdNvibSUbZtJ4fQdNBrHvHU9fudHlianxaA/132","plContent":"啊啊啊啊啊啊啊","projectId":23,"projectName":"眼部","isState":0,"regDate":"2019-12-04 21:04:06"},"plImgList":[{"id":1,"plId":6,"stateUsable":0,"imgPath":"http://awapp.beauty521.com/static/pl/1575464646149.jpg","regDate":"2019-12-04 21:04:06"},{"id":2,"plId":6,"stateUsable":0,"imgPath":"http://awapp.beauty521.com/static/pl/1575464646252.jpg","regDate":"2019-12-04 21:04:06"},{"id":3,"plId":6,"stateUsable":0,"imgPath":"http://awapp.beauty521.com/static/pl/1575464646349.jpg","regDate":"2019-12-04 21:04:06"},{"id":4,"plId":6,"stateUsable":0,"imgPath":"http://awapp.beauty521.com/static/pl/1575464646461.jpg","regDate":"2019-12-04 21:04:06"}]}
+     */
+
+    private int userPLCount;
+    private UserPLBean userPL;
+
+    public int getUserPLCount() {
+        return userPLCount;
+    }
+
+    public void setUserPLCount(int userPLCount) {
+        this.userPLCount = userPLCount;
+    }
+
+    public UserPLBean getUserPL() {
+        return userPL;
+    }
+
+    public void setUserPL(UserPLBean userPL) {
+        this.userPL = userPL;
+    }
+
+
+    public static class UserPLBean {
+        /**
+         * userPl : {"id":6,"userId":1,"userNickName":"💮💮夜良人🔥🔥","userTel":"15585513651","userHeadImg":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTK9j3nfutDyVZgXL6US5lekF6KxdIjlXmKZgTviciaw3WyVdNvibSUbZtJ4fQdNBrHvHU9fudHlianxaA/132","plContent":"啊啊啊啊啊啊啊","projectId":23,"projectName":"眼部","isState":0,"regDate":"2019-12-04 21:04:06"}
+         * plImgList : [{"id":1,"plId":6,"stateUsable":0,"imgPath":"http://awapp.beauty521.com/static/pl/1575464646149.jpg","regDate":"2019-12-04 21:04:06"},{"id":2,"plId":6,"stateUsable":0,"imgPath":"http://awapp.beauty521.com/static/pl/1575464646252.jpg","regDate":"2019-12-04 21:04:06"},{"id":3,"plId":6,"stateUsable":0,"imgPath":"http://awapp.beauty521.com/static/pl/1575464646349.jpg","regDate":"2019-12-04 21:04:06"},{"id":4,"plId":6,"stateUsable":0,"imgPath":"http://awapp.beauty521.com/static/pl/1575464646461.jpg","regDate":"2019-12-04 21:04:06"}]
+         */
+
+        private UserPLBean.UserPlBean userPl;
+        private List<UserPLBean.PlImgListBean> plImgList;
+
+        public UserPLBean.UserPlBean getUserPl() {
+            return userPl;
+        }
+
+        public void setUserPl(UserPLBean.UserPlBean userPl) {
+            this.userPl = userPl;
+        }
+
+        public List<UserPLBean.PlImgListBean> getPlImgList() {
+            return plImgList;
+        }
+
+        public void setPlImgList(List<UserPLBean.PlImgListBean> plImgList) {
+            this.plImgList = plImgList;
+        }
+
+        public static class UserPlBean {
+            /**
+             * id : 6
+             * userId : 1
+             * userNickName : 💮💮夜良人🔥🔥
+             * userTel : 15585513651
+             * userHeadImg : http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTK9j3nfutDyVZgXL6US5lekF6KxdIjlXmKZgTviciaw3WyVdNvibSUbZtJ4fQdNBrHvHU9fudHlianxaA/132
+             * plContent : 啊啊啊啊啊啊啊
+             * projectId : 23
+             * projectName : 眼部
+             * isState : 0
+             * regDate : 2019-12-04 21:04:06
+             */
+
+            private int id;
+            private int userId;
+            private String userNickName;
+            private String userTel;
+            private String userHeadImg;
+            private String plContent;
+            private int projectId;
+            private String projectName;
+            private int isState;
+            private String regDate;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public int getUserId() {
+                return userId;
+            }
+
+            public void setUserId(int userId) {
+                this.userId = userId;
+            }
+
+            public String getUserNickName() {
+                return userNickName;
+            }
+
+            public void setUserNickName(String userNickName) {
+                this.userNickName = userNickName;
+            }
+
+            public String getUserTel() {
+                return userTel;
+            }
+
+            public void setUserTel(String userTel) {
+                this.userTel = userTel;
+            }
+
+            public String getUserHeadImg() {
+                return userHeadImg;
+            }
+
+            public void setUserHeadImg(String userHeadImg) {
+                this.userHeadImg = userHeadImg;
+            }
+
+            public String getPlContent() {
+                return plContent;
+            }
+
+            public void setPlContent(String plContent) {
+                this.plContent = plContent;
+            }
+
+            public int getProjectId() {
+                return projectId;
+            }
+
+            public void setProjectId(int projectId) {
+                this.projectId = projectId;
+            }
+
+            public String getProjectName() {
+                return projectName;
+            }
+
+            public void setProjectName(String projectName) {
+                this.projectName = projectName;
+            }
+
+            public int getIsState() {
+                return isState;
+            }
+
+            public void setIsState(int isState) {
+                this.isState = isState;
+            }
+
+            public String getRegDate() {
+                return regDate;
+            }
+
+            public void setRegDate(String regDate) {
+                this.regDate = regDate;
+            }
+        }
+
+        public static class PlImgListBean {
+            /**
+             * id : 1
+             * plId : 6
+             * stateUsable : 0
+             * imgPath : http://awapp.beauty521.com/static/pl/1575464646149.jpg
+             * regDate : 2019-12-04 21:04:06
+             */
+
+            private int id;
+            private int plId;
+            private int stateUsable;
+            private String imgPath;
+            private String regDate;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public int getPlId() {
+                return plId;
+            }
+
+            public void setPlId(int plId) {
+                this.plId = plId;
+            }
+
+            public int getStateUsable() {
+                return stateUsable;
+            }
+
+            public void setStateUsable(int stateUsable) {
+                this.stateUsable = stateUsable;
+            }
+
+            public String getImgPath() {
+                return imgPath;
+            }
+
+            public void setImgPath(String imgPath) {
+                this.imgPath = imgPath;
+            }
+
+            public String getRegDate() {
+                return regDate;
+            }
+
+            public void setRegDate(String regDate) {
+                this.regDate = regDate;
+            }
+        }
+    }
+
 }

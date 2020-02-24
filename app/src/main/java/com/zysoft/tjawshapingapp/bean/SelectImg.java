@@ -19,8 +19,17 @@ public class SelectImg {
     private boolean compressed;
     private int width;
     private int height;
+    private boolean isAdd=false;
 
-    public SelectImg(String path, String compressPath, String cutPath, long duration, boolean isChecked, boolean isCut, int position, int num, int mimeType, String pictureType, boolean compressed, int width, int height) {
+    public boolean isAdd() {
+        return isAdd;
+    }
+
+    public void setAdd(boolean add) {
+        isAdd = add;
+    }
+
+    public SelectImg(String path, String compressPath, String cutPath, long duration, boolean isChecked, boolean isCut, int position, int num, int mimeType, String pictureType, boolean compressed, int width, int height,boolean isAdd) {
         this.path = path;
         this.compressPath = compressPath;
         this.cutPath = cutPath;
@@ -34,6 +43,7 @@ public class SelectImg {
         this.compressed = compressed;
         this.width = width;
         this.height = height;
+        this.isAdd = isAdd;
     }
 
     public String getPath() {

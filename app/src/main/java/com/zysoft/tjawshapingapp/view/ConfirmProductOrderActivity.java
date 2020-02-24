@@ -12,6 +12,7 @@ import com.zysoft.tjawshapingapp.bean.AddressBean;
 import com.zysoft.tjawshapingapp.bean.CouponsBean;
 import com.zysoft.tjawshapingapp.bean.DetailBean;
 import com.zysoft.tjawshapingapp.bean.ProjectDetailBean;
+import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.CommonUtil;
 import com.zysoft.tjawshapingapp.common.GlideApp;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
@@ -53,9 +54,12 @@ public class ConfirmProductOrderActivity extends CustomBaseActivity {
 
         binding.title.qmTopBar.setTitle("确认支付");
         binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
-
+        UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
+        if (userInfoBean==null){
+            return;
+        }
         map.clear();
-        map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+        map.put("userId", userInfoBean.getUserId());
         map.put("productId", projectInfo.getId());
         NetModel.getInstance().getAllData("COUPONS", HttpUrls.GETUSERCOUPONSFORPRODUCT, map);
         initPrice(projectInfo.getProductPrice(), 0, binding.amountView.getAmount());
@@ -163,7 +167,11 @@ public class ConfirmProductOrderActivity extends CustomBaseActivity {
                 map.put("productId", projectInfo.getId());
                 map.put("addressId", addressBean.getId());
                 map.put("couponsId", AppConstant.Coupons == null ? "" : AppConstant.Coupons.getId());
-                map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+                UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
+                if (userInfoBean==null){
+                    return;
+                }
+                map.put("userId", userInfoBean.getUserId());
                 map.put("type", position);
                 map.put("count", binding.amountView.getAmount());
 

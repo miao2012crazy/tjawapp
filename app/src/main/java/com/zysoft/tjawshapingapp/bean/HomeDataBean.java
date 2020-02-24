@@ -111,11 +111,11 @@ public class HomeDataBean {
         private String projectDesc;
         private String productIcon;
         private String projectVideo;
-        private int projectOrginPrice;
-        private int projectMemberPrice;
-        private int projectFirstPrice;
-        private int projectSecondPrice;
-        private int projectEarnestMoney;
+        private double projectOrginPrice;
+        private double projectMemberPrice;
+        private double projectFirstPrice;
+        private double projectSecondPrice;
+        private double projectEarnestMoney;
         private String regDate;
         private int isRecomment;
         private int projectOption;
@@ -171,39 +171,39 @@ public class HomeDataBean {
             this.projectVideo = projectVideo;
         }
 
-        public int getProjectOrginPrice() {
+        public double getProjectOrginPrice() {
             return projectOrginPrice;
         }
 
-        public void setProjectOrginPrice(int projectOrginPrice) {
+        public void setProjectOrginPrice(double projectOrginPrice) {
             this.projectOrginPrice = projectOrginPrice;
         }
 
-        public int getProjectMemberPrice() {
+        public double getProjectMemberPrice() {
             return projectMemberPrice;
         }
 
-        public void setProjectMemberPrice(int projectMemberPrice) {
+        public void setProjectMemberPrice(double projectMemberPrice) {
             this.projectMemberPrice = projectMemberPrice;
         }
 
-        public int getProjectFirstPrice() {
+        public double getProjectFirstPrice() {
             return projectFirstPrice;
         }
 
-        public void setProjectFirstPrice(int projectFirstPrice) {
+        public void setProjectFirstPrice(double projectFirstPrice) {
             this.projectFirstPrice = projectFirstPrice;
         }
 
-        public int getProjectSecondPrice() {
+        public double getProjectSecondPrice() {
             return projectSecondPrice;
         }
 
-        public void setProjectSecondPrice(int projectSecondPrice) {
+        public void setProjectSecondPrice(double projectSecondPrice) {
             this.projectSecondPrice = projectSecondPrice;
         }
 
-        public int getProjectEarnestMoney() {
+        public double getProjectEarnestMoney() {
             return projectEarnestMoney;
         }
 
@@ -503,6 +503,7 @@ public class HomeDataBean {
 
         private String loopImgPath;
         private String loopLink;
+        //0 活动 1商品 2项目
         private int isProduct;
         private String productId;
 
@@ -807,6 +808,15 @@ public class HomeDataBean {
         private String optionImg;
         private String regDate;
         private int isProject;
+        private boolean isCheck=false;
+
+        public boolean isCheck() {
+            return isCheck;
+        }
+
+        public void setCheck(boolean check) {
+            isCheck = check;
+        }
 
         public int getId() {
             return id;

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="@drawable/shape_option_product"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="124dp">
+
+            <ImageView
+                android:scaleType="fitXY"
+                android:id="@+id/iv_project"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/sample_add_dl"
+                tools:background="@mipmap/sample_add_dl" />
+        </RelativeLayout>
+        <!-- 纵向linnerlayout -->
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="11dp">
+
+            <TextView
+                android:id="@+id/tv_tag_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textColor="#333333"
+                android:textSize="15sp"
+                tools:text="1231243243412" />
+
+            <TextView
+                android:layout_marginTop="8dp"
+                android:id="@+id/tv_jf"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:background="@drawable/shape_btn_strock"
+                android:gravity="center_vertical"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:text="会员半价"
+                android:textColor="#0094de"
+                android:textSize="10sp" />
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已售:"
+                    android:textColor="#888"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="20dp"
+                    android:textColor="#888"
+                    android:textSize="12sp"
+                    tools:text="1.9w" />
+            </LinearLayout>
+            <LinearLayout
+                android:paddingBottom="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor="#ff0000"
+                    android:textSize="15sp"
+                    tools:text="123123" />
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor="#ff0000"
+                    android:textSize="10sp"
+                    android:text="起" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</layout>

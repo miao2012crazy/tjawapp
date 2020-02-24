@@ -211,7 +211,7 @@
                                     android:text="取消订单"
                                     android:textColor="#0086c9"
                                     android:textSize="16sp"
-                                    android:visibility="@{item.orderState==0?View.VISIBLE:View.GONE}" />
+                                    android:visibility="@{(item.orderState==0||item.orderState==1||item.orderState==9)?View.VISIBLE:View.GONE}" />
 
                                 <Button
                                     android:id="@+id/btn_pay"
@@ -234,7 +234,7 @@
                                     android:text="我要评价"
                                     android:textColor="#fff"
                                     android:textSize="16sp"
-                                    android:visibility="@{item.orderState==3?View.VISIBLE:View.GONE}" />
+                                    android:visibility="@{(item.orderState==8&amp;item.isPl==0)?View.VISIBLE:View.GONE}" />
 
                                 <Button
 

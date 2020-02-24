@@ -33,7 +33,15 @@ public class OrderResultBean {
     private String sign;
     private int timestamp;
     private String orderId;
+    private String alipayBody;
 
+    public String getAlipayBody() {
+        return alipayBody;
+    }
+
+    public void setAlipayBody(String alipayBody) {
+        this.alipayBody = alipayBody;
+    }
 
     public boolean isPay() {
         return isPay;

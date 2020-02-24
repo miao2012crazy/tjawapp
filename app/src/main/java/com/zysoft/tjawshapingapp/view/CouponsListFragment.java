@@ -19,6 +19,7 @@ import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.CouponsAdapter;
 import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
 import com.zysoft.tjawshapingapp.bean.CouponsBean;
+import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
 import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
@@ -60,7 +61,11 @@ public class CouponsListFragment extends BaseLazyFragment {
         EventBus.getDefault().register(this);
         type = getArguments().getString("type");
         initAdapter();
-        map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+        UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
+        if (userInfoBean==null){
+            return;
+        }
+        map.put("userId", userInfoBean.getUserId());
         map.put("type", type);
         map.put("index", "0");
         NetModel.getInstance().getDataFromNet("GET_COUPONS_LIST" + type, HttpUrls.GET_COUPONS_LIST, map);

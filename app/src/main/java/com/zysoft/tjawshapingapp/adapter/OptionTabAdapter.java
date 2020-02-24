@@ -27,16 +27,30 @@ public class OptionTabAdapter extends BaseQuickAdapter<HomeDataBean.OptionBean, 
         helper.setText(R.id.tv_option_name, item.getOptionName());
 
         ImageView iv = helper.getView(R.id.iv_option);
-//        iv.setTag(R.id.indexTag,item.getTag_drawable());
-        if (!item.getOptionImg().equals(iv.getTag())){
-            iv.setTag(null);
-            GlideApp.with(iv.getContext())
-                    .load(item.getOptionImg())
-                    .error(R.drawable.ic_img_error)
-                    .centerCrop()
-                    .transform(new GlideCircleTransform())
-                    .into(iv);
-            iv.setTag(item.getOptionImg());
+
+        if (item.getId()==-1){
+            if (!item.getOptionImg().equals(iv.getTag())){
+                iv.setTag(null);
+                GlideApp.with(iv.getContext())
+                        .load(Integer.parseInt(item.getOptionImg()))
+                        .error(R.drawable.ic_img_error)
+                        .centerCrop()
+                        .transform(new GlideCircleTransform())
+                        .into(iv);
+                iv.setTag(item.getOptionImg());
+            }
+        }else {
+            if (!item.getOptionImg().equals(iv.getTag())){
+                iv.setTag(null);
+                GlideApp.with(iv.getContext())
+                        .load(item.getOptionImg())
+                        .error(R.drawable.ic_img_error)
+                        .centerCrop()
+                        .transform(new GlideCircleTransform())
+                        .into(iv);
+                iv.setTag(item.getOptionImg());
+            }
         }
+
     }
 }

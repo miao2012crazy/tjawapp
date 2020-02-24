@@ -25,11 +25,14 @@ import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityLoginBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
+import com.zysoft.tjawshapingapp.view.im.util.Constants;
+import com.zysoft.tjawshapingapp.view.webView.WebViewActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
+import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -43,7 +46,7 @@ import static android.Manifest.permission.READ_PHONE_STATE;
  * Created by mr.miao on 2019/5/16.
  */
 
-public class LoginActivity extends CustomBaseActivity {
+public class LoginActivity extends CustomBaseActivity implements EasyPermissions.PermissionCallbacks{
 
 
     private HashMap<String, Object> map = new HashMap<>();
@@ -88,12 +91,12 @@ public class LoginActivity extends CustomBaseActivity {
         binding.btnCheck.setOnClickListener(view -> {
             String trim = binding.etUserTel.getText().toString().trim();
             if (TextUtils.isEmpty(trim)) {
-                UIUtils.showToast("请输入手机号码！");
+                showTipe(0,"请输入手机号码！");
                 return;
             }
 
             if (!UIUtils.isTelPhoneNumber(trim)) {
-                UIUtils.showToast("请输入正确手机号码！");
+                showTipe(0,"请输入正确手机号码！");
                 return;
             }
             AppConstant.USER_PHONE = trim;
@@ -109,7 +112,7 @@ public class LoginActivity extends CustomBaseActivity {
 
         } else {
             // 没有申请过权限，现在去申请
-            EasyPermissions.requestPermissions(this, "",
+            EasyPermissions.requestPermissions(this, "为了您的账户安全，爱薇国际需要获取您的授权",
                     RC_CAMERA_AND_LOCATION, perms);
         }
 
@@ -128,6 +131,13 @@ public class LoginActivity extends CustomBaseActivity {
             binding.tvBindTel.setText(is_bind_tel ? "绑定手机" : "输入手机号码");
         }
 
+        binding.tvUserRegedit.setOnClickListener(v->{
+            //用户注册协议
+            bundle.clear();
+            bundle.putString("title", "官方活动");
+            bundle.putString("url", HttpUrls.getBaseUrl()+"user_regedit_agreement");
+            startActivityBase(WebViewActivity.class, bundle);
+        });
     }
 
     @Subscribe
@@ -156,10 +166,12 @@ public class LoginActivity extends CustomBaseActivity {
                 // code
                 WXBean data = (WXBean) netResponse.getData();
                 //上传code 换取用户信息
+                showTipe(2,"正在登录中");
                 map.put("code", data.getCode());
                 NetModel.getInstance().getDataFromNet("WXDATA", HttpUrls.WXLOGIN, map);
                 break;
             case "WXDATA":
+                closeDialog();
                 String data1 = (String) netResponse.getData();
                 UserInfoBean userInfoBean = GsonUtil.GsonToBean(data1, UserInfoBean.class);
                 AppConstant.USER_INFO_BEAN = userInfoBean;
@@ -186,4 +198,14 @@ public class LoginActivity extends CustomBaseActivity {
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        //拒绝了权限
+
+    }
 }

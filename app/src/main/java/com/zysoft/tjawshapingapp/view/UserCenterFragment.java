@@ -6,22 +6,27 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.Center2Adapter;
 import com.zysoft.tjawshapingapp.adapter.Center3Adapter;
 import com.zysoft.tjawshapingapp.adapter.CenterAdapter;
+import com.zysoft.tjawshapingapp.adapter.ProjectAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
 import com.zysoft.tjawshapingapp.bean.CenterToolBean;
+import com.zysoft.tjawshapingapp.bean.HomeDataBean;
 import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.GlideApp;
 import com.zysoft.tjawshapingapp.common.GlideCircleTransform;
 import com.zysoft.tjawshapingapp.common.GlideRoundTransform;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.LogUtils;
 import com.zysoft.tjawshapingapp.common.SPUtils;
 import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
@@ -49,7 +54,11 @@ public class UserCenterFragment extends CustomBaseFragment {
     private List<CenterToolBean> mainList = new ArrayList<>();
     private List<CenterToolBean> mainList2 = new ArrayList<>();
     private List<CenterToolBean> mainList3 = new ArrayList<>();
+    private List<HomeDataBean.ProjectListBean> projectList = new ArrayList<>();
     private FragmentCenterBinding binding;
+    private ProjectAdapter projectAdapter;
+    private UserInfoBean userInfoBean;
+    private QMUIDialog.MessageDialogBuilder messageDialogBuilder;
 
     @Nullable
     @Override
@@ -63,6 +72,7 @@ public class UserCenterFragment extends CustomBaseFragment {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
         mainList.clear();
+        initList();
         CenterToolBean centerToolBean1 = new CenterToolBean(CenterToolBean.center_2, "消息", R.mipmap.ic_xx, 1);
         CenterToolBean centerToolBean2 = new CenterToolBean(CenterToolBean.center_2, "订单", R.mipmap.ic_dd, 2);
         CenterToolBean centerToolBean3 = new CenterToolBean(CenterToolBean.center_2, "钱包", R.mipmap.ic_qb, 3);
@@ -78,6 +88,10 @@ public class UserCenterFragment extends CustomBaseFragment {
         binding.recyclerListCenter1.setAdapter(centerAdapter);
 
         centerAdapter.setOnItemClickListener((adapter, view13, position) -> {
+            UserInfoBean userInfoBean = AppConstant.getUserInfoBean();
+            if (userInfoBean == null) {
+                return;
+            }
             CenterToolBean centerToolBean = mainList.get(position);
 
             switch (centerToolBean.getId()) {
@@ -92,6 +106,13 @@ public class UserCenterFragment extends CustomBaseFragment {
                 case 3:
                     Intent intent2 = new Intent(getActivity(), UserWalletActivity.class);
                     startActivity(intent2);
+                    break;
+                case 4:
+                    if (userInfoBean.getUserLevel() == 0) {
+                        showAddDL();
+                    } else {
+                        startActivityCom(UserTeamBasicActivity.class);
+                    }
                     break;
             }
         });
@@ -108,6 +129,10 @@ public class UserCenterFragment extends CustomBaseFragment {
         binding.recyclerListCenterOrder.setAdapter(centerAdapter2);
 
         centerAdapter2.setOnItemClickListener((adapter, view12, position) -> {
+            UserInfoBean userInfoBean = AppConstant.getUserInfoBean();
+            if (userInfoBean == null) {
+                return;
+            }
             CenterToolBean centerToolBean = mainList2.get(position);
             Intent intent = new Intent(getActivity(), OrderActivity.class);
             bundle.clear();
@@ -139,8 +164,13 @@ public class UserCenterFragment extends CustomBaseFragment {
         binding.recyclerListCenterTool.setLayoutManager(gridLayoutManager3);
         binding.recyclerListCenterTool.setAdapter(centerAdapter3);
         centerAdapter3.setOnItemClickListener((adapter, view1, position) -> {
+            UserInfoBean userInfoBean = AppConstant.getUserInfoBean();
+            if (userInfoBean == null) {
+                return;
+            }
             CenterToolBean centerToolBean = mainList3.get(position);
             switch (centerToolBean.getId()) {
+
                 case 13:
                     Intent intent = new Intent(getActivity(), CouponsListActivity.class);
                     startActivity(intent);
@@ -163,20 +193,15 @@ public class UserCenterFragment extends CustomBaseFragment {
                     startActivity(intent5);
                     break;
                 case 14:
-                    Conversation conversation = Conversation.createSingleConversation("miao2012crazy@163.com");
-                    conversation.resetUnreadCount();
-                    Intent intent6 = new Intent(getActivity(), IMDetailActivity.class);
-                    bundle.clear();
-                    UserInfo targetInfo = (UserInfo) conversation.getTargetInfo();
-                    bundle.putString("recvUserName", targetInfo.getUserName());
-                    bundle.putString("recvNickName", targetInfo.getNickname());
-                    bundle.putString("recvUserAppkey", targetInfo.getAppKey());
-                    intent6.putExtras(bundle);
-                    startActivity(intent6);
+                    connetKF();
 
                     break;
                 case 12:
-
+                    if (userInfoBean.getUserLevel() == 0) {
+                        showTipWhisBtn("提示", "加盟爱薇会员后即可开通!").show();
+                    } else {
+                        startActivityCom(UserTeamBasicActivity.class);
+                    }
                     break;
                 case 15:
                     Intent intent15 = new Intent(getActivity(), AboutUsActivity.class);
@@ -184,30 +209,68 @@ public class UserCenterFragment extends CustomBaseFragment {
                     break;
             }
         });
-        binding.rlApplyDl.setOnClickListener(v -> {
-            Intent intent1 = new Intent(getActivity(), WebViewActivity.class);
-            bundle.putString("title", "代理");
-            bundle.putString("url", "http://www.jd.com");
-            intent1.putExtras(bundle);
-            startActivity(intent1);
-        });
+//        binding.rlApplyDl.setOnClickListener(v -> {
+//            Intent intent1 = new Intent(getActivity(), WebViewActivity.class);
+//            bundle.putString("title", "代理");
+//            bundle.putString("url", "http://www.jd.com");
+//            intent1.putExtras(bundle);
+//            startActivity(intent1);
+//        });
 
         binding.icQrCode.setOnClickListener(v -> {
             startActivityCom(UserQrCodeActivity.class);
         });
+        if (AppConstant.USER_INFO_BEAN != null) {
+            map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+        }
+        NetModel.getInstance().getDataFromNet("GET_RECOMMOND_PROJECT", HttpUrls.GET_RECOMMOND_PROJECT, map);
+        binding.llLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (userInfoBean == null) {
+                    startActivityCom(LoginActivity.class);
+                } else {
+                    startActivityCom(UserInfoActivity.class);
+                }
+            }
+        });
 
+        if (AppConstant.APP_CONFIG_BEAN != null) {
+            GlideApp.with(this).load(AppConstant.APP_CONFIG_BEAN.getCenter_ad().getProjectImg()).transform(new GlideRoundTransform(4)).into(binding.ivGg);
+
+        }
+    }
+
+    private void connetKF() {
+        if (AppConstant.APP_CONFIG_BEAN == null) {
+            return;
+        }
+        Conversation conversation = Conversation.createSingleConversation(AppConstant.APP_CONFIG_BEAN.getKf());
+        Intent intent6 = new Intent(getActivity(), IMDetailActivity.class);
+        bundle.clear();
+        UserInfo targetInfo = (UserInfo) conversation.getTargetInfo();
+        bundle.putString("recvUserName", targetInfo.getUserName());
+        bundle.putString("recvNickName", targetInfo.getNickname());
+        bundle.putString("recvUserAppkey", targetInfo.getAppKey());
+        intent6.putExtras(bundle);
+        startActivity(intent6);
     }
 
     private void initUserInfo(UserInfoBean userInfoBean) {
         if (userInfoBean != null) {
+            binding.ivLevels.setVisibility(View.VISIBLE);
+            binding.icQrCode.setVisibility(View.VISIBLE);
             binding.tvNickName.setText(userInfoBean.getUserNickName());
             GlideApp.with(binding.ivHead.getContext()).load(userInfoBean.getUserHeadImg()).centerCrop().transform(new GlideCircleTransform()).into(binding.ivHead);
         } else {
-            binding.tvLogin.setVisibility(View.VISIBLE);
-            binding.llUser.setVisibility(View.GONE);
+            binding.tvNickName.setText("点击登录>");
+            binding.ivLevels.setVisibility(View.GONE);
+            binding.icQrCode.setVisibility(View.GONE);
+            binding.ivDesc.setText("未认证");
+            GlideApp.with(binding.ivHead.getContext()).load(UIUtils.getDrawable(R.mipmap.default_head)).centerCrop().transform(new GlideCircleTransform()).into(binding.ivHead);
+
             return;
         }
-        binding.tvLogin.setOnClickListener(view -> startActivity(new Intent(getActivity(), LoginActivity.class)));
         int realState = userInfoBean.getRealState();
         String realStateDesc = "";
         switch (realState) {
@@ -227,21 +290,22 @@ public class UserCenterFragment extends CustomBaseFragment {
         switch (userLevel) {
             case 0:
                 userlevelDrawable = R.mipmap.ic_level_0;
+                binding.icQrCode.setVisibility(View.GONE);
                 break;
             case 1:
                 userlevelDrawable = R.mipmap.ic_level_1;
-
+                binding.icQrCode.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 userlevelDrawable = R.mipmap.ic_level_2;
-
+                binding.icQrCode.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 userlevelDrawable = R.mipmap.ic_level_3;
-
+                binding.icQrCode.setVisibility(View.VISIBLE);
                 break;
         }
-        GlideApp.with(binding.ivLevels.getContext()).load(userlevelDrawable).into(binding.ivLevels);
+        binding.ivLevels.setImageResource(userlevelDrawable);
     }
 
     @Subscribe
@@ -249,15 +313,37 @@ public class UserCenterFragment extends CustomBaseFragment {
         switch (netResponse.getTag()) {
             case "USER_INFO":
                 String data = (String) netResponse.getData();
-                UserInfoBean userInfoBean = GsonUtil.GsonToBean(data, UserInfoBean.class);
+                userInfoBean = GsonUtil.GsonToBean(data, UserInfoBean.class);
                 SPUtils.setParam(UIUtils.getContext(), "USER_INFO", data);
                 AppConstant.USER_INFO_BEAN = userInfoBean;
                 initUserInfo(userInfoBean);
                 EventBus.getDefault().post(new NetResponse("LOGIN_SUCCESS", ""));
                 break;
+            case "GET_RECOMMOND_PROJECT":
+                String data1 = String.valueOf(netResponse.getData());
+                List<HomeDataBean.ProjectListBean> projectListBeans = GsonUtil.GsonToList(data1, HomeDataBean.ProjectListBean.class);
+                projectList.addAll(projectListBeans);
+                projectAdapter.notifyDataSetChanged();
+                break;
         }
     }
 
+    private void initList() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UIUtils.getContext());
+        projectAdapter = new ProjectAdapter(projectList);
+        projectAdapter.setEmptyView(UIUtils.inflate(R.layout.layout_no_data));
+        projectAdapter.openLoadAnimation();
+        binding.recyclerProject.setLayoutManager(linearLayoutManager);
+        binding.recyclerProject.setAdapter(projectAdapter);
+        projectAdapter.setOnItemClickListener((adapter, view, position) -> {
+            HomeDataBean.ProjectListBean bindingAdapterItem1 = projectList.get(position);
+            Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("PROJECT_ID", String.valueOf(bindingAdapterItem1.getId()));
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
+    }
 
     @Override
     public void onResume() {
@@ -275,4 +361,27 @@ public class UserCenterFragment extends CustomBaseFragment {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
+
+
+    public void showAddDL() {
+        if (messageDialogBuilder!=null){
+            messageDialogBuilder.show();
+        }else {
+            messageDialogBuilder = new QMUIDialog.MessageDialogBuilder(getActivity())
+                    .setTitle("提示")
+                    .setMessage("加盟爱薇会员后即可开通!")
+                    .addAction("联系客服", (dialog, index) -> {
+                        dialog.dismiss();
+                        connetKF();
+                    })
+                    .addAction("容我想想", (dialog, index) -> {
+                        dialog.dismiss();
+                    });
+            messageDialogBuilder.show();
+        }
+
+
+    }
+
+
 }

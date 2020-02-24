@@ -79,6 +79,16 @@ public class TwoFragment extends BaseLazyFragment {
                 startActivity(intent);
             }
         });
+        customMsgListAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                Conversation conversation = conversationList.get(position);
+                UserInfo targetInfo = (UserInfo) conversation.getTargetInfo();
+
+                JMessageClient.deleteSingleConversation(targetInfo.getUserName());
+                return false;
+            }
+        });
     }
 
     @Override
@@ -89,8 +99,13 @@ public class TwoFragment extends BaseLazyFragment {
 
     private void initData() {
         conversationList.clear();
-        conversationList.addAll(JMessageClient.getConversationList());
-        LogUtils.e("miao消息列表" + conversationList);
+        List<Conversation> conversationList = JMessageClient.getConversationList();
+        if (conversationList==null||conversationList.size()==0){
+            return;
+        }
+
+        this.conversationList.addAll(conversationList);
+        LogUtils.e("miao消息列表" + this.conversationList);
         customMsgListAdapter.notifyDataSetChanged();
     }
 
@@ -109,13 +124,6 @@ public class TwoFragment extends BaseLazyFragment {
         super.onFirstUserVisible();
         initData();
     }
-
-
-
-
-
-
-
 
 
     @Override

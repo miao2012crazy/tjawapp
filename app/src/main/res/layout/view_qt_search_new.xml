@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <!-- 纵向linnerlayout -->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:paddingTop="25dp"
+        android:layout_height="wrap_content"
+        android:background="#0094de"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/view_search"
+
+            android:layout_width="match_parent"
+            android:layout_height="?qmui_topbar_height"
+            android:background="#0094de">
+
+
+            <ImageView
+                android:id="@+id/iv_back_k"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingLeft="16dp"
+                android:src="@mipmap/ic_return_white" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/tv_search_go"
+                android:layout_toRightOf="@+id/iv_back_k"
+                android:background="@drawable/view_qt_bg_w">
+
+                <EditText
+                    android:id="@+id/et_context"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="11dp"
+                    android:background="@null"
+                    android:hint="输入关键词"
+                    android:textColor="#333"
+                    android:textColorHint="#999999"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_search_go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingLeft="13dp"
+                android:paddingRight="13dp"
+                android:paddingTop="5dp"
+                android:text="搜索"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</layout>

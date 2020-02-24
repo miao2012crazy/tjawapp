@@ -1,6 +1,5 @@
 package com.zysoft.tjawshapingapp.view;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -10,9 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.NoticeOneAdapter;
 import com.zysoft.tjawshapingapp.applaction.CustomApplaction;
@@ -38,8 +34,6 @@ public class OneFragment extends BaseLazyFragment {
     private int pageIndex = 0;
     private List<DataBean> mainList = new ArrayList<>();
     private NoticeOneAdapter noticeOneAdapter;
-    private boolean isRefresh = false;
-    private boolean isLoadMore = false;
 
     @Nullable
     @Override
@@ -81,6 +75,12 @@ public class OneFragment extends BaseLazyFragment {
                     bundle.putString("PRODUCT_ID", dataBean.getJpushId());
                     startActivityBase(ProductDetailActivity.class, bundle);
                     break;
+                case 9:
+                    startActivityBase(ApplyDLShowActivity.class,bundle);
+                    break;
+                case 8:
+                    startActivityBase(UserTeamActivity.class,bundle);
+                    break;
                 case 3:
                 case 4:
                 default:
@@ -94,12 +94,11 @@ public class OneFragment extends BaseLazyFragment {
 
         });
         bind.smartRefresh.setOnRefreshListener(refreshLayout -> {
-            isRefresh = true;
+            mainList.clear();
             pageIndex = 0;
             getOrderData(pageIndex);
         });
         bind.smartRefresh.setOnLoadMoreListener(refreshLayout -> {
-            isLoadMore = true;
             pageIndex = pageIndex + 1;
             getOrderData(pageIndex);
         });
@@ -108,24 +107,18 @@ public class OneFragment extends BaseLazyFragment {
 
     private void getOrderData(int pageIndex) {
         List<DataBean> list = CustomApplaction.getSession().queryBuilder(DataBean.class).orderDesc(DataBeanDao.Properties.RegDate).offset(pageIndex * 10).limit(10).list();
-        if (isRefresh) {
-            mainList.clear();
-            bind.smartRefresh.finishRefresh(true);
-            bind.smartRefresh.setNoMoreData(false);
-            isRefresh = false;
+        if (bind.smartRefresh.isRefreshing()) {
+            bind.smartRefresh.finishRefresh(2);
         }
-        if (isLoadMore) {
+        if (bind.smartRefresh.isLoading()) {
             if (list.size() == 0) {
                 bind.smartRefresh.finishLoadMoreWithNoMoreData();
             } else {
                 bind.smartRefresh.finishLoadMore(true);
             }
-            isLoadMore = false;
         }
-
         mainList.addAll(list);
         noticeOneAdapter.notifyDataSetChanged();
-
 
     }
 }

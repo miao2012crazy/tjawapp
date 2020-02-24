@@ -94,11 +94,12 @@ public class SettingPsdActivity extends CustomBaseActivity {
         });
         binding.btnCommit.setOnClickListener(view -> {
             if (userPsd1.length() < 6) {
-                UIUtils.showToast("密码长度至少6位");
+                showTipe(0,"密码长度至少6位");
+
                 return;
             }
             if (!userPsd1.equals(userPsd2)) {
-                UIUtils.showToast("两次密码输入不一致！");
+                showTipe(0,"两次密码输入不一致！");
                 return;
             }
             map.clear();
@@ -135,6 +136,7 @@ public class SettingPsdActivity extends CustomBaseActivity {
                 break;
         }
     }
+
     private void regeditUserIM() {
         UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
         JMessageClient.register(userInfoBean.getUserTel(), userPsd1, new BasicCallback() {

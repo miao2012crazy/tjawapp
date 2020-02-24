@@ -155,7 +155,7 @@ public class ChatFunctionFragment extends BaseIMFragment {
             @Override
             public void onClick(View v) {
 //                showContact();
-                UIUtils.showToast("联系人");
+//                UIUtils.showToast("联系人");
             }
         });
     }

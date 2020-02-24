@@ -82,10 +82,12 @@ public class NetModel {
                         case "T":
                             EventBus.getDefault().post(new NetResponse(AppConstant.STATE_TIMEOUT, jsonObject.getString("msg")));
                             break;
+                        case "N":
+                            EventBus.getDefault().post(new NetResponse(AppConstant.STATE_USER_NOEXIT, jsonObject.getString("data")));
+                            break;
                         case "B":
                             EventBus.getDefault().post(new NetResponse(AppConstant.STATE_BIND_TEL,jsonObject.getString("data")));
                             break;
-
                     }
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
@@ -141,11 +143,52 @@ public class NetModel {
                             break;
                         case "N":
                             EventBus.getDefault().post(new NetResponse(AppConstant.STATE_USER_NOEXIT, jsonObject.getString("data")));
+                            break;
                         case "B":
                             EventBus.getDefault().post(new NetResponse(AppConstant.STATE_BIND_TEL,jsonObject.getString("data")));
                             break;
                     }
                 } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+    public void getVersion(final String tag, String url, HashMap<String, Object> map) {
+        LogUtils.e("************** 网络请求"+tag+" ************");
+        LogUtils.e("请求参数："+"tag="+tag+"\n"+"url="+url+"\n"+"参数="+map.toString());
+        NovateUtil.getInstance().post(url, map, new BaseSubscriber<ResponseBody>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                EventBus.getDefault().post(new NetResponse(HttpConstant.PROGRESS_DIALOG, ""));
+            }
+
+            @Override
+            public void onCompleted() {
+                super.onCompleted();
+                EventBus.getDefault().post(new NetResponse(HttpConstant.PROGRESS_DIALOG_DISMISS, ""));
+                LogUtils.e("************** 网络请求结束"+tag+" ************");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR, "网络连接失败！"));
+
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    String string = responseBody.string();
+                    EventBus.getDefault().post(new NetResponse(tag, string));
+
+                    LogUtils.e("请求返回数据：："+string);
+
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }

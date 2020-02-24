@@ -7,10 +7,14 @@ import android.widget.TextView;
 
 import com.zysoft.tjawshapingapp.bean.AddressBean;
 import com.zysoft.tjawshapingapp.bean.OrderBean;
+import com.zysoft.tjawshapingapp.bean.ProjectDetailBean;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
+import com.zysoft.tjawshapingapp.ui.FriendsCircleImageLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.w3c.dom.Text;
+
+import java.util.List;
 
 /**
  * Created by mr.miao on 2019/5/18.
@@ -66,10 +70,23 @@ public class CustomHandlerEvent extends HandlerEvent {
                 textView.setText("银联支付");
                 break;
             default:
-                textView.setText("积分支付");
+                textView.setText("线下支付");
                 break;
         }
     }
 
+
+    @BindingAdapter("setFriendLayoutImg")
+    public static void setFriendLayoutImg(FriendsCircleImageLayout friendsCircleImageLayout, List<ProjectDetailBean.UserPLBean.PlImgListBean> plImgListBeans) {
+        if (plImgListBeans!=null&&plImgListBeans.size()!=0){
+            friendsCircleImageLayout.setVisibility(View.VISIBLE);
+
+            friendsCircleImageLayout.setImageUrls(plImgListBeans);
+        }else {
+            friendsCircleImageLayout.setVisibility(View.GONE);
+        }
+
+
+    }
 
 }

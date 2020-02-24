@@ -1,0 +1,246 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.zysoft.tjawshapingapp.bean.UserTeamBasicBean" />
+        <variable
+            name="handler"
+            type="com.zysoft.tjawshapingapp.handler.CustomHandlerEvent" />
+    </data>
+
+    <!-- 纵向linnerlayout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 纵向linnerlayout -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@mipmap/ic_team_bg"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbaretail"
+                    android:layout_width="match_parent"
+                    android:layout_height="81dp"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="pin">
+
+                    <ImageView
+                        android:id="@+id/iv_return"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_return_white" />
+
+                    <TextView
+                        android:id="@+id/title_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:singleLine="true"
+                        android:text="我的团队"
+                        android:textColor="#fff"
+                        android:textSize="20sp" />
+                </android.support.v7.widget.Toolbar>
+
+
+            </RelativeLayout>
+
+            <com.qmuiteam.qmui.layout.QMUILinearLayout
+                android:id="@+id/qmui_center"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="128dp"
+                android:layout_marginRight="17dp"
+                android:background="@color/qmui_config_color_white"
+                android:orientation="vertical"
+                app:qmui_borderColor="?attr/qmui_config_color_separator"
+                app:qmui_outerNormalColor="?attr/qmui_config_color_background"
+                app:qmui_showBorderOnlyBeforeL="true">
+
+                <!-- 纵向linnerlayout -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="97dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_weight="1"
+                        android:textColor="#333333"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:text="@{item.userNickName}"
+                        tools:text="123123123" />
+
+                    <ImageView
+                        android:id="@+id/iv_user_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="15dp"
+                        tools:src="@mipmap/ic_level_0" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="19dp"
+                    android:gravity="center"
+                    android:text="累计总收益(元)"
+                    android:textColor="#333333"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:gravity="center"
+                    android:text="@{String.valueOf(item.userAllIncome)}"
+                    android:textColor="#0086c9"
+                    android:textSize="30sp" />
+
+                <!-- 纵向linnerlayout -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_customer_income"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="直客收益：0元"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
+
+                    <ImageView
+                        android:src="@mipmap/ic_diliver_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_team_income"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="团队收益：0元"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+            </com.qmuiteam.qmui.layout.QMUILinearLayout>
+
+            <ImageView
+                app:loadImgCircle="@{item.userHeadImg}"
+                android:layout_width="77dp"
+                android:layout_height="77dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="90dp"
+                android:elevation="30dp"
+                android:src="@mipmap/header_icon_2"
+                tools:targetApi="lollipop" />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/shape_confirm_order"
+            android:orientation="horizontal"
+            app:layout_collapseMode="parallax">
+
+            <LinearLayout
+                android:id="@+id/ll_user_customer"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="22dp"
+                    android:src="@mipmap/ic_wdkh" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:gravity="center"
+                    android:text="我的客户(直客)"
+                    android:textColor="#333333"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_diliver" />
+
+            <LinearLayout
+                android:id="@+id/ll_user_team"
+
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="22dp"
+                    android:src="@mipmap/ic_wdtd" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:gravity="center"
+                    android:text="我的团队"
+                    android:textColor="#333333"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</layout>
+

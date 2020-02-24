@@ -17,6 +17,7 @@ import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.PayResultBinding;
+import com.zysoft.tjawshapingapp.view.order.OrderActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -38,16 +39,12 @@ public class WXPayEntryActivity extends CustomBaseActivity implements IWXAPIEven
         api = WXAPIFactory.createWXAPI(this, WXIDConstants.APP_ID);
         api.handleIntent(getIntent(), this);
         binding.btnReturnHome.setOnClickListener(v -> {
-            startActivityBase(MainActivity.class);
+            finish();
+            finish();
+            startActivityBase(OrderActivity.class);
         });
         binding.btnFinish.setOnClickListener(v -> finish());
-        binding.btnRepay.setOnClickListener(v -> {
-            //重新支付
 
-        });
-        binding.btnFinishPage.setOnClickListener(v -> {
-            finish();
-        });
     }
 
     @Override
@@ -61,15 +58,12 @@ public class WXPayEntryActivity extends CustomBaseActivity implements IWXAPIEven
             case 0:
                 showTipe(1,"支付成功");
                 binding.btnFinish.setVisibility(View.GONE);
-                binding.btnRepay.setVisibility(View.GONE);
                 binding.ivSuccess.setVisibility(View.VISIBLE);
 
                 if (AppConstant.PAY_TYPE==0){
                     binding.btnReturnHome.setVisibility(View.VISIBLE);
-                    binding.btnFinishPage.setVisibility(View.GONE);
                 }else {
                     binding.btnReturnHome.setVisibility(View.GONE);
-                    binding.btnFinishPage.setVisibility(View.VISIBLE);
                 }
 
                 binding.ivFail.setVisibility(View.GONE);
@@ -81,7 +75,6 @@ public class WXPayEntryActivity extends CustomBaseActivity implements IWXAPIEven
                 break;
             case -2:
                 binding.btnFinish.setVisibility(View.VISIBLE);
-                binding.btnRepay.setVisibility(View.VISIBLE);
                 binding.btnReturnHome.setVisibility(View.GONE);
                 binding.ivFail.setVisibility(View.VISIBLE);
                 binding.ivSuccess.setVisibility(View.GONE);

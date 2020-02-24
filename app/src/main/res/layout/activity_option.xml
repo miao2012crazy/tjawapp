@@ -4,11 +4,11 @@
 
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="#fff"
         android:fitsSystemWindows="true"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:orientation="vertical">
 
         <com.qmuiteam.qmui.widget.QMUITopBar
             android:id="@+id/qm_top_bar"
@@ -20,8 +20,33 @@
             app:qmui_topbar_title_gravity="center"
             app:qmui_topbar_title_text_size="16sp" />
 
-        <include layout="@layout/layout_list"
-            android:id="@+id/recycler_list"/>
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+
+            android:id="@+id/smartRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnablePreviewInEditMode="true"
+            app:srlPrimaryColor="#00000000">
+
+            <com.scwang.smartrefresh.header.StoreHouseHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_srlSpinnerStyle="MatchLayout"
+                app:shhText="Beautiful Code" />
+
+
+            <include
+                android:id="@+id/recycler_list"
+                layout="@layout/layout_list" />
+
+            <com.scwang.smartrefresh.layout.footer.BallPulseFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_srlBackgroundColor="#fff"
+                app:srlClassicsSpinnerStyle="Translate"
+                app:srlIndicatorColor="@color/color_app" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
     </LinearLayout>
 
 

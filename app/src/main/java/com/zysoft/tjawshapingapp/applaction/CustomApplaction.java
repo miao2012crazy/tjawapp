@@ -2,6 +2,7 @@ package com.zysoft.tjawshapingapp.applaction;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.DisplayMetrics;
@@ -9,18 +10,33 @@ import android.view.WindowManager;
 
 import com.bumptech.glide.request.target.ViewTarget;
 import com.danikula.videocache.HttpProxyCacheServer;
+import com.scwang.smartrefresh.header.StoreHouseHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import com.xuexiang.xupdate.XUpdate;
+import com.xuexiang.xupdate.entity.UpdateError;
+import com.xuexiang.xupdate.listener.OnUpdateFailureListener;
+import com.xuexiang.xupdate.utils.UpdateUtils;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.gen.DaoMaster;
 import com.zysoft.tjawshapingapp.gen.DaoSession;
+import com.zysoft.tjawshapingapp.http.NovateUpdateHttpService;
 import com.zysoft.tjawshapingapp.ui.widget.MyFileNameGenerator;
 import com.zysoft.tjawshapingapp.wxapi.WXIDConstants;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 import cn.jpush.android.api.JPushInterface;
@@ -32,6 +48,8 @@ import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.content.VoiceContent;
 import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.api.model.Message;
+
+import static com.xuexiang.xupdate.entity.UpdateError.ERROR.CHECK_NO_NEW_VERSION;
 
 /**
  * Created by mr.miao on 2019/5/6.
@@ -58,6 +76,8 @@ public class CustomApplaction extends MultiDexApplication{
      * 屏幕密度
      */
     public static float screenDensity;
+    private static Typeface typeface;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -76,8 +96,36 @@ public class CustomApplaction extends MultiDexApplication{
         api.registerApp(WXIDConstants.APP_ID);
         app=getApplicationContext();
         initScreenSize();
+        //加载自定义字体
+        typeface = Typeface.createFromAsset(app.getAssets(), "UniveConBol.TTF");//下载的字体
+        initAppVersionCheck();
     }
 
+    private void initAppVersionCheck() {
+        XUpdate.get()
+                .debug(true)
+                .isWifiOnly(false)                                               //默认设置只在wifi下检查版本更新
+                .isGet(false)                                                    //默认设置使用get请求检查版本
+                .isAutoMode(false)                                              //默认设置非自动模式，可根据具体使用配置
+                .param("versionCode", UpdateUtils.getVersionCode(this))         //设置默认公共请求参数
+//                .param("appKey", getPackageName())
+                .setOnUpdateFailureListener(new OnUpdateFailureListener() {     //设置版本更新出错的监听
+                    @Override
+                    public void onFailure(UpdateError error) {
+                        if (error.getCode() != CHECK_NO_NEW_VERSION) {          //对不同错误进行处理
+                            UIUtils.showToast(error.toString());
+                        }
+                    }
+
+                })
+                .supportSilentInstall(false)                                     //设置是否支持静默安装，默认是true
+                .setIUpdateHttpService(new NovateUpdateHttpService())           //这个必须设置！实现网络请求功能。
+                .init(this);
+    }
+
+    public static Typeface getTypeface() {
+        return typeface;
+    }
     /**
      * 初始化当前设备屏幕宽高
      */
@@ -104,7 +152,7 @@ public class CustomApplaction extends MultiDexApplication{
                 .build();
     }
 
-
+    @Subscribe
     public void onEvent(MessageEvent event) {
         Message msg = event.getMessage();
         EventBus.getDefault().post(new NetResponse("MSG",msg));
@@ -173,4 +221,9 @@ public class CustomApplaction extends MultiDexApplication{
     public static Context getContext() {
         return app;
     }
+
+
+
+
+
 }

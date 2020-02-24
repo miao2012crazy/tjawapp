@@ -8,15 +8,18 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.alipay.AliPay;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.CouponsBean;
 import com.zysoft.tjawshapingapp.bean.CustomTitleBean;
 import com.zysoft.tjawshapingapp.bean.OrderResultBean;
 import com.zysoft.tjawshapingapp.bean.ProjectDetailBean;
 import com.zysoft.tjawshapingapp.bean.ResultBean;
+import com.zysoft.tjawshapingapp.bean.UserInfoBean;
 import com.zysoft.tjawshapingapp.common.CommonUtil;
 import com.zysoft.tjawshapingapp.common.GlideApp;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityConfirmOrderBinding;
@@ -57,7 +60,12 @@ public class ConfirmOrderActivity extends CustomBaseActivity {
         binding.title.qmTopBar.addLeftBackImageButton().setOnClickListener(v -> finish());
 
         map.clear();
-        map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+
+        UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
+        if (userInfoBean==null){
+            return;
+        }
+        map.put("userId", userInfoBean.getUserId());
         map.put("projectId", projectInfo.getId());
         NetModel.getInstance().getAllData("COUPONS", HttpUrls.GETUSERCOUPONS, map);
         initPrice(projectInfo.getProjectEarnestMoney(), 0, binding.amountView.getAmount());
@@ -143,21 +151,15 @@ public class ConfirmOrderActivity extends CustomBaseActivity {
         binding.btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // /**
-//     * 创建预付款订单
-//                        *
-//     * @param projectId  项目id
-//     * @param exceptTime 期望时间 格式 yyyy-MM-dd HH:mm:ss
-//                        * @param couponsId  优惠券id 没有 传''
-//                        * @param userId     用户id
-//                        * @param type       支付方式 0微信 1支付宝 2银联卡 3钱包余额'
-//                        * @return 微信支付字符串or其他
-//                        */
                 map.clear();
                 map.put("projectId", projectInfo.getId());
                 map.put("exceptTime", time);
                 map.put("couponsId", AppConstant.Coupons == null ? "" : AppConstant.Coupons.getId());
-                map.put("userId", AppConstant.USER_INFO_BEAN.getUserId());
+                UserInfoBean userInfoBean = AppConstant.USER_INFO_BEAN;
+                if (userInfoBean==null){
+                    return;
+                }
+                map.put("userId", userInfoBean.getUserId());
                 map.put("type", position);
                 map.put("count", binding.amountView.getAmount());
 
@@ -183,9 +185,19 @@ public class ConfirmOrderActivity extends CustomBaseActivity {
                 }
                 break;
             case "CREATE_ORDER":
-                //创建订单成功 吊起微信支付 appid=wx87d3cc6a3943c5a9&partnerid=1507805611&prepayid=wx22230113723921f2e39958473523105817&package=Sign=WXPay&noncestr=2301137008&timestamp=1558537273&sign=38F0EF19CFFB3391CB5BBBAC16DA7056
                 String data = (String) netResponse.getData();
                 OrderResultBean orderResultBean = GsonUtil.GsonToBean(data, OrderResultBean.class);
+                initAppPay(position, orderResultBean);
+                //创建订单成功 吊起微信支付 appid=wx87d3cc6a3943c5a9&partnerid=1507805611&prepayid=wx22230113723921f2e39958473523105817&package=Sign=WXPay&noncestr=2301137008&timestamp=1558537273&sign=38F0EF19CFFB3391CB5BBBAC16DA7056
+
+
+                break;
+        }
+    }
+
+    private void initAppPay(int position, OrderResultBean orderResultBean) {
+        switch (position) {
+            case 0:
                 WXPayUtils.WXPayBuilder builder = new WXPayUtils.WXPayBuilder();
                 builder.setAppId(orderResultBean.getAppid())
                         .setPartnerId(orderResultBean.getPartnerid())
@@ -195,6 +207,25 @@ public class ConfirmOrderActivity extends CustomBaseActivity {
                         .setTimeStamp(String.valueOf(orderResultBean.getTimestamp()))
                         .setSign(orderResultBean.getSign())
                         .build().toWXPayNotSign(ConfirmOrderActivity.this, orderResultBean.getAppid());
+                break;
+            case 1:
+                AliPay.Builder builder1 = new AliPay.Builder(this);
+                //支付宝
+                builder1.setPayCallBackListener((status, resultStatus, progress) -> {
+                    if (status!=9000){
+                        showTipe(0,"支付已取消！");
+                        return;
+                    }
+
+                });
+                //支付
+                builder1.pay2(orderResultBean.getAlipayBody());
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
                 break;
         }
     }

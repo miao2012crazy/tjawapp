@@ -8,10 +8,12 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.zysoft.tjawshapingapp.R;
+import com.zysoft.tjawshapingapp.alipay.AliPay;
 import com.zysoft.tjawshapingapp.base.CustomBaseActivity;
 import com.zysoft.tjawshapingapp.bean.OrderResultBean;
 import com.zysoft.tjawshapingapp.bean.ResultBean;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.AppConstant;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.ActivityRechargeBinding;
@@ -113,20 +115,25 @@ public class RechargeActivity extends CustomBaseActivity {
                 break;
             case 1:
                 //支付宝
+                AliPay.Builder builder1 = new AliPay.Builder(this);
+                //支付宝
+                builder1.setPayCallBackListener((status, resultStatus, progress) -> {
+                    if (status!=9000){
+                        showTipe(3,"已取消支付！");
 
-
-
+                        return;
+                    }
+                });
+                //支付
+                builder1.pay2(orderResultBean.getAlipayBody());
                 break;
             case 2:
                 //银联
                 break;
 
-
-
         }
 
     }
-
 
     private void initPay(boolean isWechat, boolean isAlipay, boolean isYl, boolean isWallet) {
         binding.tvWechat.setBackgroundResource(isWechat ? R.mipmap.ic_wechat_check : R.mipmap.ic_wechat_normal);

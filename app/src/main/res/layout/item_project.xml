@@ -16,110 +16,171 @@
         android:background="#fff"
         android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:orientation="horizontal">
-
-
-        <ImageView
-            tools:src="@mipmap/sample_recommend_1"
-            android:scaleType="fitXY"
-            android:id="@+id/iv_project"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:loadImgRound="@{item.productIcon}" />
-
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="13dp"
-            android:layout_marginEnd="13dp"
-            android:layout_marginTop="13dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_tag_name"
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:maxLines="1"
-                android:text="@{String.valueOf(item.projectTag)+String.valueOf(item.projectName)}"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                tools:text="123123123" />
-            <TextView
-                android:id="@+id/tv_desc"
-                android:layout_marginLeft="6dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lines="2"
-                android:text="@{String.valueOf(item.projectDesc)}"
-                android:textColor="#666"
-                android:textSize="13sp"
-                tools:text="123123123" />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+            <ImageView
+                android:id="@+id/iv_project"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:scaleType="fitXY"
+                app:loadImgRound="@{item.productIcon}"
+                tools:src="@mipmap/sample_recommend_1" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="13dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
-                    tools:text="123123"
-                    android:id="@+id/tv_price"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_tag_name"
+
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_toEndOf="@+id/textView"
-                    android:text="@{String.valueOf(item.projectOrginPrice)}"
-                    android:textColor="#0086c9"
-                    android:textSize="17sp" />
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@{String.valueOf(item.projectTag)+String.valueOf(item.projectName)}"
+                    android:textColor="#000000"
+                    android:textSize="17sp"
+                    tools:text="123123123" />
 
                 <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_desc"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:text="¥ "
-                    android:textColor="#0086c9"
-                    android:textSize="10sp" />
+                    android:layout_marginLeft="6dp"
+                    android:lines="2"
+                    android:text="@{String.valueOf(item.projectDesc)}"
+                    android:textColor="#666"
+                    android:textSize="13sp"
+                    tools:text="123123123" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_toStartOf="@+id/textView2"
-                    android:text="已售:"
-                    android:textColor="#888"
-                    android:textSize="12sp" />
-                <TextView
-                    tools:text="1.9w"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:text="@{String.valueOf(item.projectSellNum)}"
-                    android:textColor="#888"
-                    android:minWidth="30dp"
-                    android:textSize="12sp"
-                    android:id="@+id/textView2" />
-            </RelativeLayout>
+                <LinearLayout
+                    android:gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
+                    <com.zysoft.tjawshapingapp.ui.textfont.AppTextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginBottom="2dp"
+                        android:text="¥ "
+                        android:textColor="#f00"
+                        android:textSize="10sp" />
+
+                    <com.zysoft.tjawshapingapp.ui.textfont.AppTextView
+
+                        android:id="@+id/tv_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(item.projectOrginPrice)}"
+                        android:textColor="#f00"
+                        android:textSize="17sp"
+                        tools:text="123123" />
+
+
+                    <!-- 纵向linnerlayout -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.zysoft.tjawshapingapp.ui.textfont.AppTextView
+                            android:layout_marginLeft="2dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:text="起 "
+                            android:textColor="#f00"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tv_jf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/shape_btn_commit"
+                            android:gravity="center_vertical"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:text="会员价"
+                            android:textColor="#fff"
+                            android:textSize="8sp"
+                            android:visibility="invisible" />
+
+                        <com.zysoft.tjawshapingapp.ui.textfont.AppTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginBottom="2dp"
+                            android:text="¥ "
+                            android:textColor="#f00"
+                            android:textSize="10sp"
+                            android:visibility="invisible" />
+
+                        <com.zysoft.tjawshapingapp.ui.textfont.AppTextView
+                            android:id="@+id/tv_member_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_toEndOf="@+id/textView"
+                            android:text="@{String.valueOf(item.projectOrginPrice)}"
+                            android:textColor="#f00"
+                            android:textSize="17sp"
+                            android:visibility="invisible"
+                            tools:text="123123" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_toStartOf="@+id/textView2"
+                        android:text="已售:"
+                        android:textColor="#888"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:minWidth="30dp"
+                        android:text="@{String.valueOf(item.projectSellNum)}"
+                        android:textColor="#888"
+                        android:textSize="12sp"
+                        tools:text="1.9w" />
+                </LinearLayout>
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="#1a000000"
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
+            android:background="#1a000000" />
     </LinearLayout>
 
 

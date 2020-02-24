@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.OrientationHelper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,17 +17,21 @@ import android.widget.VideoView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dingmouren.layoutmanagergroup.viewpager.ViewPagerLayoutManager;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.zysoft.tjawshapingapp.R;
 import com.zysoft.tjawshapingapp.adapter.VideoAdapter;
 import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
 import com.zysoft.tjawshapingapp.bean.ProjectVideoBean;
 import com.zysoft.tjawshapingapp.common.GsonUtil;
+import com.zysoft.tjawshapingapp.common.LogUtils;
 import com.zysoft.tjawshapingapp.common.UIUtils;
 import com.zysoft.tjawshapingapp.constants.NetResponse;
 import com.zysoft.tjawshapingapp.databinding.FragmentVideoNewBinding;
 import com.zysoft.tjawshapingapp.http.HttpUrls;
 import com.zysoft.tjawshapingapp.module.NetModel;
 import com.zysoft.tjawshapingapp.view.ProjectDetailActivity;
+import com.zysoft.tjawshapingapp.view.webView.WebViewActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -34,15 +39,12 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.jessyan.autosize.utils.LogUtils;
-
 
 /**
  * Created by mr.miao on 2019/8/11.
  */
 
 public class VideoFragment extends CustomBaseFragment {
-
 
     private FragmentVideoNewBinding bind;
 
@@ -52,6 +54,9 @@ public class VideoFragment extends CustomBaseFragment {
     private String TAG="video";
     private VideoView videoView;
     private boolean isPlaying=false;
+    private int position=0;
+    private int index=0;
+    private int startPosition;
 
     @Nullable
     @Override
@@ -75,12 +80,37 @@ public class VideoFragment extends CustomBaseFragment {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()){
                     case R.id.btn_project_detail:
-                        int projectId = mDatas.get(position).getProjectId();
-                        Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("PROJECT_ID", String.valueOf(projectId));
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+                        ProjectVideoBean projectVideoBean = mDatas.get(position);
+                        if (projectVideoBean.getType()==0){
+                            //活动
+                            if (TextUtils.isEmpty(projectVideoBean.getLink())){
+                                return;
+                            }
+                            //用户注册协议
+                            bundle.clear();
+                            bundle.putString("title", "官方活动");
+                            bundle.putString("url", projectVideoBean.getLink());
+                            startActivityBase(WebViewActivity.class, bundle);
+                        }
+                        if (projectVideoBean.getType()==1){
+                            //商品
+                        }
+                        if (projectVideoBean.getType()==2){
+                            //项目
+                            if (projectVideoBean.getProjectId()==0){
+                                return;
+                            }
+                            Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("PROJECT_ID", String.valueOf(projectVideoBean.getProjectId()));
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+
+                        int projectId = projectVideoBean.getProjectId();
+                        if (projectId!=0){
+
+                        }
                         break;
                 }
             }
@@ -88,10 +118,29 @@ public class VideoFragment extends CustomBaseFragment {
 
 
         initListener();
-        NetModel.getInstance().getDataFromNet("GET_VIDEO", HttpUrls.GET_VIDEO, map);
+        bind.smartRefresh.setOnRefreshListener(refreshLayout -> {
+            startPosition =0;
+            refreshLayout.setNoMoreData(false);
+            mDatas.clear();
+            getData(0);
+
+
+
+        });
+        bind.smartRefresh.setOnLoadMoreListener(refreshLayout -> {
+            startPosition = mDatas.size();
+            index=index+1;
+            getData(index);
+        });
+
+        getData(0);
+
     }
 
-
+    private void getData(int index) {
+        map.put("index",index);
+        NetModel.getInstance().getDataFromNet("GET_VIDEO", HttpUrls.GET_VIDEO, map);
+    }
 
 
     private void initListener() {
@@ -105,7 +154,7 @@ public class VideoFragment extends CustomBaseFragment {
             @Override
             public void onPageRelease(boolean isNext,int position) {
                 Log.e(TAG,"释放位置:"+position +" 下一页:"+isNext);
-                int index = 0;
+                int index;
                 if (isNext){
                     index = 0;
                 }else {
@@ -121,6 +170,9 @@ public class VideoFragment extends CustomBaseFragment {
             }
 
         });
+
+
+
     }
 
 
@@ -132,15 +184,12 @@ public class VideoFragment extends CustomBaseFragment {
         final RelativeLayout rootView = itemView.findViewById(R.id.root_view);
         final MediaPlayer[] mediaPlayer = new MediaPlayer[1];
         videoView.start();
-        videoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
-            @Override
-            public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                mediaPlayer[0] = mp;
-                Log.e(TAG,"onInfo");
-                mp.setLooping(true);
-                imgThumb.animate().alpha(0).setDuration(200).start();
-                return false;
-            }
+        videoView.setOnInfoListener((mp, what, extra) -> {
+            mediaPlayer[0] = mp;
+            Log.e(TAG,"onInfo");
+            mp.setLooping(true);
+            imgThumb.animate().alpha(0).setDuration(200).start();
+            return false;
         });
         videoView.setOnPreparedListener(mp -> Log.e(TAG,"onPrepared"));
 
@@ -172,22 +221,55 @@ public class VideoFragment extends CustomBaseFragment {
         imgPlay.animate().alpha(0f).start();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtils.w("页面回显");
+    }
+
+
 
 
     @Subscribe
     public void revceiveData(NetResponse netResponse) {
         switch (netResponse.getTag()) {
             case "GET_VIDEO":
+
                 String data = (String) netResponse.getData();
                 List<ProjectVideoBean> projectVideoBeans = GsonUtil.GsonToList(data, ProjectVideoBean.class);
-                mDatas.clear();
+                if (bind.smartRefresh.isRefreshing()){
+                    bind.smartRefresh.finishRefresh();
+                }
+                if (bind.smartRefresh.isLoading()){
+                    if (projectVideoBeans.size()==0){
+                        bind.smartRefresh.finishLoadMoreWithNoMoreData();
+                    }else {
+                        bind.smartRefresh.finishLoadMore(true);
+                    }
+                }
                 mDatas.addAll(projectVideoBeans);
 //                pagerAdapter.setUrlList(projectVideoBeans);
 //                pagerAdapter.notifyDataSetChanged();
-                mAdapter.notifyDataSetChanged();
+                mAdapter.notifyItemRangeChanged(startPosition,projectVideoBeans.size());
                 break;
             case "check":
-                UIUtils.showToast(String.valueOf(netResponse.getData()));
+//                UIUtils.showToast(String.valueOf(netResponse.getData()));
+                break;
+            case "TAB_POSION":
+
+                Object data1 = netResponse.getData();
+                position = Integer.parseInt(String.valueOf(data1));
+                if (String.valueOf(data1).equals("1")){
+                    //点击的1
+                    if (videoView!=null){
+                        videoView.start();
+                    }
+                }else {
+                    //非1 暂停视频
+                    if (videoView!=null){
+                        videoView.pause();
+                    }
+                }
                 break;
         }
     }
@@ -195,11 +277,17 @@ public class VideoFragment extends CustomBaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (videoView!=null){
+        LogUtils.w("页面可见");
+        if (videoView!=null&&position==1){
             videoView.start();
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        LogUtils.w("页面不可见");
+    }
 
     @Override
     public void onStop() {

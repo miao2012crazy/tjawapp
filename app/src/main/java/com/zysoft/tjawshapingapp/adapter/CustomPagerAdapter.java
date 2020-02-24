@@ -1,8 +1,10 @@
 package com.zysoft.tjawshapingapp.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import com.zysoft.tjawshapingapp.base.BaseLazyFragment;
 import com.zysoft.tjawshapingapp.base.CustomBaseFragment;
@@ -22,6 +24,11 @@ public class CustomPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
+    public int getItemPosition(Object object) {//最主要就是加了这个方法。
+        return POSITION_NONE;
+    }
+
+    @Override
     public BaseLazyFragment getItem(int position) {
         return fragmentList.get(position);
     }
@@ -29,6 +36,11 @@ public class CustomPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return list_Title.size();
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+//        super.destroyItem(container, position, object);
     }
 
     /**

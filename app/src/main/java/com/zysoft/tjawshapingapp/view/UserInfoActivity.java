@@ -80,7 +80,7 @@ public class UserInfoActivity extends CustomBaseActivity {
         NetModel.getInstance().getDataFromNet("GET_USER", HttpUrls.GET_USER, map);
         bind.title.qmTopBar.setTitle("个人信息");
         bind.title.qmTopBar.addRightTextButton("保存", R.id.btn_add).setOnClickListener(v -> {
-            UIUtils.showToast("点击了保存");
+//            UIUtils.showToast("点击了保存");
             updateUserInfo();
         });
 

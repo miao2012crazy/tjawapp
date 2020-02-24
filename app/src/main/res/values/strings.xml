@@ -2,7 +2,6 @@
     <string name="app_name">爱薇国际</string>
     <string name="regedit_tip">保持两次输入一致哦\n密码长度6-12位</string>
 
-    <string name="input_hint">Send message</string>
     <string name="message_click_hint">Message click event</string>
     <string name="message_long_click_hint">Message long press event</string>
     <string name="avatar_click_hint">Avatar click event</string>

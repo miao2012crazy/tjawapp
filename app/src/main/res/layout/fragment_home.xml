@@ -8,8 +8,9 @@
         android:layout_height="match_parent"
         android:background="#fff"
         android:fitsSystemWindows="true"
-        android:paddingTop="25dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="25dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -22,11 +23,11 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:paddingStart="10dp"
-                    android:drawableLeft="@mipmap/ic_dw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:drawableLeft="@mipmap/ic_dw"
+                    android:paddingStart="10dp"
                     android:text="天津"
                     android:textColor="#515151"
                     android:textSize="15sp" />
@@ -34,14 +35,17 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_weight="1">
 
-                <android.support.v7.widget.SearchView
-
+                <TextView
+                    android:textColor="#999"
+                    android:gravity="center"
+                    android:text="搜索需要的项目|商品"
+                    android:id="@+id/search"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_centerInParent="true"
@@ -49,11 +53,10 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_marginRight="10dp"
                 android:id="@+id/rl_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-               >
+                android:layout_marginRight="10dp">
 
                 <ImageView
                     android:layout_width="21dp"
@@ -63,142 +66,151 @@
                     android:background="@mipmap/ic_msg" />
             </RelativeLayout>
         </LinearLayout>
+
         <TextView
-            android:background="#eee"
             android:layout_width="match_parent"
-            android:layout_height="1dp" />
+            android:layout_height="1dp"
+            android:background="#eee" />
+
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
+
             android:id="@+id/smartRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srlEnablePreviewInEditMode="true"
             app:srlPrimaryColor="#00000000">
-            <com.scwang.smartrefresh.layout.header.ClassicsHeader
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
 
-        <android.support.design.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.design.widget.AppBarLayout
-                app:elevation="0dp"
+            <com.scwang.smartrefresh.header.StoreHouseHeader
                 android:layout_width="match_parent"
+                app:layout_srlSpinnerStyle="MatchLayout"
                 android:layout_height="wrap_content"
-                android:background="#fff">
+                app:shhText="Beautiful Code" />
 
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <!--<android.support.v4.widget.NestedScrollView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:scrollbars="none"-->
-                <!--app:layout_scrollFlags="scroll">-->
-
-
-                <com.stx.xhb.xbanner.XBanner
-                    android:id="@+id/banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:AutoPlayTime="2500"
-                    app:layout_scrollFlags="scroll"
-                    app:pointsPosition="RIGHT"
-                    app:tipTextColor="#FFFFFFFF"
-                    app:tipTextSize="12sp" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_tabs"
+                <android.support.design.widget.AppBarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#fff"
-                    app:layout_scrollFlags="scroll" />
+                    app:elevation="0dp">
 
-                <LinearLayout
-                    android:layout_marginEnd="7dp"
-                    android:layout_marginStart="7dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="98dp"
-                    android:background="#fff"
-                    android:orientation="horizontal"
-                    app:layout_scrollFlags="scroll">
 
-                    <ImageView
-                        android:id="@+id/iv_recomment_1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        tools:background="@mipmap/sample_recommend_1"
-                        android:scaleType="centerCrop" />
+                    <!--<android.support.v4.widget.NestedScrollView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:scrollbars="none"-->
+                    <!--app:layout_scrollFlags="scroll">-->
 
-                    <ImageView
-                        android:id="@+id/iv_recomment_2"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+
+                    <com.stx.xhb.xbanner.XBanner
+                        android:id="@+id/banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:AutoPlayTime="2500"
+                        app:layout_scrollFlags="scroll"
+                        app:pointsPosition="RIGHT"
+                        app:tipTextColor="#FFFFFFFF"
+                        app:tipTextSize="12sp" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#fff"
+                        app:layout_scrollFlags="scroll" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="168dp"
                         android:layout_marginStart="7dp"
-                        android:layout_weight="1"
-                        tools:background="@mipmap/sample_recommend_2"
-                        android:scaleType="centerCrop" />
 
-                </LinearLayout>
+                        android:layout_marginEnd="7dp"
+                        android:background="#fff"
+                        android:orientation="horizontal"
+                        app:layout_scrollFlags="scroll">
+
+                        <ImageView
+                            android:id="@+id/iv_recomment_1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            tools:background="@mipmap/sample_recommend_1" />
+
+                        <ImageView
+                            android:id="@+id/iv_recomment_2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="7dp"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            tools:background="@mipmap/sample_recommend_2" />
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#fff"
+                        app:layout_scrollFlags="scroll">
+
+                        <ImageView
+                            android:id="@+id/iv_recomment_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="113dp"
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="7dp"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginBottom="14dp"
+                            app:layout_scrollFlags="scroll" />
+                    </RelativeLayout>
+
+
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tablayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:background="#fff"
+                        app:tabIndicatorColor="#0086c9"
+                        app:tabIndicatorFullWidth="false"
+                        app:tabIndicatorHeight="4dp"
+                        app:tabMode="scrollable"
+                        app:tabSelectedTextColor="#0086c9"
+                        app:tabTextColor="#000000" />
+
+
+                    <!--</android.support.v4.widget.NestedScrollView>-->
+
+
+                </android.support.design.widget.AppBarLayout>
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#fff"
-                    app:layout_scrollFlags="scroll">
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                    <ImageView
-                        android:id="@+id/iv_recomment_3"
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/viewpager"
                         android:layout_width="match_parent"
-                        android:layout_height="113dp"
-                        android:layout_centerInParent="true"
-                        android:layout_marginBottom="14dp"
-                        android:layout_marginEnd="7dp"
-                        android:layout_marginStart="7dp"
-                        android:background="@mipmap/sample_add_dl"
-                        app:layout_scrollFlags="scroll" />
+                        android:layout_height="match_parent"/>
+
+                    <!--<include-->
+                    <!--android:id="@+id/recycler_list_2"-->
+                    <!--layout="@layout/layout_list" />-->
                 </RelativeLayout>
 
 
-                <android.support.design.widget.TabLayout
-                    app:tabIndicatorFullWidth="false"
-                    android:id="@+id/tablayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:background="#fff"
-                    app:tabIndicatorColor="#0086c9"
-                    app:tabIndicatorHeight="4dp"
-                    app:tabMode="scrollable"
-                    app:tabSelectedTextColor="#0086c9"
-                    app:tabTextColor="#000000" />
+            </android.support.design.widget.CoordinatorLayout>
 
-
-                <!--</android.support.v4.widget.NestedScrollView>-->
-
-
-            </android.support.design.widget.AppBarLayout>
-
-
-            <RelativeLayout
+            <com.scwang.smartrefresh.layout.footer.BallPulseFooter
+                app:srlIndicatorColor="@color/color_app"
+                app:layout_srlBackgroundColor="#fff"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewpager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </android.support.v4.view.ViewPager>
-
-                <!--<include-->
-                    <!--android:id="@+id/recycler_list_2"-->
-                    <!--layout="@layout/layout_list" />-->
-            </RelativeLayout>
-
-
-        </android.support.design.widget.CoordinatorLayout>
-
-            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                app:srlClassicsSpinnerStyle="Translate" />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </LinearLayout>
 

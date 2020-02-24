@@ -67,6 +67,16 @@ public class OrderBean {
     private String returnPriceTime;
     private String regDate;
     private double shipmentPrice;
+    private long projectId;
+
+
+    public long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(long projectId) {
+        this.projectId = projectId;
+    }
 
     public double getShipmentPrice() {
         return shipmentPrice;
@@ -161,6 +171,15 @@ public class OrderBean {
     }
 
     private String orderStateName;
+    private int isPl;
+
+    public int getIsPl() {
+        return isPl;
+    }
+
+    public void setIsPl(int isPl) {
+        this.isPl = isPl;
+    }
 
     /**
      * 0待付款 1正在分配 2已完成 3已评价，4已取消 5待发货 6待配送 7待确认收货
@@ -173,8 +192,6 @@ public class OrderBean {
                 return "待付款";
             case 1:
                 return "正在分配";
-            case 2:
-                return "已完成";
             case 3:
                 return "待评价";
             case 4:
@@ -184,20 +201,28 @@ public class OrderBean {
             case 6:
                 return "待收货";
             case 7:
-                return "待退款";
+                return "待确认收货";
             case 8:
-                return "已退款";
+                if (isPl==0){
+                    return "待评价";
+                }
+                return "已完成";
             case 9:
                 return "已分配";
+            case 10:
+                return "退款中";
+            case 11:
+                return "已退款";
+
         }
         return orderStateName;
     }
+
     private int orderStateImg;
 
     public void setOrderStateImg(int orderStateImg) {
         this.orderStateImg = orderStateImg;
     }
-
     /**
      * 0待付款 1正在分配 2已完成 3已评价，4已取消 5待发货 6待配送 7待确认收货
      *0待付款 1正在分配 2已完成 待评价，4已取消   5 待发货 6 待收货 7 待退款 8 已退款
@@ -209,8 +234,8 @@ public class OrderBean {
                 return R.mipmap.dfk;
             case 1:
                 return R.mipmap.zzfp;
-            case 2:
-                return R.mipmap.ywc;
+
+
             case 3:
                 return R.mipmap.dpj;
 
@@ -222,20 +247,22 @@ public class OrderBean {
 
             case 6:
                 return R.mipmap.dsh;
+            case 8:
+                if (isPl==0){
+                    return R.mipmap.dpj;
+                }
+                return R.mipmap.ywc;
 
-            case 7:
+            case 10:
                 return R.mipmap.dtk;
 
-            case 8:
+            case 11:
                 return R.mipmap.ytk;
             case 9:
                 return R.mipmap.yfp;
         }
         return R.mipmap.dfk;
     }
-
-
-
 
 
     public int getId() {

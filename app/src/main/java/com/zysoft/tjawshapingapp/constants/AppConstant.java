@@ -1,11 +1,15 @@
 package com.zysoft.tjawshapingapp.constants;
 
 import com.zysoft.tjawshapingapp.bean.AddressBean;
+import com.zysoft.tjawshapingapp.bean.AppConfigBean;
 import com.zysoft.tjawshapingapp.bean.CouponsBean;
 import com.zysoft.tjawshapingapp.bean.OrderResultBean;
 import com.zysoft.tjawshapingapp.bean.ProjectDetailBean;
 import com.zysoft.tjawshapingapp.bean.UserCartBean;
 import com.zysoft.tjawshapingapp.bean.UserInfoBean;
+import com.zysoft.tjawshapingapp.http.HttpConstant;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -14,7 +18,7 @@ import java.util.List;
  */
 
 public class AppConstant {
-
+    public static AppConfigBean APP_CONFIG_BEAN = null;
     /**
      * 0 订单支付
      * 1 充值钱包
@@ -29,6 +33,16 @@ public class AppConstant {
     public static String MsgId = null;
     public static String USER_PHONE = "";
     public static UserInfoBean USER_INFO_BEAN = null;
+
+    public static UserInfoBean getUserInfoBean() {
+        if (USER_INFO_BEAN!=null){
+            return USER_INFO_BEAN;
+        }else {
+            EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_RELOGIN,""));
+        }
+        return null;
+    }
+
     public static ProjectDetailBean.ProjectInfoBean PROJECT_INFO = null;
     public static CouponsBean Coupons = null;
     public static final String STATE_BIND_TEL = "STATE_BIND_TEL";
@@ -37,4 +51,7 @@ public class AppConstant {
     public static boolean isShowDialog = true;
     public static List<UserCartBean> SELECT_CART_LIST=null;
     public static OrderResultBean ORDER_RESULT_BEAN=null;
+    public static String SEARCH_VALUE="";
+    public static String LOOK_IMG_ID="0";
+
 }
